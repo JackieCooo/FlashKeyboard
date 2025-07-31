@@ -95,7 +95,7 @@
 #define BTH_SERVICE_STACK_SIZE              0xC00
 #endif
 
-#define TASK_COMMON_APP_DELAY_MS            20000
+#define TASK_COMMON_APP_DELAY_MS            5000
 
 typedef struct {
     char *task_name;

@@ -76,6 +76,7 @@ install_sdk(${CMAKE_CURRENT_SOURCE_DIR}/Huawei_LiteOS/open_source/CMSIS/CMSIS/RT
 get_target_property(COM_HEADER ${COMPONENT_NAME}_interface INTERFACE_COMPILE_OPTIONS)
 MESSAGE(STATUS "COM_HEADER${COM_HEADER}")
 
+list(APPEND LITEOS_BASELIB "base" "cmsis_kernel" "cmsis_user" "csysdeps" "driverbase" "init" "interrupt" "riscv" "targets")
 list(REMOVE_DUPLICATES LITEOS_BASELIB)
 set(LOS_LIB "${LITEOS_BASELIB}" CACHE INTERNAL "" FORCE)
 list(REMOVE_ITEM LITEOS_BASELIB "m" "c" "gcc")
@@ -84,8 +85,6 @@ list(FIND DEFINES "BS25_SUPPORT_CPP" match)
 if(NOT match EQUAL -1)
     list(REMOVE_ITEM LITEOS_BASELIB "stdc++" "supc++")
 endif()
-
-list(APPEND LITEOS_BASELIB "base" "cmsis_kernel" "cmsis_user" "csysdeps" "driverbase" "init" "interrupt" "riscv" "targets")
 
 target_link_libraries(${TARGET_NAME}
 PRIVATE
@@ -100,8 +99,6 @@ foreach(LITEOS_LIB ${LITEOS_DEP_LIBS_INT})
     list(FIND DEFINES "SLEM_CARKEY" match)
     if(NOT match EQUAL -1)
         if(${LITEOS_LIB} STREQUAL "c")
-            list(REMOVE_ITEM SOURCES ../liteos_libc/stdlib/cstdlib.c)
-            list(APPEND SOURCES "${ROOT_DIR}/protocol/bt/algorithm/posalg/stdlib/cstdlib.c")
             list(APPEND SOURCES "${ROOT_DIR}/kernel/liteos/liteos_v208.6.0_b017/Huawei_LiteOS/open_source/musl/src/complex/cabsf.c")
             list(APPEND SOURCES "${ROOT_DIR}/kernel/liteos/liteos_v208.6.0_b017/Huawei_LiteOS/open_source/musl/src/complex/csqrtf.c")
             set_target_properties(${LITEOS_LIB} PROPERTIES SOURCES "${SOURCES}")
@@ -144,6 +141,8 @@ install_sdk(${LITEOSTOPDIR}/lib/libc "*")
 install_sdk(${LITEOSTOPDIR}/targets/ "Kconfig*")
 install_sdk(${LITEOSTOPDIR}/kernel/base/mem/common "*")
 install_sdk(${CMAKE_CURRENT_SOURCE_DIR}/show_menuconfig.py "*")
+install_sdk(${LITEOSTOPDIR}/kernel/extended/cpup "*")
+install_sdk(${LITEOSTOPDIR}/kernel/base/debug "*")
 
 if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_COMMAND})
     file(GLOB LOS_LIBS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/${TARGET_COMMAND} "${TARGET_COMMAND}/lib*.a")

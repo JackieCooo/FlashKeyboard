@@ -1,7 +1,7 @@
 /*
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2022-2022. All rights reserved.
  * Description: USB HID Mouse driver.
- *
+ * Author:  
  * Create:  2022-04-22
  */
 #include "common_def.h"

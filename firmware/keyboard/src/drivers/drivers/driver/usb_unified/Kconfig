@@ -380,6 +380,44 @@ choice
 config DRIVERS_USB_UAC_GADGET_VER_1_0
     bool "UAC1.0"
 
+choice
+    depends on DRIVERS_USB_UAC_GADGET_VER_1_0
+    prompt "UAC Bit-depth"
+    default DRIVERS_USB_UAC_BIT_DEPTH_16
+    help
+      This selects the uac bit-depth.
+      The bit depth of 16bit is selected by default.
+      Other bit depths can be selected according to business scenarios.
+
+config DRIVERS_USB_UAC_BIT_DEPTH_16
+    bool "16 Bit"
+
+config DRIVERS_USB_UAC_BIT_DEPTH_24
+    bool "24 Bit"
+
+endchoice
+
+choice
+    depends on DRIVERS_USB_UAC_GADGET_VER_1_0
+    prompt "UAC Channel Count"
+    default DRIVERS_USB_UAC_CHANNEL_1
+    help
+      This selects the uac channel count.
+      The default number of channels is 1.
+
+config DRIVERS_USB_UAC_CHANNEL_1
+    bool "1 Channel"
+
+config DRIVERS_USB_UAC_CHANNEL_2
+    bool "2 Channels"
+    depends on DRIVERS_USB_UAC_BIT_DEPTH_24
+
+config DRIVERS_USB_UAC_CHANNEL_4
+    bool "4 Channels"
+    depends on DRIVERS_USB_UAC_BIT_DEPTH_24
+
+endchoice
+
 config DRIVERS_USB_UAC_GADGET_VER_1_0_SPEAKER
     bool "Enable USB Audio1.0 Speaker"
     default n
@@ -516,6 +554,13 @@ config DRIVERS_USB_HID_CUSTOM
     help
       Use custom HID
 
+config DRIVERS_USB_HID_CUSTOM_ENABLE_OUT_EP
+      bool "Whether enable out endpoint when use custom HID"
+      default n
+      depends on DRIVERS_USB2_DEVICE_CONTROLLER && DRIVERS_USB_HID_FUNC_INTERFACE && DRIVERS_USB_HID_CUSTOM
+      help
+        Whether enable out endpoint when use custom HID
+
 endchoice
 
 config DRIVERS_USB_HID_INPUT_REPORT_LEN
@@ -561,6 +606,10 @@ config DRIVERS_USB_UAC_HID_GADGET
   
 config DRIVERS_USB_ACM_HID_GADGET
     bool "Enable USB Serial & HID Gadget"
+    depends on DRIVERS_USB_GADGET
+
+config DRIVERS_HOST_NO_SUPPORT_CLEAR_FEATURE
+    bool "Host does not support clear feature"
     depends on DRIVERS_USB_GADGET
   
 endmenu

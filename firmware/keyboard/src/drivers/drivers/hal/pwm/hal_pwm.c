@@ -2,7 +2,7 @@
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2022-2022. All rights reserved. \n
  *
  * Description: Provides HAL pwm \n
- * \n
+ * Author:  \n
  * History: \n
  * 2022-09-16， Create file. \n
  */

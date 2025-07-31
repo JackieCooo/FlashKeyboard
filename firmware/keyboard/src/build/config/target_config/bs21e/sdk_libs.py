@@ -72,21 +72,21 @@ bs21e_1100e_libs = {
     'bs21e-1100e-slem-peripheral': {
         'components': ['bg_common', 'bth_gle', 'bgtp', 'bt_host', 'bth_sdk', 'bt_app'],
         'base_target_name': 'bs21e-1100e-slp-libgen',
-        'defines': ['SUPPORT_SLEM_PERIPHERAL', 'CONFIG_BT_SLE_ONLY']
+        'defines': ['SUPPORT_SLEM_PERIPHERAL', 'CONFIG_BT_SLE_ONLY', 'PRODUCT_AIR_MOUSE']
     },
     'bs21e-1100e-slem-central': {
         'components': ['bg_common', 'bth_gle', 'bgtp', 'bt_host', 'bth_sdk', 'bt_app'],
         'base_target_name': 'bs21e-1100e-slp-libgen',
-        'defines': ['SUPPORT_SLEM_CENTRAL', 'CONFIG_BT_SLE_ONLY']
+        'defines': ['SUPPORT_SLEM_CENTRAL', 'CONFIG_BT_SLE_ONLY', 'PRODUCT_AIR_MOUSE']
     },
     'bs21e-1100e-slem-peripheral-release': {
         'components': ['bg_common', 'bth_gle', 'bgtp', 'bt_host', 'bth_sdk', 'bt_app'],
         'base_target_name': 'bs21e-1100e-slp-libgen',
-        'defines': ['SUPPORT_SLEM_PERIPHERAL', 'CONFIG_BT_SLE_ONLY', 'BT_USER_RELEASE']
+        'defines': ['SUPPORT_SLEM_PERIPHERAL', 'CONFIG_BT_SLE_ONLY', 'BT_USER_RELEASE', 'PRODUCT_AIR_MOUSE']
     },
     'bs21e-1100e-slem-central-release': {
         'components': ['bg_common', 'bth_gle', 'bgtp', 'bt_host', 'bth_sdk', 'bt_app'],
         'base_target_name': 'bs21e-1100e-slp-libgen',
-        'defines': ['SUPPORT_SLEM_CENTRAL', 'CONFIG_BT_SLE_ONLY', 'BT_USER_RELEASE']
+        'defines': ['SUPPORT_SLEM_CENTRAL', 'CONFIG_BT_SLE_ONLY', 'BT_USER_RELEASE', 'PRODUCT_AIR_MOUSE']
     },
 }

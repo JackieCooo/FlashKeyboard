@@ -1,7 +1,7 @@
 /**
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2023-2023. All rights reserved.
  * Description: The header file of the functions, which will be registered to mbedtls.
- *
+ * Author: 
  * Create: 2023-07-12
 */
 

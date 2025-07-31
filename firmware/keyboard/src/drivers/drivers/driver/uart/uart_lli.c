@@ -101,6 +101,7 @@ uart_dma_lli_ch_t g_uart_lli_dma_cfg[UART_BUS_MAX_NUMBER] = {
     {DMA_CHANNEL_NONE, DMA_CHANNEL_NONE, { 0 }, { 0 }}
 #endif
 };
+static bool g_uart_dma_is_stop[UART_BUS_MAX_NUMBER] = { false };
 
 static void uart_dma_lli_recv_cb(uint8_t intr, uint8_t channel, uintptr_t arg);
 #if defined(CONFIG_UART_SUPPORT_RECV_RAW_DATA)
@@ -178,8 +179,19 @@ static errcode_t uart_dma_lli_update_recv_payload(uint8_t bus, uintptr_t dest)
 }
 #endif
 
+static void uart_dma_set_stop_status(uart_bus_t bus, bool on)
+{
+    g_uart_dma_is_stop[bus] = on;
+}
+
+bool uapi_uart_dma_lli_is_stop(uart_bus_t bus)
+{
+    return g_uart_dma_is_stop[bus];
+}
+
 errcode_t uapi_uart_dma_lli_continue_recv(uart_bus_t uart_bus)
 {
+    errcode_t ret = ERRCODE_FAIL;
     if (uart_bus >= UART_BUS_MAX_NUMBER) {
         return ERRCODE_FAIL;
     }
@@ -193,10 +205,15 @@ errcode_t uapi_uart_dma_lli_continue_recv(uart_bus_t uart_bus)
     g_uart_lli_dma_cfg[uart_bus].rx_dma_config.transfer_num =
         (uint16_t)(sizeof(uart_lli_head_t) >> g_uart_lli_dma_cfg[uart_bus].rx_dma_config.src_width);
 #endif
+    uart_dma_set_stop_status(uart_bus, false);
     uapi_dma_configure_peripheral_transfer_lli(g_uart_lli_dma_cfg[uart_bus].rx_dma_channel,
                                                &(g_uart_lli_dma_cfg[uart_bus].rx_dma_config), NULL);
-    return uapi_dma_enable_lli(g_uart_lli_dma_cfg[uart_bus].rx_dma_channel, uart_dma_lli_recv_cb,
-                               (uint32_t)(uintptr_t)&g_uart_lli_header_buff[uart_bus]);
+    ret = uapi_dma_enable_lli(g_uart_lli_dma_cfg[uart_bus].rx_dma_channel, uart_dma_lli_recv_cb,
+                              (uint32_t)(uintptr_t)&g_uart_lli_header_buff[uart_bus]);
+    if (ret != ERRCODE_SUCC) {
+        uart_dma_set_stop_status(uart_bus, true);
+    }
+    return ret;
 }
 
 #if defined(CONFIG_UART_RX_DMA_NEED_HEADER)
@@ -271,6 +288,8 @@ static void uart_dma_lli_recv_cb(uint8_t intr, uint8_t channel, uintptr_t arg)
         return;
     }
 
+    g_uart_lli_dma_cfg[cur_bus].rx_dma_channel = DMA_CHANNEL_NONE;
+
     errcode_t ret = uapi_dma_end_transfer(channel);
     if (ret != ERRCODE_SUCC) { return; }
 #if defined(CONFIG_UART_RX_DMA_NEED_HEADER)
@@ -286,9 +305,9 @@ static void uart_dma_lli_recv_cb(uint8_t intr, uint8_t channel, uintptr_t arg)
             }
             if (is_continue) {
                 ret = uapi_uart_dma_lli_continue_recv(cur_bus);
-                if (ret != ERRCODE_SUCC)  {
-                    return;
-                }
+                if (ret != ERRCODE_SUCC)  { return; }
+            } else {
+                uart_dma_set_stop_status(cur_bus, true);
             }
             break;
         default:
@@ -301,6 +320,8 @@ static void uart_dma_lli_recv_cb(uint8_t intr, uint8_t channel, uintptr_t arg)
     }
     if (is_continue) {
         (void)uapi_uart_dma_lli_continue_recv(cur_bus);
+    } else {
+        uart_dma_set_stop_status(cur_bus, true);
     }
     return;
 #endif
@@ -327,6 +348,7 @@ errcode_t uapi_uart_dma_recv_register(uart_bus_t uart_bus, void *buffer, uint16_
     }
 
     uint32_t lock = osal_irq_lock();
+    uart_dma_set_stop_status(uart_bus, false);
     g_data_recv_cb[uart_bus] = cb;
     g_lli_rx_payload_buff_len[uart_bus] = length;
     g_lli_rx_payload_buff[uart_bus] = ((uint8_t *)buffer);
@@ -336,10 +358,15 @@ errcode_t uapi_uart_dma_recv_register(uart_bus_t uart_bus, void *buffer, uint16_
     ret = uapi_dma_configure_peripheral_transfer_lli(g_uart_lli_dma_cfg[uart_bus].rx_dma_channel,
                                                      &(g_uart_lli_dma_cfg[uart_bus].rx_dma_config), NULL);
     if (ret != ERRCODE_SUCC) {
+        uart_dma_set_stop_status(uart_bus, true);
         return ret;
     }
-
-    return uapi_dma_enable_lli(g_uart_lli_dma_cfg[uart_bus].rx_dma_channel, uart_dma_lli_recv_cb, (uintptr_t)buffer);
+    ret = uapi_dma_enable_lli(g_uart_lli_dma_cfg[uart_bus].rx_dma_channel, uart_dma_lli_recv_cb, (uintptr_t)buffer);
+    if (ret != ERRCODE_SUCC) {
+        g_uart_lli_dma_cfg[uart_bus].rx_dma_channel = DMA_CHANNEL_NONE;
+        uart_dma_set_stop_status(uart_bus, true);
+    }
+    return ret;
 }
 
 static bool msg_info_queue_is_empty(uart_bus_t uart_bus)
@@ -362,6 +389,9 @@ static void uart_dma_lli_send_cb(uint8_t intr, uint8_t channel, uintptr_t arg)
     if (cur_bus >= UART_BUS_MAX_NUMBER) {
         return;
     }
+
+    g_uart_lli_dma_cfg[cur_bus].tx_dma_channel = DMA_CHANNEL_NONE;
+
     if (intr == 0) {
         uapi_dma_end_transfer(channel);
         g_uart_dma_status[cur_bus] = UART_IDLE;
@@ -428,6 +458,7 @@ errcode_t uapi_uart_dma_send(uart_bus_t uart_bus, const void *buffer, uint16_t l
     /* Enable uart dma linked list. */
     ret = uapi_dma_enable_lli(g_uart_lli_dma_cfg[uart_bus].tx_dma_channel, uart_dma_lli_send_cb, (uintptr_t)NULL);
     if (ret != ERRCODE_SUCC) {
+        g_uart_lli_dma_cfg[uart_bus].tx_dma_channel = DMA_CHANNEL_NONE;
         osal_irq_restore(lock);
         return ret;
     }
@@ -484,8 +515,10 @@ static void uart_idle_rx_cb(const void *buffer, uint16_t length, bool error)
         g_rx_dma_channel = rx_dma_channel;
         uapi_dma_configure_peripheral_transfer_lli(rx_dma_channel, &g_rx_dma_config, NULL);
         uapi_dma_enable_lli(rx_dma_channel, NULL, (uintptr_t)g_uart_dma_receive_buff);
+        uart_dma_set_stop_status(g_uart_bus, false);
     } else {
         uapi_uart_unregister_rx_callback(g_uart_bus);
+        uart_dma_set_stop_status(g_uart_bus, true);
     }
 
     return;
@@ -515,6 +548,7 @@ static errcode_t uapi_uart_recv_raw_data_dma_config(uart_bus_t uart_bus)
     if (ret != ERRCODE_SUCC) {
         return ret;
     }
+
     ret = uapi_dma_enable_lli(rx_dma_channel, uart_dma_lli_idle_recv_cb, (uintptr_t)g_uart_dma_receive_buff);
     if (ret != ERRCODE_SUCC) {
         return ret;
@@ -545,14 +579,17 @@ errcode_t uapi_uart_dma_recv_raw_data(uart_bus_t uart_bus, uart_idle_int_receive
     };
 
     uart_pin_config_t pins = { 0 };
+    uart_dma_set_stop_status(uart_bus, false);
     uapi_uart_deinit(uart_bus);
     ret = uapi_uart_init(uart_bus, &pins, &attr, &extra_attr, &g_app_uart_buffer_config);
     if (ret != ERRCODE_SUCC) {
+        uart_dma_set_stop_status(uart_bus, true);
         return ret;
     }
 
     ret = uapi_uart_recv_raw_data_dma_config(uart_bus);
     if (ret != ERRCODE_SUCC) {
+        uart_dma_set_stop_status(uart_bus, true);
         return ret;
     }
 

@@ -2,7 +2,7 @@
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2023-2023. All rights reserved. \n
  *
  * Description: runtime adapter \n
- * \n
+ * Author:  \n
  * History: \n
  * 2023-04-10, Create file. \n
  ******************************************************************************/

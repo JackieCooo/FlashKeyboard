@@ -771,6 +771,21 @@ errcode_t uapi_uart_dma_recv_end_transfer(uart_bus_t uart_bus);
  */
 errcode_t uapi_uart_dma_send_end_transfer(uart_bus_t uart_bus);
 
+/**
+ * @if Eng
+ * @brief  Check if the DMA is in stop or not.
+ * @param  [in]  bus The UART bus. see @ref uart_bus_t.
+ * @return true DMA stop.
+ * @return false DMA working.
+ * @else
+ * @brief  检查DMA是否处于停止状态。
+ * @param  [in]  bus 串口号，参考 @ref uart_bus_t。
+ * @return true  DMA 已关闭。
+ * @return false DMA 正在工作。
+ * @endif
+ */
+bool uapi_uart_dma_lli_is_stop(uart_bus_t bus);
+
 #if defined(CONFIG_UART_SUPPORT_RECV_RAW_DATA)
 /**
  * @if Eng

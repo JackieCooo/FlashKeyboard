@@ -180,6 +180,8 @@ STATIC void uart_tx_isr(uart_bus_t bus);
 
 #if defined(CONFIG_UART_SUPPORT_LPM)
 STATIC bool g_uart_suspend_flag[UART_BUS_MAX_NUM] = { false };
+STATIC uart_extra_attr_t *g_uart_extra_attr_ptr[UART_BUS_MAX_NUM] = { NULL };
+STATIC uart_buffer_config_t *g_uart_buffer_config_ptr[UART_BUS_MAX_NUM] = { NULL };
 STATIC uart_pin_config_t g_uart_pins[UART_BUS_MAX_NUM] = { 0 };
 STATIC uart_attr_t g_uart_attr[UART_BUS_MAX_NUM] = { 0 };
 STATIC uart_extra_attr_t g_uart_extra_attr[UART_BUS_MAX_NUM] = { 0 };
@@ -196,6 +198,31 @@ STATIC uart_rx_by_dma_callback_t g_uart_rx_by_dma_callback[UART_BUS_MAX_NUM] = {
 
 STATIC errcode_t uart_evt_callback(uart_bus_t bus, hal_uart_evt_id_t evt, uintptr_t param);
 
+#if defined(CONFIG_UART_SUPPORT_LPM)
+STATIC void uart_init_param_record(uart_bus_t bus, const uart_pin_config_t *pins,
+                                   const uart_attr_t *attr, const uart_extra_attr_t *extra_attr,
+                                   uart_buffer_config_t *uart_buffer_config)
+{
+    if (g_uart_suspend_flag[bus] == false) {
+        (void)memcpy_s(&g_uart_pins[bus], sizeof(uart_pin_config_t), pins, sizeof(uart_pin_config_t));
+        (void)memcpy_s(&g_uart_attr[bus], sizeof(uart_attr_t), attr, sizeof(uart_attr_t));
+        if (extra_attr != NULL) {
+            (void)memcpy_s(&g_uart_extra_attr[bus], sizeof(uart_extra_attr_t), extra_attr, sizeof(uart_extra_attr_t));
+            g_uart_extra_attr_ptr[bus] = &g_uart_extra_attr[bus];
+        } else {
+            g_uart_extra_attr_ptr[bus] = NULL;
+        }
+        if (uart_buffer_config != NULL) {
+            (void)memcpy_s(&g_uart_buffer_config[bus], sizeof(uart_buffer_config_t), uart_buffer_config,
+                sizeof(uart_buffer_config_t));
+            g_uart_buffer_config_ptr[bus] = &g_uart_buffer_config[bus];
+        } else {
+            g_uart_buffer_config_ptr[bus] = NULL;
+        }
+    }
+}
+#endif
+
 errcode_t uapi_uart_init(uart_bus_t bus, const uart_pin_config_t *pins,
                          const uart_attr_t *attr, const uart_extra_attr_t *extra_attr,
                          uart_buffer_config_t *uart_buffer_config)
@@ -207,13 +234,7 @@ errcode_t uapi_uart_init(uart_bus_t bus, const uart_pin_config_t *pins,
     if (g_uart_inited[bus]) { return ERRCODE_SUCC; }
     uart_claim_pins(bus, pins);
 #if defined(CONFIG_UART_SUPPORT_LPM)
-    if (g_uart_suspend_flag[bus] == false) {
-        (void)memcpy_s(&g_uart_pins[bus], sizeof(uart_pin_config_t), pins, sizeof(uart_pin_config_t));
-        (void)memcpy_s(&g_uart_attr[bus], sizeof(uart_attr_t), attr, sizeof(uart_attr_t));
-        (void)memcpy_s(&g_uart_extra_attr[bus], sizeof(uart_extra_attr_t), extra_attr, sizeof(uart_extra_attr_t));
-        (void)memcpy_s(&g_uart_buffer_config[bus], sizeof(uart_buffer_config_t), uart_buffer_config,
-            sizeof(uart_buffer_config_t));
-    }
+    uart_init_param_record(bus, pins, attr, extra_attr, uart_buffer_config);
 #endif  /* CONFIG_UART_SUPPORT_LPM */
 #if defined(CONFIG_UART_SUPPORT_LPC)
     uart_port_clock_enable(bus, true);
@@ -548,6 +569,7 @@ STATIC void uart_dma_isr(uint8_t int_type, uint8_t ch, uintptr_t arg)
         /* channel default value is 0, means not used. channel > 0 means used.
            So ch + 1 will not misjudgment with channel value 0. */
         if (g_dma_trans[i].channel == ch + 1) {
+            g_dma_trans[i].channel = 0;
             bus = i;
             break;
         }
@@ -1077,7 +1099,8 @@ errcode_t uapi_uart_resume(uintptr_t arg)
         }
 #endif
         ret |= uapi_uart_deinit(i);
-        ret |= uapi_uart_init(i, &g_uart_pins[i], &g_uart_attr[i], &g_uart_extra_attr[i], &g_uart_buffer_config[i]);
+        ret |= uapi_uart_init(i, &g_uart_pins[i], &g_uart_attr[i], g_uart_extra_attr_ptr[i], \
+                              g_uart_buffer_config_ptr[i]);
         if (g_uart_callback[i] != NULL) {
             ret |= uapi_uart_register_rx_callback(i, g_uart_condition[i], g_uart_size[i], g_uart_callback[i]);
         }

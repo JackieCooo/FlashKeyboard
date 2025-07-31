@@ -1,4 +1,3 @@
-
 # add board special configuration #
 if(NOT ${LOSCFG_FAMILY} STREQUAL "")
     set(FAMILY_CMAKE_PATH ${LITEOSTOPDIR}/targets/${LOSCFG_FAMILY}/family.cmake)
@@ -12,3 +11,4 @@ else()
     endif()
 endif()
 
+include(${MODULE})

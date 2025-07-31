@@ -1,7 +1,7 @@
 /*
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2021-2021. All rights reserved.
  * Description: USB HID Class.
- *
+ * Author:  
  * Create:  2021-08-19
  */
 #ifndef USBD_HID_H

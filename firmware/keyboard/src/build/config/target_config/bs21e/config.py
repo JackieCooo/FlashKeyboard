@@ -18,7 +18,7 @@ target = {
             'main_app', 'standard_porting',
 
             # Middleware Region
-            'dfx_porting', 'algorithm', 'app_init', 'lzma_21.07',
+            'dfx_porting', 'algorithm', 'app_init', 'lzma_22.00',
             'dfx_file_operation', 'pm_sys',
             'update_common', 'update_local', 'update_storage', 'update_common_porting', 'update_storage_porting',
             'ota_upgrade',
@@ -38,14 +38,11 @@ target = {
             # Deleted Region
             '-:libboundscheck', '-:test_usb_unified', 'osal_adapt',
             '-:at', '-:at_cmd_port', '-:at_plt_cmd', '-:at_btc_cmd',
-
-            # libm.a of the musl replaces libsegger.a
-            '-:segger_b090_fp',
         ],
         'rom_component': ['bgtp_rom', 'libboundscheck', 'bt_host_rom', 'bg_common_rom'],
         'ram_component_set' : [
-            'efuse_v151', 'spi', 'qdec', 'sio_v151', 'dmav151', 'std_common_lib',
-            '-:connectivity', '-:time_set', 'pm_set', 'dfx_set', 'sfc_flash', 'adc', 'flash', 'pm_clock_set', 'pwm',
+            'efuse_v151', 'spi', 'qdec', 'dmav151', 'keyscan', 'std_common_lib',
+            '-:connectivity', '-:time_set', 'pm_set', 'dfx_set', 'sfc_flash', 'adc', 'flash', 'pm_clock_set', 'pwm'
         ],
         'liteos_kconfig': 'bs21e',
         'loaderboot_cfg': 'loaderboot-bs21e-1100e',
@@ -53,6 +50,23 @@ target = {
         'sector_cfg': 'bs21e-standard',
         'nv_cfg': 'bs21e_nv_default',
         'upg_pkg': ['application'],
+    },
+    'bs21e-1100e-slp': {
+        'base_target_name': 'standard-bs21e-1100e',
+        'defines': ['SUPPORT_SLP_CLIENT', 'PRODUCT_AIR_MOUSE'],
+        'ram_component': [
+            # Middleware Region
+            'imu_wakeup_porting',
+
+            # Stack Region
+            '-:cal_dis', 'slp_client', 'tiot_driver', 'slp_header',
+        ],
+        'liteos_kconfig': 'bs21e',
+        'loaderboot_cfg': 'loaderboot-bs21e-1100e',
+        'flashboot_cfg': 'flashboot-bs21e-1100e',
+        'sector_cfg': 'bs21e-slp-central-peripheral',
+        'upg_pkg': ['application'],
+        'nv_cfg': 'bs21e_nv_slp',
     },
 }
 

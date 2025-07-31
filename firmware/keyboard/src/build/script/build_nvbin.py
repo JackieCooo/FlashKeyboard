@@ -18,4 +18,9 @@ if __name__ == '__main__':
     if (len(args) != 3) or (not os.path.exists(args[0])):
         print("input args is invalid!\r\n")
     else:
-        nv_begin(args[0], args[1], 0, False, args[2])
+        iscrc16 = False
+        if (args[2] == "False"):
+            iscrc16 = False
+        elif (args[2] == "True"):
+            iscrc16 = True
+        nv_begin(args[0], args[1], 0, False, iscrc16)

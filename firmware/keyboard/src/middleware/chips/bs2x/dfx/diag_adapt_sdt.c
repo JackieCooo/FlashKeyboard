@@ -24,11 +24,6 @@
 #endif
 #include "diag_adapt_sdt.h"
 
-enum {
-    LOG_STATUS_MODULE = MODULEID_BUTT,
-    LOG_OTA_MODULE,
-} log_adapt_module;
-
 typedef enum {
     SDT_MSG_STEP_HEAD, /* sdt msg head */
     SDT_MSG_STEP_BODY, /* sdt msg body */
@@ -110,7 +105,7 @@ static void zdiag_adapt_sdt_om_status_parse(uint8_t *sdt_buf, uint16_t sdt_buf_s
     om_status_data_stru_t *om_status = (om_status_data_stru_t*)sdt_buf;
 
     unused(sdt_buf_size);
-    para->module_id = LOG_STATUS_MODULE;
+    para->module_id = LOG_BTSTATUS_MODULE;
     para->msg_id = (OM_MSG_TYPE_STATUS << 16) | om_status->msg_id; /* 高16 bit 为MSG_TYPE */
     para->no = om_status->header.sn;
     para->buf = om_status->data;
@@ -121,7 +116,7 @@ static void zdiag_adapt_sdt_om_status_parse(uint8_t *sdt_buf, uint16_t sdt_buf_s
 static void zdiag_adapt_sdt_om_ota_parse(uint8_t *sdt_buf, uint16_t sdt_buf_size, diag_msg_para_t *para)
 {
     om_ota_header_t *om_ota = (om_ota_header_t*)sdt_buf;
-    para->module_id = LOG_OTA_MODULE;
+    para->module_id = LOG_BTOTA_MODULE;
     para->msg_id = (OM_MSG_TYPE_OTA << 16) | om_ota->msg_id; /* 高16 bit 为MSG_TYPE */
     para->no = om_ota->header.sn;
     para->buf = sdt_buf + sizeof(om_ota_header_t);
@@ -345,8 +340,8 @@ void diag_auto_log_report_enable(void)
         LOG_NFCMODULE,
         LOG_BTHMODULE,
         LOG_SLPMODULE,
-        LOG_STATUS_MODULE,
-        LOG_OTA_MODULE,
+        LOG_BTSTATUS_MODULE,
+        LOG_BTOTA_MODULE,
     };
 
     /* 全局使能 */

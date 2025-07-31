@@ -2,7 +2,7 @@
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2023-2023. All rights reserved. \n
  *
  * Description: Provides pke driver header \n
- * \n
+ * Author:  \n
  * History: \n
  * 2023-03-14, Create file. \n
  */

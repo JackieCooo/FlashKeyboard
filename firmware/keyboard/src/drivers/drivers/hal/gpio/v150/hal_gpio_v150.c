@@ -356,10 +356,11 @@ errcode_t hal_gpio_v150_register(pin_t pin, uint32_t trigger, gpio_callback_t ca
     hal_gpio_gpio_int_debounce_set_bit(channel, group, group_pin, HAL_GPIO_DEBOUNCE_DISABLED);
     hal_gpio_gpio_int_mask_set_bit(channel, group, group_pin, HAL_GPIO_INTR_UNMASK);
 #endif
-    // 继承原逻辑, 注册回调后默认使能中断
-    uapi_tcxo_delay_ms(1);
-    hal_gpio_v150_ctrl_enable_interrupt(pin, GPIO_CTRL_ENABLE_INTERRUPT);
     hal_gpio_gpio_int_debounce_set_bit(channel, group, group_pin, HAL_GPIO_DEBOUNCE_ENABLED);
+    uapi_tcxo_delay_ms(1);
+    // 继承原逻辑, 注册回调后默认使能中断
+    hal_gpio_v150_ctrl_enable_interrupt(pin, GPIO_CTRL_ENABLE_INTERRUPT);
+
     return ERRCODE_SUCC;
 }
 

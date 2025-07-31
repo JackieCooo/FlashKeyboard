@@ -96,3 +96,22 @@ if(${COMPONENT_NAME} IN_LIST TARGET_COMPONENT)
 endif()
 
 build_component()
+
+ 
+set(COMPONENT_NAME "gmssl_aes128")
+ 
+set(SOURCES
+    ${GMSSL_PATH}/src/aes.c
+)
+ 
+set(PRIVATE_HEADER
+    ${GMSSL_PATH}/include/
+    ${GMSSL_PATH}/include/gmssl/
+    ${GMSSL_PATH}/src/
+)
+ 
+if(${COMPONENT_NAME} IN_LIST TARGET_COMPONENT)
+    install_sdk(${GMSSL_PATH} "*")
+endif()
+ 
+build_component()

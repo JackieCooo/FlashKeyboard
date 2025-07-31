@@ -28,13 +28,13 @@
 #define KEYSCAN_ROW_BITS                                    3
 #define KEYSCAN_GHOST_MIN_KEYS                              3
 
-#ifdef CONFIG_KEYSCAN_SOFTWARE_GHOST_DETECT
 typedef struct {
     uint8_t col;
     uint8_t row;
     bool is_ghost;
 } key_pos_t;
 
+#ifdef CONFIG_KEYSCAN_SOFTWARE_GHOST_DETECT
 typedef struct {
     bool flag;
     key_pos_t pos;
@@ -46,8 +46,8 @@ static keyscan_report_callback_t g_hal_keyscan_report_list[KEYSCAN_MAX_REPORT_CH
 static bool g_keyscan_inited = false;
 static bool g_powered = false;
 static uint8_t g_keyscan_value_map[CONFIG_KEYSCAN_ENABLE_ROW][CONFIG_KEYSCAN_ENABLE_COL] = { 0 };
-#ifndef CONFIG_KEYSCAN_ENABLE_REP_ALL_KEY
 static uint8_t g_pressed_key_num = 0;
+#ifndef CONFIG_KEYSCAN_ENABLE_REP_ALL_KEY
 static uint8_t g_key_value_num[CONFIG_KEYSCAN_REPORT_MAX_NUMS] = { 0 };
 static void keyscan_event_callback(uint16_t key_value);
 #else
@@ -55,6 +55,10 @@ static void keyscan_event_callback(uint16_t key_value);
 #define KEYSCAN_ALL_REPORT_INT_TIMES                        1
 static uint8_t g_scan_int_times = 0;
 static void keyscan_porting_all_keys_report(uint16_t key_value);
+static uint8_t g_all_keys[CONFIG_KEYSCAN_ENABLE_ROW * CONFIG_KEYSCAN_ENABLE_COL] = { 0 };
+static bool g_ghost_occurred = false;
+#define REVERT_ROW(x, y) ((x << 1) + (y >> 0x3))
+#define REVERT_COLUMN(x) (x & 0x7)
 #endif
 
 #ifdef CONFIG_KEYSCAN_SOFTWARE_GHOST_DETECT
@@ -253,7 +257,7 @@ static void keyscan_sw_ghost_detect(key_value_report_status_t status, uint16_t r
     }
     key_pos_t cur_key_pos[CONFIG_KEYSCAN_REPORT_MAX_NUMS] = { 0 };
     uint8_t cur_key_cnt = key_node_export(cur_key_pos, CONFIG_KEYSCAN_REPORT_MAX_NUMS);
-    uint8_t act_key_cnt = 0;
+    uint8_t act_key_cnt = cur_key_cnt;
 
     if (cur_key_cnt >= KEYSCAN_GHOST_MIN_KEYS) {
         bool same_col = false;
@@ -279,8 +283,6 @@ static void keyscan_sw_ghost_detect(key_value_report_status_t status, uint16_t r
             }
         }
         act_key_cnt = key_node_export(cur_key_pos, CONFIG_KEYSCAN_REPORT_MAX_NUMS);
-    } else {
-        act_key_cnt = cur_key_cnt;
     }
 
     if (act_key_cnt == g_pre_key_cnt &&
@@ -306,6 +308,7 @@ static void keyscan_event_callback(uint16_t key_value)
     }
 #ifdef CONFIG_KEYSCAN_SOFTWARE_GHOST_DETECT
     keyscan_sw_ghost_detect(status, row, col);
+    return;
 #else
     if (status == KEY_PRESS) {
         bool is_key_pressed = false;
@@ -346,9 +349,37 @@ static void keyscan_event_callback(uint16_t key_value)
     0x1C r16c0 r16c1 r16c2 r16c3 r16c4 r16c5 r16c6 r16c7 r15c0 r15c1 r15c2 r15c3 r15c4 r15c5 r15c6 r15c7
     0x20 r18c0 r18c1 r18c2 r18c3 r18c4 r18c5 r18c6 r18c7 r17c0 r17c1 r17c2 r17c3 r17c4 r17c5 r17c6 r17c7
 */
+static bool keyscan_matrix_check(uint8_t cur_key_cnt, key_pos_t *cur_key_pos)
+{
+    if (cur_key_cnt >= KEYSCAN_GHOST_MIN_KEYS) {
+        bool same_col = false;
+        bool same_row = false;
+        for (int i = 0; i < cur_key_cnt; i++) {
+            for (int j = i + 1; j < cur_key_cnt; j++) {
+                if (cur_key_pos[i].col == cur_key_pos[j].col) {
+                    same_col = true;
+                } else if (cur_key_pos[i].row == cur_key_pos[j].row) {
+                    same_row = true;
+                }
+            }
+            if (same_col && same_row) {
+                g_ghost_occurred = true;
+                keyscan_info_report_invoke_callbacks(g_pressed_key_num, g_all_keys);
+                return true;
+            } else {
+                g_ghost_occurred = false;
+            }
+        }
+    } else {
+        g_ghost_occurred = false;
+    }
+    return false;
+}
+
 static void keyscan_porting_all_keys_report(uint16_t key_value)
 {
     unused(key_value);
+    key_pos_t cur_key_pos[CONFIG_KEYSCAN_ENABLE_ROW * CONFIG_KEYSCAN_ENABLE_COL] = { 0 };
     // Scan matrix to achieve all keys report need to enable scan once int, so cannot respond every irq.
     if (g_scan_int_times++ < KEYSCAN_ALL_REPORT_INT_TIMES) { return; }
     uint8_t pressed_key_num = 0;
@@ -364,14 +395,36 @@ static void keyscan_porting_all_keys_report(uint16_t key_value)
         // 因最多有8个bit来确认column，第二组row的j只取低三位，就代表了该column的序号
         for (int8_t j = 0; j < CONFIG_KEYSCAN_ENABLE_COL; j++) {
             if (scan_reg & BIT(j)) {
-                key_value_arr[pressed_key_num++] = g_keyscan_value_map[(i << 1) + (j >> 0x3)][j & 0x7];
+                cur_key_pos[pressed_key_num].row = REVERT_ROW(i, j);
+                cur_key_pos[pressed_key_num].col = REVERT_COLUMN(j);
+                pressed_key_num++;
             }
         }
         for (int8_t j = KEYSCAN_MAX_COLUMN; j < KEYSCAN_MAX_COLUMN + CONFIG_KEYSCAN_ENABLE_COL; j++) {
             if (scan_reg & BIT(j)) {
-                key_value_arr[pressed_key_num++] = g_keyscan_value_map[(i << 1) + (j >> 0x3)][j & 0x7];
+                cur_key_pos[pressed_key_num].row = REVERT_ROW(i, j);
+                cur_key_pos[pressed_key_num].col = REVERT_COLUMN(j);
+                pressed_key_num++;
             }
         }
+    }
+    if (g_ghost_occurred && pressed_key_num > g_pressed_key_num) {
+        keyscan_info_report_invoke_callbacks(g_pressed_key_num, g_all_keys);
+        osal_vfree(key_value_arr);
+        return;
+    }
+    if (keyscan_matrix_check(pressed_key_num, cur_key_pos)) {
+        osal_vfree(key_value_arr);
+        return;
+    }
+
+    for (int i = 0; i < pressed_key_num; i++) {
+        key_value_arr[i] = g_keyscan_value_map[cur_key_pos[i].row][cur_key_pos[i].col];
+    }
+    g_pressed_key_num = pressed_key_num;
+    if (memcpy_s(g_all_keys, CONFIG_KEYSCAN_ENABLE_ROW * CONFIG_KEYSCAN_ENABLE_COL,
+                 key_value_arr, pressed_key_num) != 0) {
+        osal_printk("memcpy_s failed:%x\r\n");
     }
     keyscan_info_report_invoke_callbacks(pressed_key_num, key_value_arr);
     osal_vfree(key_value_arr);

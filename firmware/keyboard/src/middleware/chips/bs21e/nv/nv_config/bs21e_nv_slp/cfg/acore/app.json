@@ -162,7 +162,7 @@
             "key_status": "alive",
             "structure_type": "slp_air_mouse_phase_cali_info_type_t",
             "attributions": 1,
-            "value": [ 10000000, 0, 0, 0, 0, 0, 10000000, 0 ]
+            "value": [ 18761, 2147483647, 0, 0, 0, 0, 10000000, 0 ]
         },
 
         "slp_air_mouse_tx_power_cali_nv":{
@@ -179,6 +179,14 @@
             "structure_type": "slp_air_mouse_time_delay_cali_info_type_t",
             "attributions": 1,
             "value": [ 271617 ]
+        },
+
+        "slp_air_mouse_gyro_zero_offset_type_t":{
+            "key_id": "0x12",
+            "key_status": "alive",
+            "structure_type": "slp_air_mouse_gyro_zero_offset_type_t",
+            "attributions": 1,
+            "value": [ 0, 0, 0 ]
         }
     }
 }

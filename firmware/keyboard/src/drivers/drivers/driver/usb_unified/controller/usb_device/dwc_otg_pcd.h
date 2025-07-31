@@ -939,7 +939,7 @@ extern void DWC_MODIFY_REG32(uint32_t x, uint32_t c, uint32_t s);
 int dwc_otg_close(dwc_otg_pcd_t *pcd);
 int dwc_otg_initial(dwc_otg_pcd_t *pcd);
 int dwc_otg_get_soffn(void);
-int dwc_otg_remote_wakeup(void);
+int dwc_otg_remote_wakeup(dwc_otg_pcd_t *pcd);
 int dwc_otg_get_enum_speed(void);
 void dwc_otg_core_reset(void);
 void dwc_otg_enable_common_interrupts(void);

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2023-2023. All rights reserved.
  * Description: USB HID Class Source.
- *
+ * Author:  
  * Create:  2023-03-29
  */
 #include "common_def.h"

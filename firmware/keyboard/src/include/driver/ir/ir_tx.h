@@ -47,7 +47,7 @@ void uapi_ir_init(pin_t gpio);
  * @retval Other          失败，参考 @ref errcode_t 。
  * @endif
  */
-errcode_t uapi_ir_transmit(int freq, int16_t *pattern, int len);
+errcode_t uapi_ir_transmit(int freq, int32_t *pattern, int len);
 
 #ifdef __cplusplus
 #if __cplusplus

@@ -591,6 +591,7 @@ static void spi_dma_isr(uint8_t int_type, uint8_t ch, uintptr_t arg)
         /* channel default value is 0, means not used. channel > 0 means used.
            So ch + 1 will not misjudgment with channel value 0. */
         if (dma_trans[i].channel == ch + 1) {
+            g_dma_trans_tx[i].channel = 0;
             bus = i;
             break;
         }

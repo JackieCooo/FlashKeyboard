@@ -29,7 +29,7 @@
 #define PWM_GROUP0                     0
 #define IR_HIGH_TCXO_DELAY_US          20
 #define IR_LOW_TCXO_DELAY_US           70
-#define IR_PATTERN_LEN                 100
+#define IR_PATTERN_LEN                 200
 
 #define IR_PWM_BASE_ADDR               PWM_0_BASE
 #define IR_PWM_GROUP0                  (IR_PWM_BASE_ADDR + PWM_GROUP0 * 0X10)
@@ -43,7 +43,7 @@ typedef struct ir_pwm_param {
 } ir_pwm_param_t;
 
 static ir_pwm_param_t g_ir_pwm_param;
-static int16_t g_ir_pattern[IR_PATTERN_LEN] = { 0 };
+static int32_t g_ir_pattern[IR_PATTERN_LEN] = { 0 };
 static int g_cur_pattern = 0;
 
 void uapi_ir_init(pin_t gpio)
@@ -77,23 +77,17 @@ static void ir_pwm_config_preload(void)
 static errcode_t ir_pwm_callback(uint8_t channel)
 {
     unused(channel);
-    if (g_cur_pattern >= (g_ir_pwm_param.len - 1)) {
-        uapi_pwm_unregister_interrupt(channel);
-        uapi_pwm_close(PWM_GROUP0);
-        return 0;
-    }
-
     ir_pwm_config_preload();
     g_cur_pattern++;
     return 0;
 }
 
-errcode_t uapi_ir_transmit(int freq, int16_t *pattern, int len)
+errcode_t uapi_ir_transmit(int freq, int32_t *pattern, int len)
 {
     if (freq <= 0 || pattern == NULL || len <= 0 || len > IR_PATTERN_LEN) {
         return ERRCODE_INVALID_PARAM;
     }
-    if (memcpy_s(g_ir_pattern, len * sizeof(int16_t), pattern, len * sizeof(int16_t)) != EOK) {
+    if (memcpy_s(g_ir_pattern, len * sizeof(int32_t), pattern, len * sizeof(int32_t)) != EOK) {
         return ERRCODE_INVALID_PARAM;
     }
     g_cur_pattern = 0;

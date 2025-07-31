@@ -1,0 +1,958 @@
+<MSS>
+    <SUBSYSTEM NAME="bt_core" DATA_STRUCT_FILE="..\diag\prot_core_hso_msg_struct_def.txt" DESCRIPTION="" MULTIMODE="bt_core">
+        <MSG_LOG>
+        </MSG_LOG>
+        <LAYER_LOG>
+        </LAYER_LOG>
+        <USERPLANE_LOG>
+        </USERPLANE_LOG>
+    </SUBSYSTEM>
+    <SUBSYSTEM NAME="bt_status" DATA_STRUCT_FILE="..\diag\bt_status_hso_msg_struct_def.txt" DESCRIPTION="" MULTIMODE="bt_status">
+        <MSG_LOG>
+        </MSG_LOG>
+        <LAYER_LOG>
+        </LAYER_LOG>
+        <USERPLANE_LOG>
+        </USERPLANE_LOG>
+    </SUBSYSTEM>
+    <SUBSYSTEM NAME="application_core" DATA_STRUCT_FILE="..\diag\prot_core_hso_msg_struct_def.txt" DESCRIPTION="" MULTIMODE="application_core">
+        <MSG_LOG><MSG STRUCTURE="diag_log_msg0" NAME="dbg_wrong_status_handle enter! @adapter_dbguart.c(47),WARNING" ID="0xa670017b" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="Header rcv error:[0x%x 0x%x 0x%x 0x%x] @adapter_dbguart.c(50),WARNING" ID="0xa6700193" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="Header rcv error:[0x%x 0x%x 0x%x 0x%x] @adapter_dbguart.c(51),WARNING" ID="0xa670019b" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="dbg_wrong_status_handle:: memmove_s failed! @adapter_dbguart.c(66),ERROR" ID="0xa6700212" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="dbg msg get payload fail,err code=0x%x! @adapter_dbguart.c(106),ERROR" ID="0xa6700352" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="efuse read succ @adapter_efuse.c(101),INFO" ID="0xa02c032d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="skip efuse read @adapter_efuse.c(146),WARNING" ID="0xa02c0493" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="efuse trim cost time: %d tcxo cnt @adapter_efuse.c(158),INFO" ID="0xa02c04f5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[AGC][INFO] swAgcGainPara[%u]: lnaCode [%u], vgaCode [%u]. @agc_capability.c(50),DBG" ID="0x95fa0196" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[AGC][INFO] swAgcGainPara[%u]: lnaCode [%u], vgaCode [%u]. @agc_capability.c(51),DBG" ID="0x95fa019e" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AGC] Set Agc Pwr Para Error @agc_capability.c(184),ERROR" ID="0x95fa05c2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AGC] Set Agc Sat Para Error @agc_capability.c(202),ERROR" ID="0x95fa0652" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AGC] Set Agc Lna Switch Gain Error @agc_capability.c(220),ERROR" ID="0x95fa06e2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AGC] Set Agc Lna Th Error @agc_capability.c(258),ERROR" ID="0x95fa0812" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[AC][ERR] first aox ant dis %u is invaild! @angle_calc.c(93),ERROR" ID="0x967802ea" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[AC][ANT DIS] first aox ant dis %u nm. @angle_calc.c(97),INFO" ID="0x9678030d" />
+			<MSG STRUCTURE="diag_log_msg8" NAME="[AC][DECOUPLE MAT] %d, %d, %d, %d, %d, %d, %d, %d. @angle_calc.c(106),DBG" ID="0x96780356" />
+			<MSG STRUCTURE="diag_log_msg8" NAME="[AC][DECOUPLE MAT] %d, %d, %d, %d, %d, %d, %d, %d. @angle_calc.c(114),DBG" ID="0x96780396" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AC][ERR] ant dis is zero! @angle_calc.c(142),ERROR" ID="0x96780472" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC] deltaPhi %d, waveLen %d, pi %d, antDis %d @angle_calc.c(148),DBG" ID="0x967804a6" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC] deltaPhi %d, waveLen %d, pi %d, antDis %d @angle_calc.c(149),DBG" ID="0x967804ae" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[AC] sinTheta %d, aox: %d rad %d deg @angle_calc.c(170),DBG" ID="0x96780556" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[AC] sinTheta %d, aox: %d rad %d deg @angle_calc.c(171),DBG" ID="0x9678055e" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC][%u](x100) antDis(mm), %u, pdoa(deg), %d, aox(deg), %d. @angle_calc.c(173),DBG" ID="0x9678056e" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC][%u](x100) antDis(mm), %u, pdoa(deg), %d, aox(deg), %d. @angle_calc.c(174),DBG" ID="0x96780576" />
+			<MSG STRUCTURE="diag_log_msg8" NAME="[AC][ORIGIN IQ] idx0 %u, i %d, q %d, bw0 %u | idx1 %u, i %d, q %d, bw1 %u. @angle_calc.c(197),DBG" ID="0x9678062e" />
+			<MSG STRUCTURE="diag_log_msg8" NAME="[AC][ORIGIN IQ] idx0 %u, i %d, q %d, bw0 %u | idx1 %u, i %d, q %d, bw1 %u. @angle_calc.c(199),DBG" ID="0x9678063e" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC][IQ WITH BW] i0 %d, q0 %d, i1 %d, q1 %d @angle_calc.c(208),DBG" ID="0x96780686" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC][IQ WITH BW] i0 %d, q0 %d, i1 %d, q1 %d @angle_calc.c(209),DBG" ID="0x9678068e" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC][DECOUPLE] i0 %d, q0 %d, i1 %d, q1 %d @angle_calc.c(216),DBG" ID="0x967806c6" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC][DECOUPLE] i0 %d, q0 %d, i1 %d, q1 %d @angle_calc.c(218),DBG" ID="0x967806d6" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AC][WAR] interp for delta deno is zero! @angle_calc.c(226),WARNING" ID="0x96780713" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[AC][WARNING] aox first path idx %u isn't satisfied for interp! @angle_calc.c(252),WARNING" ID="0x967807e3" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[AC][PWR] i %d, iq0Pwr %d, iq1Pwr %d @angle_calc.c(265),DBG" ID="0x9678084e" />
+			<MSG STRUCTURE="diag_log_msg5" NAME="[AC][DELTA] peakPwrIdx %u, y0 %d, y1 %d, y2 %d, delta %d @angle_calc.c(300),DBG" ID="0x96780966" />
+			<MSG STRUCTURE="diag_log_msg5" NAME="[AC][DELTA] peakPwrIdx %u, y0 %d, y1 %d, y2 %d, delta %d @angle_calc.c(301),DBG" ID="0x9678096e" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC][INTERP](x10000) i0 %d, q0 %d, i1 %d, q1 %d @angle_calc.c(306),DBG" ID="0x96780996" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[AC][INTERP](x10000) i0 %d, q0 %d, i1 %d, q1 %d @angle_calc.c(308),DBG" ID="0x967809a6" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="[AC][FT] i0 %d, q0 %d, bw0 %d, i1 %d, q1 %d, bw1 %d. @angle_calc.c(322),DBG" ID="0x96780a16" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="[AC][FT] i0 %d, q0 %d, bw0 %d, i1 %d, q1 %d, bw1 %d. @angle_calc.c(324),DBG" ID="0x96780a26" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[AOX][FOM] fpss %d, stdPd %d @angle_calc.c(411),DBG" ID="0x96780cde" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[AC] aoxFpIdx0 %u, aoxFpIdx1 %u. @angle_calc.c(426),DBG" ID="0x96780d56" />
+			<MSG STRUCTURE="diag_log_msg10" NAME="[AC][%u] azi, %d, aFom, %u, eFom, %u, aoxFpIdx0, %u, aoxFpIdx1, %u, i0 %d, q0, %d, i1, %d, q1, %d. @angle_calc.c(447),DBG" ID="0x96780dfe" />
+			<MSG STRUCTURE="diag_log_msg10" NAME="[AC][%u] azi, %d, aFom, %u, eFom, %u, aoxFpIdx0, %u, aoxFpIdx1, %u, i0 %d, q0, %d, i1, %d, q1, %d. @angle_calc.c(450),DBG" ID="0x96780e16" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AOX FPD][ERR] length of aox cirPwr is less than the length of noise calculation! @aox_first_path_detection.c(28),ERROR" ID="0x967a00e2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AOX FPD][ERR] length of aox cirPwr is less than the length for finding initial first path! @aox_first_path_detection.c(50),ERROR" ID="0x967a0192" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AOX FPD][ERR] length of aox cirPwr is less than the length for finding peak index! @aox_first_path_detection.c(66),ERROR" ID="0x967a0212" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MEMCPY-ERR][AOX][FPD] copy aox cir errno: %d, startIdx: %u @aox_first_path_detection.c(109),ERROR" ID="0x967a036a" />
+			<MSG STRUCTURE="diag_log_msg9" NAME="[AOX][FPD][%u][%u] fpIdx, %u, nPwr, %u, mpIdx, %u, mpPwr, %u, thr, %u, initFpIdx, %u, peakIdx, %u @aox_first_path_detection.c(132),DBG" ID="0x967a0426" />
+			<MSG STRUCTURE="diag_log_msg9" NAME="[AOX][FPD][%u][%u] fpIdx, %u, nPwr, %u, mpIdx, %u, mpPwr, %u, thr, %u, initFpIdx, %u, peakIdx, %u @aox_first_path_detection.c(133),DBG" ID="0x967a042e" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="LOS_TaskInfoGet faild @app_os_init.c(45),ERROR" ID="0xa67e016a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="glp mac task stack : size=%d, usage=%d percent @app_os_init.c(48),INFO" ID="0xa67e0185" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="glp mac task stack : size=%d, usage=%d percent @app_os_init.c(49),INFO" ID="0xa67e018d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="platform idle task stack : size=%d, usage=%d percent @app_os_init.c(54),INFO" ID="0xa67e01b5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="platform idle task stack : size=%d, usage=%d percent @app_os_init.c(55),INFO" ID="0xa67e01bd" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][ASSEM] AbnormalMsg! errId: 0x%x @assemble_abnormal_msg.c(16),INFO" ID="0x95b60085" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to abnormalMsg! @assemble_abnormal_msg.c(20),ERROR" ID="0x95b600a2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MAC][ASSEM] imu aoa msg! @assemble_imu_msg.c(15),DBG" ID="0x969c007e" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to imuAoaMsg! @assemble_imu_msg.c(19),ERROR" ID="0x969c009a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MAC][ASSEM] imu ranging msg! @assemble_imu_msg.c(35),DBG" ID="0x969c011e" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to imuRangingMsg! @assemble_imu_msg.c(39),ERROR" ID="0x969c013a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MAC][ASSEM] imu key scan msg! @assemble_imu_msg.c(55),DBG" ID="0x969c01be" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to imuKeyScanMsg! @assemble_imu_msg.c(59),ERROR" ID="0x969c01da" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MAC][ASSEM] AssembleImuSleepMsg! @assemble_imu_msg.c(75),INFO" ID="0x969c025d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="AssembleRsltMsg, pause ranging! @assemble_rslt_msg.c(22),WARNING" ID="0x95b200b3" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to RsltMsg! @assemble_rslt_msg.c(29),ERROR" ID="0x95b200ea" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][ASSEM] RsltMsg, No, %u @assemble_rslt_msg.c(38),INFO" ID="0x95b20135" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="AssembleCursorRsltMsg, pause ranging! @assemble_rslt_msg.c(51),WARNING" ID="0x95b2019b" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to CursorRsltMsg! @assemble_rslt_msg.c(58),ERROR" ID="0x95b201d2" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[MAC][ASSEM] CursorRsltMsg, No, %u, x, %u um, y, %u um, val:%u @assemble_rslt_msg.c(69),INFO" ID="0x95b2022d" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[MAC][ASSEM] CursorRsltMsg, No, %u, x, %u um, y, %u um, val:%u @assemble_rslt_msg.c(70),INFO" ID="0x95b20235" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to FactoryRsltMsg! @assemble_rslt_msg.c(83),ERROR" ID="0x95b2029a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][ASSEM] FactoryRsltMsg, No, %u @assemble_rslt_msg.c(97),INFO" ID="0x95b2030d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to AttitudeRsltMsg! @assemble_rslt_msg.c(110),ERROR" ID="0x95b20372" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[MAC][ASSEM] AttitudeRsltMsg, No, %u, type %d, deltaYaw, %d, deltaPitch, %d. @assemble_rslt_msg.c(117),INFO" ID="0x95b203ad" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[MAC][ASSEM] AttitudeRsltMsg, No, %u, type %d, deltaYaw, %d, deltaPitch, %d. @assemble_rslt_msg.c(121),INFO" ID="0x95b203cd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to GyroZeroOffsetRsltMsg! @assemble_rslt_msg.c(134),ERROR" ID="0x95b20432" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[MAC][ASSEM] GyroZeroOffsetRsltMsg, No, %u, x %d, y, %d, z, %d. @assemble_rslt_msg.c(141),INFO" ID="0x95b2046d" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[MAC][ASSEM] GyroZeroOffsetRsltMsg, No, %u, x %d, y, %d, z, %d. @assemble_rslt_msg.c(142),INFO" ID="0x95b20475" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to sleepMsg! @assemble_sleep_msg.c(20),ERROR" ID="0x95ba00a2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to versionMsg! @assemble_version_msg.c(18),ERROR" ID="0x96920092" />
+			<MSG STRUCTURE="diag_log_msg5" NAME="[MAC][ASSEM] wide band versionMsg %u.%u.%u,  chipId:%u, imuType:0x%02X @assemble_version_msg.c(29),INFO" ID="0x969200ed" />
+			<MSG STRUCTURE="diag_log_msg5" NAME="[MAC][ASSEM] wide band versionMsg %u.%u.%u,  chipId:%u, imuType:0x%02X @assemble_version_msg.c(30),INFO" ID="0x969200f5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="msg type is err! @bfgn_data_get.c(31),ERROR" ID="0xa01c00fa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="gnss data handle func is NULL @bfgn_data_get.c(112),ERROR" ID="0xa01c0382" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="bfgn_msg_send_policy:queue num %d is not available @bfgn_data_send.c(307),ERROR" ID="0xa024099a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="msg resource%u Queue Is Full! @bfgn_msg_manage.c(178),ERROR" ID="0xa0080592" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR:Fault MSG Type! @bfgn_msg_manage.c(557),ERROR" ID="0xa008116a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="msg_len = %d MSG addr or len is Error! @bfgn_msg_manage.c(572),ERROR" ID="0xa00811e2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="msg_type = %d MSG Info Queue Is Full! @bfgn_msg_manage.c(579),ERROR" ID="0xa008121a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="queue:0x%x is empty! @bfgn_msg_queue.c(118),WARNING" ID="0xa02603b3" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="No Space For queue:0x%x! @bfgn_msg_queue.c(160),WARNING" ID="0xa0260503" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="No Space For queue:0x%x! @bfgn_msg_queue.c(161),WARNING" ID="0xa026050b" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="No Space For queue:0x%x! @bfgn_msg_queue.c(199),WARNING" ID="0xa026063b" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="No Space For queue:0x%x! @bfgn_msg_queue.c(200),WARNING" ID="0xa0260643" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="platform get wrong msg! @bfgn_plat_comm_msg_process.c(68),ERROR" ID="0xa2e60222" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="uart loop test send data to host fail @bfgn_plat_test_msg_process.c(51),ERROR" ID="0xa2e8019a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="set uart loop test handler succ @bfgn_plat_test_msg_process.c(70),INFO" ID="0xa2e80235" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="set uart loop test finish succ @bfgn_plat_test_msg_process.c(82),INFO" ID="0xa2e80295" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Err:PlatForm Mem Is Full! @bfgn_platform_mem_manage.c(49),ERROR" ID="0xa00a018a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="send data is not platform MSG! @bfgn_platform_mem_manage.c(99),ERROR" ID="0xa00a031a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Err:PlatForm Mem Is Full! @bfgn_platform_mem_manage.c(121),ERROR" ID="0xa00a03ca" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bfgn_wrong_status_handle enter! @bfgn_uart_data_transfer.c(144),WARNING" ID="0xa01e0483" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="Header rcv error:[0x%x 0x%x 0x%x 0x%x] @bfgn_uart_data_transfer.c(148),WARNING" ID="0xa01e04a3" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="Header rcv error:[0x%x 0x%x 0x%x 0x%x] @bfgn_uart_data_transfer.c(149),WARNING" ID="0xa01e04ab" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bfgn_wrong_status_handle:: memmove_s failed! @bfgn_uart_data_transfer.c(167),ERROR" ID="0xa01e053a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="the store func of type %d is not reg! @bfgn_uart_data_transfer.c(221),ERROR" ID="0xa01e06ea" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="bfgn msg type %d get payload fail,err code=0x%x! @bfgn_uart_data_transfer.c(240),ERROR" ID="0xa01e0782" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bfgn get bt payload fail! bt data store func is null! @bfgn_uart_data_transfer.c(258),ERROR" ID="0xa01e0812" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bfgn get bt payload fail! @bfgn_uart_data_transfer.c(265),ERROR" ID="0xa01e084a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="bfgn msg tail 0x%x is error! @bfgn_uart_data_transfer.c(290),ERROR" ID="0xa01e0912" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="the handle func of type %d is not reg! @bfgn_uart_data_transfer.c(302),ERROR" ID="0xa01e0972" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="bmi2_i2c_read failed, err_code = %x @bmi2_xfer.c(466),ERROR" ID="0xa6840e92" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="bmi2_i2c_write failed, err_code = %x @bmi2_xfer.c(483),ERROR" ID="0xa6840f1a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init cfg_dis_pwr_save failed @bmi2_xfer.c(505),ERROR" ID="0xa6840fca" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init cfg_dis_pwr_save success @bmi2_xfer.c(508),INFO" ID="0xa6840fe5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init cfg_pre_load failed @bmi2_xfer.c(514),ERROR" ID="0xa6841012" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init cfg_pre_load success @bmi2_xfer.c(517),INFO" ID="0xa684102d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init bmi270_config_file failed @bmi2_xfer.c(521),ERROR" ID="0xa684104a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init bmi270_config_file success @bmi2_xfer.c(524),INFO" ID="0xa6841065" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init cfg_cmpl_load failed @bmi2_xfer.c(529),ERROR" ID="0xa684108a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init cfg_cmpl_load success @bmi2_xfer.c(532),INFO" ID="0xa68410a5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init get init_status failed @bmi2_xfer.c(538),ERROR" ID="0xa68410d2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="bmi2_init get init_status = %x success @bmi2_xfer.c(541),INFO" ID="0xa68410ed" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init success @bmi2_xfer.c(543),INFO" ID="0xa68410fd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi2_init failed @bmi2_xfer.c(545),ERROR" ID="0xa684110a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[CALI] PowerOnCali! @cali.c(26),INFO" ID="0x960600d5" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[RX][SYNC_AGC][%u] sync max, %u, sync idx, %d, pwrDbv, %u @capability_utils.c(49),INFO" ID="0x968c018d" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[RX][SYNC_AGC][%u] sync max, %u, sync idx, %d, pwrDbv, %u @capability_utils.c(51),INFO" ID="0x968c019d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="circ_queue_init failed @circ_queue.c(28),ERROR" ID="0xa37a00e2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="circ_queue_init failed, size = %d should be power of 2 @circ_queue.c(33),ERROR" ID="0xa37a010a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="circuit queue is full @circ_queue.c(59),ERROR" ID="0xa37a01da" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="node copy failed @circ_queue.c(67),ERROR" ID="0xa37a021a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[DCOC] Waiting timed out. waitcnt: %u @dcoc.c(60),ERROR" ID="0x966801e2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[CALI] DCOC success! @dcoc.c(100),DBG" ID="0x96680326" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[CALI] DCOC error! @dcoc.c(104),ERROR" ID="0x96680342" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[DC] vga, %u, delay, %d, ns, rx rmarker [%u %u]. @distance_calc.c(131),DBG" ID="0x965c041e" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[DC] vga, %u, delay, %d, ns, rx rmarker [%u %u]. @distance_calc.c(132),DBG" ID="0x965c0426" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[DC] initiator round fom [%u], reply fom [%u]; responder round fom [%u], reply fom [%u]. @distance_calc.c(222),INFO" ID="0x965c06f5" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[DC] initiator round fom [%u], reply fom [%u]; responder round fom [%u], reply fom [%u]. @distance_calc.c(224),INFO" ID="0x965c0705" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[DC] DS-TWR rangingTime Fom is zero! @distance_calc.c(225),INFO" ID="0x965c070d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[DC][WAR] the data num to calc std is less than 2! @distance_calc.c(272),WARNING" ID="0x965c0883" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AC][ERR] invalid data array! @distance_calc.c(277),ERROR" ID="0x965c08aa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[DC][WAR] the data num to calc abnormal meas per is zero! @distance_calc.c(327),WARNING" ID="0x965c0a3b" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[AC][ERR] invalid meas data array! @distance_calc.c(332),ERROR" ID="0x965c0a62" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[DC] stdVal %d mm, abnPer %u per @distance_calc.c(358),INFO" ID="0x965c0b35" />
+			<MSG STRUCTURE="diag_log_msg12" NAME="[DC] dis arr: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d. @distance_calc.c(371),DBG" ID="0x965c0b9e" />
+			<MSG STRUCTURE="diag_log_msg12" NAME="[DC] dis arr: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d. @distance_calc.c(377),DBG" ID="0x965c0bce" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[DC][ERR] DS-TWR Denominator is zero! @distance_calc.c(398),ERROR" ID="0x965c0c72" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[DC][ERR] The numerator of DS-TWR exceeds the effective bit width! @distance_calc.c(413),ERROR" ID="0x965c0cea" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[DC][INFO] tof(1/64), origin, %d, comp, %d @distance_calc.c(418),INFO" ID="0x965c0d15" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="--------------------TEST END NUM %u-------------------- @distance_calc.c(425),INFO" ID="0x965c0d4d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[InitiatorRMarker pollTxRMarker]@[%u %u]---------------- @distance_calc.c(437),INFO" ID="0x965c0dad" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[InitiatorRMarker pollTxRMarker]@[%u %u]---------------- @distance_calc.c(438),INFO" ID="0x965c0db5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[InitiatorRMarker respRxRMarker]@[%u %u]---------------- @distance_calc.c(439),INFO" ID="0x965c0dbd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[InitiatorRMarker respRxRMarker]@[%u %u]---------------- @distance_calc.c(440),INFO" ID="0x965c0dc5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[InitiatorRMarker finalTxRMarker]@[%u %u]---------------- @distance_calc.c(441),INFO" ID="0x965c0dcd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[InitiatorRMarker finalTxRMarker]@[%u %u]---------------- @distance_calc.c(442),INFO" ID="0x965c0dd5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ResponderRMarker pollRxRMarker]@[%u %u]---------------- @distance_calc.c(444),INFO" ID="0x965c0de5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ResponderRMarker pollRxRMarker]@[%u %u]---------------- @distance_calc.c(445),INFO" ID="0x965c0ded" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ResponderRMarker respTxRMarker]@[%u %u]---------------- @distance_calc.c(446),INFO" ID="0x965c0df5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ResponderRMarker respTxRMarker]@[%u %u]---------------- @distance_calc.c(447),INFO" ID="0x965c0dfd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ResponderRMarker finalRxRMarker]@[%u %u]---------------- @distance_calc.c(448),INFO" ID="0x965c0e05" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ResponderRMarker finalRxRMarker]@[%u %u]---------------- @distance_calc.c(449),INFO" ID="0x965c0e0d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="DMA channel %d disable failed! @dma.c(159),ERROR" ID="0xa00204fa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Error DMAChannel %d @dma.c(414),ERROR" ID="0xa0020cf2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[FPD][ERR] length of cirPwr is less than the length of noise calculation! @first_path_detection.c(36),ERROR" ID="0x96360122" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[FPD][ERR] length of cirPwr is less than the length for finding initial first path! @first_path_detection.c(58),ERROR" ID="0x963601d2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[FPD][ERR] length of cirPwr is less than the length for finding peak index! @first_path_detection.c(73),ERROR" ID="0x9636024a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[FPD][ERR] length of cirPwr is less than the length for DeltaT! @first_path_detection.c(95),ERROR" ID="0x963602fa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[FPD][ERR] the divisor is zero @first_path_detection.c(104),ERROR" ID="0x96360342" />
+			<MSG STRUCTURE="diag_log_msg9" NAME="[FPD][INFO][%u] fpIdx, %u, dT, %d, fpAdv, %u, nPwr, %u, mpIdx, %u, mpPwr, %u, thr, %u, peakIdx, %u @first_path_detection.c(153),DBG" ID="0x963604ce" />
+			<MSG STRUCTURE="diag_log_msg9" NAME="[FPD][INFO][%u] fpIdx, %u, dT, %d, fpAdv, %u, nPwr, %u, mpIdx, %u, mpPwr, %u, thr, %u, peakIdx, %u @first_path_detection.c(156),DBG" ID="0x963604e6" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="host allow gf device to sleep,glbcnt(%d),wkup_event_en=0x%x @gcpu_plat_thread.c(75),INFO" ID="0xa2c4025d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="host allow gf device to sleep,glbcnt(%d),wkup_event_en=0x%x @gcpu_plat_thread.c(76),INFO" ID="0xa2c40265" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="host require dev slp, gf dev is busy @gcpu_plat_thread.c(81),INFO" ID="0xa2c4028d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="host disallow gle to sleep @gcpu_plat_thread.c(95),INFO" ID="0xa2c402fd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="go to continue send @gcpu_plat_thread.c(103),INFO" ID="0xa2c4033d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="gf_platform_enable_pm_extra @gcpu_plat_thread.c(157),INFO" ID="0xa2c404ed" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="gf_platform_disable_pm_extra @gcpu_plat_thread.c(172),INFO" ID="0xa2c40565" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="=========gcpu idle======= @gcpu_plat_thread.c(260),INFO" ID="0xa2c40825" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="start_plat_idle_thread error! @gcpu_plat_thread.c(309),ERROR" ID="0xa2c409aa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="reset_plat_idle_thread error! @gcpu_plat_thread.c(323),ERROR" ID="0xa2c40a1a" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="ReadClkStatus, ahb:%u, phy:%u, mac:%u, sample:%u, abbL:%u, abbH:%u @glb_capability.c(53),DBG" ID="0x95f401ae" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="ReadClkStatus, ahb:%u, phy:%u, mac:%u, sample:%u, abbL:%u, abbH:%u @glb_capability.c(55),DBG" ID="0x95f401be" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="ReadRstStatus, ahb:%u, phy:%u, mac:%u, sample:%u, abbL:%u, abbH:%u @glb_capability.c(63),DBG" ID="0x95f401fe" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="ReadRstStatus, ahb:%u, phy:%u, mac:%u, sample:%u, abbL:%u, abbH:%u @glb_capability.c(65),DBG" ID="0x95f4020e" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Config Iso Failed When Power Down Abb! @hal_abb_if.c(121),ERROR" ID="0x911e03ca" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Abb Inner Offset Cali Failed, Time Exceeds [%u]us @hal_abb_if.c(217),ERROR" ID="0x911e06ca" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Abb Outer Gain Cali Failed, Time Exceeds [%u]us @hal_abb_if.c(259),ERROR" ID="0x911e081a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Abb Outer Offset Cali Failed, Time Exceeds [%u]us @hal_abb_if.c(280),ERROR" ID="0x911e08c2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Abb Outer Skew Cali Failed, Time Exceeds [%u]us @hal_abb_if.c(300),ERROR" ID="0x911e0962" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[HAL_ABB_IF] outputLen error: %u @hal_abb_if.c(351),ERROR" ID="0x911e0afa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Power On Rf Ldo Failed @hal_rf_if.c(514),ERROR" ID="0x911a1012" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="RF TRX DREG Release Reset Failed! @hal_rf_if.c(590),ERROR" ID="0x911a1272" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Power On Rf Pll Failed @hal_rf_if.c(609),ERROR" ID="0x911a130a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Power On Rf Pll Ldo Loop Failed @hal_rf_if.c(617),ERROR" ID="0x911a134a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Power Down Rf Ldo Failed @hal_rf_if.c(682),ERROR" ID="0x911a1552" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Power Down Rf PLL Failed @hal_rf_if.c(698),ERROR" ID="0x911a15d2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="temperature below 0 degree, rf vco ldo reconfig 0.98V @hal_rf_if.c(784),INFO" ID="0x911a1885" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[Tx Power Cali] Hp Mode Gain Idx [%u] Is Outbound [%u] @hal_rf_if.c(1016),ERROR" ID="0x911a1fc2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[Tx Power Cali] Hp Mode Gain Idx [%u] Is Outbound [%u] @hal_rf_if.c(1017),ERROR" ID="0x911a1fca" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[Tx Power Cali] Lp Mode Gain Idx [%u] Is Outbound [%u] @hal_rf_if.c(1023),ERROR" ID="0x911a1ffa" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[Tx Power Cali] Lp Mode Gain Idx [%u] Is Outbound [%u] @hal_rf_if.c(1024),ERROR" ID="0x911a2002" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[Time Cali] Power Mode Error! @hal_rf_if.c(1087),ERROR" ID="0x911a21fa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[Phase Cali] Power Mode Error ! @hal_rf_if.c(1107),ERROR" ID="0x911a229a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="After [%u] us, Power Down Glp Sub Failed, Status is [%u] @hal_soc_reg.c(85),ERROR" ID="0x95f202aa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="After [%u] us, Power On Glp Sub Successful @hal_soc_reg.c(101),INFO" ID="0x95f2032d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="After [%u] us, Power On Glp Sub Failed, Status is [%u] @hal_soc_reg.c(107),ERROR" ID="0x95f2035a" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="addr 0x%x, wr 0x%x != rd 0x%x @hal_utils.c(74),ERROR" ID="0x95f00252" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="run_cmd_handle: cmd_id=%x  @hso_cmd_handle.c(76),INFO" ID="0xa66e0265" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="func of cmd_id %x is not found @hso_cmd_handle.c(83),INFO" ID="0xa66e029d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Memory read length cannot be 0 @hso_cmd_mem_read_write.c(98),WARNING" ID="0xa6720313" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Memory read length cannot be 0 @hso_cmd_mem_read_write.c(111),WARNING" ID="0xa672037b" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Memory read length cannot be 0 @hso_cmd_mem_read_write.c(124),WARNING" ID="0xa67203e3" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="cmd_id=%x has no corresponding function exists @hso_cmd_mem_read_write.c(185),WARNING" ID="0xa67205cb" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270Power failed @imu.c(148),ERROR" ID="0x965e04a2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270PowerControl failed @imu.c(154),ERROR" ID="0x965e04d2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgAcc failed @imu.c(159),ERROR" ID="0x965e04fa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgGyr failed @imu.c(164),ERROR" ID="0x965e0522" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270Power1 failed @imu.c(169),ERROR" ID="0x965e054a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270LpCtrl failed @imu.c(180),ERROR" ID="0x965e05a2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270LpAcc failed @imu.c(185),ERROR" ID="0x965e05ca" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270LpPwr failed @imu.c(190),ERROR" ID="0x965e05f2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgFeatPage failed @imu.c(201),ERROR" ID="0x965e064a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="int1IoCtrl failed @imu.c(206),ERROR" ID="0x965e0672" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="int1MapFeat failed @imu.c(211),ERROR" ID="0x965e069a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgAnyMotionFlag1 failed @imu.c(216),ERROR" ID="0x965e06c2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgAnyMotionFlag2 failed @imu.c(221),ERROR" ID="0x965e06ea" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgFeatPage0 failed @imu.c(226),ERROR" ID="0x965e0712" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgFeatPage failed @imu.c(236),ERROR" ID="0x965e0762" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="int2IoCtrl failed @imu.c(241),ERROR" ID="0x965e078a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="int2MapFeat failed @imu.c(246),ERROR" ID="0x965e07b2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgAnyMotionFlag2 failed @imu.c(251),ERROR" ID="0x965e07da" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="cfgFeatPage0 failed @imu.c(256),ERROR" ID="0x965e0802" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="dis any motion detection successful!!! @imu.c(259),INFO" ID="0x965e081d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="write bmi325AccConfig failed @imu.c(294),ERROR" ID="0x965e0932" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="write bmi325GyroConfig failed @imu.c(299),ERROR" ID="0x965e095a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325Acc failed @imu.c(309),ERROR" ID="0x965e09aa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325Gyro failed @imu.c(314),ERROR" ID="0x965e09d2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325Io2 failed @imu.c(323),ERROR" ID="0x965e0a1a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325IoStatus failed @imu.c(328),ERROR" ID="0x965e0a42" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325FeatureCtrl failed @imu.c(333),ERROR" ID="0x965e0a6a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="read gp failed @imu.c(339),ERROR" ID="0x965e0a9a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325AnyMotionFeature failed @imu.c(351),ERROR" ID="0x965e0afa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325AnyMotionCfg failed @imu.c(358),ERROR" ID="0x965e0b32" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325EnAxis0 failed @imu.c(363),ERROR" ID="0x965e0b5a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325EnAxis1 failed @imu.c(368),ERROR" ID="0x965e0b82" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325GpSts failed @imu.c(373),ERROR" ID="0x965e0baa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325EnInt2Io failed @imu.c(378),ERROR" ID="0x965e0bd2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325EnInt2AnyMotion failed @imu.c(383),ERROR" ID="0x965e0bfa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325DisInt2AnyMotion failed @imu.c(400),ERROR" ID="0x965e0c82" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325DisInt2Io failed @imu.c(405),ERROR" ID="0x965e0caa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325DisAxis failed @imu.c(410),ERROR" ID="0x965e0cd2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325DisFea failed @imu.c(415),ERROR" ID="0x965e0cfa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="write lsm6dSoxBdu failed @imu.c(453),ERROR" ID="0x965e0e2a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="write lsm6dSoxAccConfig failed @imu.c(458),ERROR" ID="0x965e0e52" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="write lsm6dSoxGyroConfig failed @imu.c(463),ERROR" ID="0x965e0e7a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="write lsm6dSoxGyroFilter failed @imu.c(468),ERROR" ID="0x965e0ea2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxAcc failed @imu.c(478),ERROR" ID="0x965e0ef2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxGyro failed @imu.c(483),ERROR" ID="0x965e0f1a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxAmdThs failed @imu.c(493),ERROR" ID="0x965e0f6a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxAmdDur failed @imu.c(498),ERROR" ID="0x965e0f92" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxAmdEn failed @imu.c(503),ERROR" ID="0x965e0fba" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxAmdInt2 failed @imu.c(508),ERROR" ID="0x965e0fe2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxAmdInt2Feat failed @imu.c(513),ERROR" ID="0x965e100a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="amdEn failed @imu.c(518),ERROR" ID="0x965e1032" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxAmdDis failed @imu.c(528),ERROR" ID="0x965e1082" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dSoxDisAmdInt2 failed @imu.c(532),ERROR" ID="0x965e10a2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="amdDis failed @imu.c(536),ERROR" ID="0x965e10c2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="unknown imu @imu.c(582),ERROR" ID="0x965e1232" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="(x1000) ax %d, ay %d, az %d, gx %d, gy %d, gz %d @imu.c(586),DBG" ID="0x965e1256" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="(x1000) ax %d, ay %d, az %d, gx %d, gy %d, gz %d @imu.c(588),DBG" ID="0x965e1266" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="unknown imu @imu.c(608),ERROR" ID="0x965e1302" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="read acc gyro data failed @imu.c(617),ERROR" ID="0x965e134a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[FAIL] imu %u config normal power mode !!! @imu.c(643),INFO" ID="0x965e141d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[PASS] imu %u config normal power mode !!! @imu.c(646),INFO" ID="0x965e1435" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[FAIL] imu %u config low power mode !!! @imu.c(664),INFO" ID="0x965e14c5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[PASS] imu %u config low power mode !!! @imu.c(667),INFO" ID="0x965e14dd" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[FAIL] imu %u config any motion detection mode !!! @imu.c(685),INFO" ID="0x965e156d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[PASS] imu %u config any motion detection mode !!! @imu.c(688),INFO" ID="0x965e1585" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[FAIL] imu %u dis any motion detection mode !!! @imu.c(706),INFO" ID="0x965e1615" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[PASS] imu %u dis any motion detection mode !!! @imu.c(709),INFO" ID="0x965e162d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="i2c_init failed @imu.c(717),ERROR" ID="0x965e166a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="imu init err @imu.c(725),ERROR" ID="0x965e16aa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[IMU] QueueCreate! @imu_main.c(47),INFO" ID="0x9690017d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[IMU][ERR] Msg ID out of bound! The maximum msg ID is [%u].However, the received ID is [%d]! @imu_main.c(63),INFO" ID="0x969001fd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[IMU][ERR] Msg ID out of bound! The maximum msg ID is [%u].However, the received ID is [%d]! @imu_main.c(64),INFO" ID="0x96900205" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[IMU][ERR] Callback function with msg ID [%u] is not defined! @imu_main.c(70),INFO" ID="0x96900235" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MIPS][IMU] msg proc, ID, %u, duration, %u us @imu_main.c(79),DBG" ID="0x9690027e" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: imu_i2c_read imu_slave_addr Invalidation @imu_xfer.c(519),ERROR" ID="0xa6a2103a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="imu_i2c_read failed, err_code = 0x%x @imu_xfer.c(530),ERROR" ID="0xa6a21092" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: imu_i2c_write  imu_slave_addr Invalidation @imu_xfer.c(544),ERROR" ID="0xa6a21102" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="imu_i2c_write failed, err_code = 0x%x @imu_xfer.c(555),ERROR" ID="0xa6a2115a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: imu_get_chip_id chip_id or chip_len Invalidation @imu_xfer.c(564),ERROR" ID="0xa6a211a2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init cfg_dis_pwr_save failed @imu_xfer.c(576),ERROR" ID="0xa6a21202" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init cfg_dis_pwr_save success @imu_xfer.c(579),INFO" ID="0xa6a2121d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init cfg_pre_load failed @imu_xfer.c(586),ERROR" ID="0xa6a21252" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init cfg_pre_load success @imu_xfer.c(589),INFO" ID="0xa6a2126d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init bmi270_cfg_file failed @imu_xfer.c(594),ERROR" ID="0xa6a21292" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init bmi270_cfg_file success @imu_xfer.c(597),INFO" ID="0xa6a212ad" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init cfg_cmpl_load failed @imu_xfer.c(603),ERROR" ID="0xa6a212da" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init cfg_cmpl_load success @imu_xfer.c(606),INFO" ID="0xa6a212f5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init get init_status failed @imu_xfer.c(613),ERROR" ID="0xa6a2132a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="bmi270_init get init_status = %d success @imu_xfer.c(616),INFO" ID="0xa6a21345" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init failed @imu_xfer.c(618),ERROR" ID="0xa6a21352" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi270_init success @imu_xfer.c(621),INFO" ID="0xa6a2136d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="lsm6dsox_init failed @imu_xfer.c(634),ERROR" ID="0xa6a213d2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="lsm6dsox get chip_id failed err_code = 0x%x. @imu_xfer.c(643),ERROR" ID="0xa6a2141a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="lsm6dsox chip_id err, Expected chip id:%d, get chip id:%d. @imu_xfer.c(648),ERROR" ID="0xa6a21442" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="lsm6dsox chip_id err, Expected chip id:%d, get chip id:%d. @imu_xfer.c(649),ERROR" ID="0xa6a2144a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="lsm6dsox init success, chip_id = %d @imu_xfer.c(652),INFO" ID="0xa6a21465" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: icm42670 reset blk_sel_r failed. @imu_xfer.c(664),ERROR" ID="0xa6a214c2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR:icm42670  reset blk_set_w failed. @imu_xfer.c(670),ERROR" ID="0xa6a214f2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: icm42670 soft reset failed. @imu_xfer.c(684),ERROR" ID="0xa6a21562" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: icm42670 set intf_config1 failed. @imu_xfer.c(700),ERROR" ID="0xa6a215e2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: icm42670 clean reset interr failed. @imu_xfer.c(708),ERROR" ID="0xa6a21622" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="icm42670 get chip_id failed err_code = 0x%x. @imu_xfer.c(714),ERROR" ID="0xa6a21652" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="icm42670 chip_id err, Expected chip id:%d, get chip id:%d. @imu_xfer.c(719),ERROR" ID="0xa6a2167a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="icm42670 chip_id err, Expected chip id:%d, get chip id:%d. @imu_xfer.c(720),ERROR" ID="0xa6a21682" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="icm42670 init success, chip_id = %d @imu_xfer.c(723),INFO" ID="0xa6a2169d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325 device reset failed @imu_xfer.c(736),ERROR" ID="0xa6a21702" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325_init get err_reg failed @imu_xfer.c(745),ERROR" ID="0xa6a2174a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: bmi325 err_reg 0b0 != 0. @imu_xfer.c(751),ERROR" ID="0xa6a2177a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="bmi325_init get status failed. @imu_xfer.c(757),ERROR" ID="0xa6a217aa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: bmi325 status 0b0 != 1. @imu_xfer.c(763),ERROR" ID="0xa6a217da" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR:imu_prepation_init i2c_init failed. @imu_xfer.c(781),INFO" ID="0xa6a2186d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="SUC:imu_prepation_init get chip_id=%d. @imu_xfer.c(800),INFO" ID="0xa6a21905" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR:imu_prepation_init unknow imu_chip_type @imu_xfer.c(806),ERROR" ID="0xa6a21932" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="imu_prepation_init success. @imu_xfer.c(812),INFO" ID="0xa6a21965" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: imu_init imu_type Invalidation @imu_xfer.c(821),ERROR" ID="0xa6a219aa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="ERR: imu not find init_function! @imu_xfer.c(840),ERROR" ID="0xa6a21a42" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="imu id:0x%d init failed, err_code = 0x%x. @imu_xfer.c(843),ERROR" ID="0xa6a21a5a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="imu id:0x%d init success. @imu_xfer.c(846),INFO" ID="0xa6a21a75" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="ERR:imu_get_device failed, imu_type = %d @imu_xfer.c(868),ERROR" ID="0xa6a21b22" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="-----------GlpPhyIsr-----------,iVal %d, qVal: %d @isr_capability.c(185),INFO" ID="0x95f605cd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="-----------GlpPhyIsr-----------,iVal %d, qVal: %d @isr_capability.c(186),INFO" ID="0x95f605d5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="TASK DONE %u %u @isr_capability.c(279),INFO" ID="0x95f608bd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="GlpMacTaskErrIntr, errType [%u], rptErr [%u] @isr_capability.c(311),ERROR" ID="0x95f609ba" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="SleepReadyIsr Start [%u], End [%u] @isr_capability.c(322),INFO" ID="0x95f60a15" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Sample Intr Called! @isr_capability.c(367),INFO" ID="0x95f60b7d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SCHED][INFO]: Current slot duration is [%u]. @isr_proc.c(143),INFO" ID="0x9616047d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SCHED][INFO]: Current slot duration is [%u]. @isr_proc.c(144),INFO" ID="0x96160485" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[SCHED][INFO]: Tx Start time is set to [%lu]. Rx start time is set to [%lu].  @isr_proc.c(147),INFO" ID="0x9616049d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[SCHED][INFO]: Tx Start time is set to [%lu]. Rx start time is set to [%lu].  @isr_proc.c(148),INFO" ID="0x961604a5" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][INFO]: Tx Start time is set to [%u %u]. Rx start time is set to [%u %u]. @isr_proc.c(152),INFO" ID="0x961604c5" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][INFO]: Tx Start time is set to [%u %u]. Rx start time is set to [%u %u]. @isr_proc.c(154),INFO" ID="0x961604d5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[FSM][INFO]: current State is [%s] @isr_proc.c(162),INFO" ID="0x96160515" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[FSM][INFO]: state: [%u] @isr_proc.c(165),DBG" ID="0x9616052e" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="AOX rxIdx: %u, sync max, %u, sync idx, %d @isr_proc.c(184),INFO" ID="0x961605c5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="AOX rxIdx: %u, sync max, %u, sync idx, %d @isr_proc.c(185),INFO" ID="0x961605cd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="RESP sync max, %u, sync idx, %d @isr_proc.c(208),INFO" ID="0x96160685" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="RESP sync max, %u, sync idx, %d @isr_proc.c(209),INFO" ID="0x9616068d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="POLL sync max, %u, sync idx, %d @isr_proc.c(222),INFO" ID="0x961606f5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="POLL sync max, %u, sync idx, %d @isr_proc.c(223),INFO" ID="0x961606fd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="FINAL sync max, %u, sync idx, %d @isr_proc.c(229),INFO" ID="0x9616072d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="FINAL sync max, %u, sync idx, %d @isr_proc.c(230),INFO" ID="0x96160735" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="AOX0, i, %u, Pwr, %u, bw, %u @isr_proc.c(254),INFO" ID="0x961607f5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="AOX1, i, %u, Pwr, %u, bw, %u @isr_proc.c(257),INFO" ID="0x9616080d" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="AOX0, i, %u, Pwr, %u, bw, %u @isr_proc.c(262),INFO" ID="0x96160835" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="AOX1, i, %u, Pwr, %u, bw, %u @isr_proc.c(265),INFO" ID="0x9616084d" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="RESP, i, %u, Pwr, %u, bw, %u @isr_proc.c(277),INFO" ID="0x961608ad" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="POLL, i, %u, Pwr, %u, bw, %u @isr_proc.c(284),INFO" ID="0x961608e5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="FINAL, i, %u, Pwr, %u, bw, %u @isr_proc.c(288),INFO" ID="0x96160905" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="all tasks over, enter sleep mode! @isr_proc.c(321),INFO" ID="0x96160a0d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] The current state [%u] is not ranging state @isr_proc.c(410),ERROR" ID="0x96160cd2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] The current state [%u] is not ranging state @isr_proc.c(454),ERROR" ID="0x96160e32" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[AGC] read, vga0Code, %u, lna0Code, %u, agcPwrDbv, %u @isr_proc.c(467),INFO" ID="0x96160e9d" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[AGC] read, vga0Code, %u, lna0Code, %u, agcPwrDbv, %u @isr_proc.c(468),INFO" ID="0x96160ea5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SW][PROC][TASK_DONE]: Current Slot Index is [%u] @isr_proc.c(473),DBG" ID="0x96160ece" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TASK_DONE_ISR][ERR]rptMacTaskErr [%u], errType [%u] @isr_proc.c(506),ERROR" ID="0x96160fd2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TASK_DONE_ISR][ERR]rptMacTaskErr [%u], errType [%u] @isr_proc.c(507),ERROR" ID="0x96160fda" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SW][PROC][TASK_DONE]: reset phy @isr_proc.c(510),INFO" ID="0x96160ff5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TASK_DONE] Curr state [%u] do not process taskDoneMsg! @isr_proc.c(534),WARNING" ID="0x961610b3" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] TaskDoneMsg is NULL @isr_proc.c(539),ERROR" ID="0x961610da" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] TaskDoneMsg is not equal, dataLen, %u, size, %u @isr_proc.c(543),ERROR" ID="0x961610fa" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] TaskDoneMsg is not equal, dataLen, %u, size, %u @isr_proc.c(544),ERROR" ID="0x96161102" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TASK DONE] measurements is abnormal! @isr_proc.c(549),INFO" ID="0x9616112d" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[TASK_DONE_ISR][%u][%u]----------------------------[%u %u] @isr_proc.c(554),INFO" ID="0x96161155" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[TASK_DONE_ISR][%u][%u]----------------------------[%u %u] @isr_proc.c(556),INFO" ID="0x96161165" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TASK DONE] all sleep veto removed, enter sleep! @isr_proc.c(564),INFO" ID="0x961611a5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] MacTimerIsrMsg is NULL @isr_proc.c(583),ERROR" ID="0x9616123a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] MacTimerIsrMsg is not equal, dataLen, %u, size, %u @isr_proc.c(587),ERROR" ID="0x9616125a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] MacTimerIsrMsg is not equal, dataLen, %u, size, %u @isr_proc.c(588),ERROR" ID="0x96161262" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TIMER_ISR]: timer interruption detected at [%u %u] @isr_proc.c(601),INFO" ID="0x961612cd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TIMER_ISR]: timer interruption detected at [%u %u] @isr_proc.c(602),INFO" ID="0x961612d5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="ParseImuTimerMsg, startTime, %u, duration, %u us @isr_proc.c(617),DBG" ID="0x9616134e" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="HwWakeUpIsr, startTime %u, duration, %u us @isr_proc.c(632),DBG" ID="0x961613c6" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="SwWakeUpIsr, startTime %u, duration, %u us @isr_proc.c(660),DBG" ID="0x961614a6" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="ClrWakeUpIsr sleep tcxo cnt %u. @isr_proc.c(670),DBG" ID="0x961614f6" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[SW_PROC][SYNC_INTR] Curr state [%u] is not sec [%u]! @isr_proc.c(678),ERROR" ID="0x96161532" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SCHED][INFO]: First task configured! @isr_proc.c(707),INFO" ID="0x9616161d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] ProcMacSyncIsrMsg is NULL @isr_proc.c(713),ERROR" ID="0x9616164a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] ProcMacSyncIsrMsg is not equal, dataLen, %u, size, %u @isr_proc.c(717),ERROR" ID="0x9616166a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] ProcMacSyncIsrMsg is not equal, dataLen, %u, size, %u @isr_proc.c(718),ERROR" ID="0x96161672" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[SYNC_ISR]@[%u %u]--------------------- @isr_proc.c(728),INFO" ID="0x961616c5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[LO SSB Cali] Waiting timed out. waitcnt: %u @lo_ssb_cali.c(48),ERROR" ID="0x966a0182" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="LO SSB iVal %d, qVal: %d, RfCtuneConfig: 0x%x @lo_ssb_cali.c(71),INFO" ID="0x966a023d" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="LO SSB iVal %d, qVal: %d, RfCtuneConfig: 0x%x @lo_ssb_cali.c(72),INFO" ID="0x966a0245" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="LO SSB error @lo_ssb_cali.c(74),ERROR" ID="0x966a0252" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[CALI] LO SSB start! @lo_ssb_cali.c(92),INFO" ID="0x966a02e5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[CALI] LO SSB Cali error! ssbCtune[%u]: %u @lo_ssb_cali.c(106),ERROR" ID="0x966a0352" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[CALI] LO SSB error! drvCtune[%u]: %u @lo_ssb_cali.c(111),ERROR" ID="0x966a037a" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[GlpLoSsbCali] ssbCtune[%u]: 0x%x, drvCtune[%u]: 0x%x @lo_ssb_cali.c(118),DBG" ID="0x966a03b6" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[GlpLoSsbCali] ssbCtune[%u]: 0x%x, drvCtune[%u]: 0x%x @lo_ssb_cali.c(119),DBG" ID="0x966a03be" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[CALI] LO SSB success! ssbCtune: 0x%x, driveCtune: 0x%x @lo_ssb_cali.c(133),INFO" ID="0x966a042d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[CALI] LO SSB success! ssbCtune: 0x%x, driveCtune: 0x%x @lo_ssb_cali.c(134),INFO" ID="0x966a0435" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="SetLogLevel, %u @log_utils.c(15),INFO" ID="0x968a007d" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[MAC CNT] duration: hw_wk %u sw_wk %u wk_clr %u @low_power.c(100),INFO" ID="0x960c0325" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[MAC CNT] duration: hw_wk %u sw_wk %u wk_clr %u @low_power.c(101),INFO" ID="0x960c032d" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="Sleep Lock Mac Cnt: %u %u, delay Cnt: %u, Wk Clr Time is %u, g_restoreMacCnt is %u %u @low_power.c(102),INFO" ID="0x960c0335" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="Sleep Lock Mac Cnt: %u %u, delay Cnt: %u, Wk Clr Time is %u, g_restoreMacCnt is %u %u @low_power.c(104),INFO" ID="0x960c0345" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="switch PM_GLP_DEEPSLEEP_STS state failed! @low_power.c(125),ERROR" ID="0x960c03ea" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="switch PM_GLP_DEEPSLEEP_TCXO_CNT_STS state failed! @low_power.c(129),ERROR" ID="0x960c040a" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[TWR_SLEEP_MGR][ERR] Duration [%u] is less than the min value [%u]!, mode is set [%u] @low_power.c(186),INFO" ID="0x960c05d5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[TWR_SLEEP_MGR][ERR] Duration [%u] is less than the min value [%u]!, mode is set [%u] @low_power.c(187),INFO" ID="0x960c05dd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[SLEEP] Sleep Mode [%u] Sleep Duration [%u]! @low_power.c(192),INFO" ID="0x960c0605" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Power Down Hardware: [RF] [ABB] [GLP_SUB] @low_power_capability.c(108),INFO" ID="0x96100365" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Sync To Tcxo Cnt is: %u @low_power_capability.c(128),INFO" ID="0x96100405" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SCHED][INFO]: g_nextSlotIdx exceeds the limit: %u. @mac_attribute.c(177),DBG" ID="0x9604058e" />
+			<MSG STRUCTURE="diag_log_msg7" NAME="[RFSW] RfSwitchGpioConfig, pwrCtrl:%u, ctrlEn:0b%u%u%u%u%u%u @mac_attribute.c(375),INFO" ID="0x96040bbd" />
+			<MSG STRUCTURE="diag_log_msg7" NAME="[RFSW] RfSwitchGpioConfig, pwrCtrl:%u, ctrlEn:0b%u%u%u%u%u%u @mac_attribute.c(377),INFO" ID="0x96040bcd" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="[RFSW] SetAntCode, a0tx:0x%02x, a0rx:0x%02x, a1tx:0x%02x, a1rx:0x%02x, a2tx:0x%02x, a2rx:0x%02x @mac_attribute.c(456),INFO" ID="0x96040e45" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="[RFSW] SetAntCode, a0tx:0x%02x, a0rx:0x%02x, a1tx:0x%02x, a1rx:0x%02x, a2tx:0x%02x, a2rx:0x%02x @mac_attribute.c(458),INFO" ID="0x96040e55" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[RFSW] RfSwitchPowerOn, pwrCtrl:%u @mac_attribute.c(470),INFO" ID="0x96040eb5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="RfSwitchPowerOff, pwrCtrl:%u @mac_attribute.c(480),INFO" ID="0x96040f05" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="set factory test mode, %u @mac_attribute.c(493),INFO" ID="0x96040f6d" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="SwitchAntSwCtrl boardtype %u, scene, %u, role, %u @mac_capability.c(150),INFO" ID="0x968e04b5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="SwitchAntSwCtrl boardtype %u, scene, %u, role, %u @mac_capability.c(151),INFO" ID="0x968e04bd" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] SetAntCode err, undefined boardtype %u @mac_capability.c(179),ERROR" ID="0x968e059a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MAC] QueueCreate! @mac_main.c(113),INFO" ID="0x9612038d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MAC] QueueCreate! @mac_main.c(126),INFO" ID="0x961203f5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="plt send data error, msgId: %x @mac_main.c(136),WARNING" ID="0x96120443" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="plt send data done, msgId: %x, len: %d @mac_main.c(150),DBG" ID="0x961204b6" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to ptr! @mac_main.c(165),INFO" ID="0x9612052d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="receive msgId: %u, len %u @mac_main.c(173),INFO" ID="0x9612056d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="receive an null event @mac_main.c(179),INFO" ID="0x9612059d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][ERR] Msg ID out of bound! The maximum msg ID is [%u].However, the received ID is [%d]! @mac_main.c(197),INFO" ID="0x9612062d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][ERR] Msg ID out of bound! The maximum msg ID is [%u].However, the received ID is [%d]! @mac_main.c(198),INFO" ID="0x96120635" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][ERR] Callback function with msg ID [%u] is not defined! @mac_main.c(204),INFO" ID="0x96120665" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MIPS][MAC] msg proc, ID, %u, duration, %u us @mac_main.c(213),INFO" ID="0x961206ad" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="SLP Wide Band Version: %d.%d.%d Descriptions: fix the bug of drawing horizontal or vertical lines. @mac_main.c(219),INFO" ID="0x961206dd" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="SLP Wide Band Version: %d.%d.%d Descriptions: fix the bug of drawing horizontal or vertical lines. @mac_main.c(220),INFO" ID="0x961206e5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="{chr_callback_test:: errno is %d !} @oam_chr.c(27),WARNING" ID="0xa20200db" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="chr_callback_test: errno is  %u @oam_chr.c(29),ERROR" ID="0xa20200ea" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="{chr_rx_slave_rcvd:: mem alloc failed!} @oam_chr.c(105),ERROR" ID="0xa202034a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="{chr_rx_slave_rcvd:: memcpy_s failed!} @oam_chr.c(122),ERROR" ID="0xa20203d2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="{chr_rx_slave_rcvd:: pst_sub_table is null !} @oam_chr.c(131),WARNING" ID="0xa202041b" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="{chr_rx_slave_rcvd:: errno is %d !} @oam_chr.c(137),WARNING" ID="0xa202044b" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="send data is not chr data! @oam_chr.c(165),ERROR" ID="0xa202052a" />
+			<MSG STRUCTURE="diag_log_msg5" NAME="chr_len is err,len=%d, limit is %d&quot;NEWLINE, chr_len, CHR_ERR_DATA_MAX_LEN);return ERR;}idx = (g_chr_queue_ctrl.head_index + g_chr_queue_ctrl.node_count) % CHR_ERRNO_QUEEU_NUM;if (g_chr_queue_ctrl.node_count &lt; CHR_ERRNO_QUEEU_NUM) {g_chr_info_queue[idx].chr_type = SYS_INF_CHR_ERRNO_REPORT;g_chr_info_queue[idx].chr_info.errnum = chr_errno;g_chr_info_queue[idx].chr_info.errlen = chr_len;g_chr_info_queue[idx].chr_info.flag   = chr_flag;if (chr_ptr != NULL) {if (memcpy_s((uint8_t *)(g_chr_info_queue[idx].errdata),sizeof(g_chr_info_queue[idx].errdata), chr_ptr, chr_len) != EOK) {uapi_diag_error_log0(LOG_PFMODULE, &quot;memcpy_s failed.return ERR;}}g_chr_queue_ctrl.node_count++;} else {uapi_diag_error_log1(LOG_PFMODULE, &quot;chr queue is full, ignore errno = 0x%xreturn ERR;}bfgn_chr_errno_send_dev2host((uint8_t *)&amp;g_chr_info_queue[idx], sizeof(bfgx_chr_info));return SUCC;}/* chr &#228;&#184;&#139;&#229;&#143;&#145;&#230;&#142;&#165;&#229;&#143;&#163;&#229;&#155;&#158;&#232;&#176;&#131;&#230;&#179;&#168;&#229;&#134;&#140;&#239;&#188;&#140;&#229;&#190;&#133;&#229;&#144;&#142;&#230;&#156;&#159;&#228;&#184;&#154;&#229;&#138;&#161;&#230;&#155;&#180;&#230;&#148;&#185; */chr_callback_stru g_chr_get_bfg_info_callback = {.chr_get_bt_info = chr_callback_test,.chr_get_gnss_info = chr_callback_test,};/** &#229;&#135;&#189; &#230;&#149;&#176; &#229;&#144;&#141;  : bfgn_chr_rx_data_handle* &#229;&#138;&#159;&#232;&#131;&#189;&#230;&#143;&#143;&#232;&#191;&#176;  : chr&#229;&#176;&#134;host&#228;&#188;&#160;&#228;&#184;&#139;&#230;&#157;&#165;&#231;&#154;&#132;errno&#229;&#136;&#134;&#229;&#143;&#145;&#231;&#187;&#153;bt&#230;&#136;&#150;&#232;&#128;&#133;gnss*/void bfgn_chr_rx_data_handle(volatile uint8_t *data, uint16_t data_len){uint32_t errnum;if (data_len != CHR_BFG_RX_DATA_LEN) {uapi_diag_error_log1(LOG_PFMODULE, &quot;chr rx data len is wrong! data_len %u @oam_chr.c(184),ERROR" ID="0xa20205c2" />
+			<MSG STRUCTURE="diag_log_msg5" NAME="chr_len is err,len=%d, limit is %d&quot;NEWLINE, chr_len, CHR_ERR_DATA_MAX_LEN);return ERR;}idx = (g_chr_queue_ctrl.head_index + g_chr_queue_ctrl.node_count) % CHR_ERRNO_QUEEU_NUM;if (g_chr_queue_ctrl.node_count &lt; CHR_ERRNO_QUEEU_NUM) {g_chr_info_queue[idx].chr_type = SYS_INF_CHR_ERRNO_REPORT;g_chr_info_queue[idx].chr_info.errnum = chr_errno;g_chr_info_queue[idx].chr_info.errlen = chr_len;g_chr_info_queue[idx].chr_info.flag   = chr_flag;if (chr_ptr != NULL) {if (memcpy_s((uint8_t *)(g_chr_info_queue[idx].errdata),sizeof(g_chr_info_queue[idx].errdata), chr_ptr, chr_len) != EOK) {uapi_diag_error_log0(LOG_PFMODULE, &quot;memcpy_s failed.return ERR;}}g_chr_queue_ctrl.node_count++;} else {uapi_diag_error_log1(LOG_PFMODULE, &quot;chr queue is full, ignore errno = 0x%xreturn ERR;}bfgn_chr_errno_send_dev2host((uint8_t *)&amp;g_chr_info_queue[idx], sizeof(bfgx_chr_info));return SUCC;}/* chr &#228;&#184;&#139;&#229;&#143;&#145;&#230;&#142;&#165;&#229;&#143;&#163;&#229;&#155;&#158;&#232;&#176;&#131;&#230;&#179;&#168;&#229;&#134;&#140;&#239;&#188;&#140;&#229;&#190;&#133;&#229;&#144;&#142;&#230;&#156;&#159;&#228;&#184;&#154;&#229;&#138;&#161;&#230;&#155;&#180;&#230;&#148;&#185; */chr_callback_stru g_chr_get_bfg_info_callback = {.chr_get_bt_info = chr_callback_test,.chr_get_gnss_info = chr_callback_test,};/** &#229;&#135;&#189; &#230;&#149;&#176; &#229;&#144;&#141;  : bfgn_chr_rx_data_handle* &#229;&#138;&#159;&#232;&#131;&#189;&#230;&#143;&#143;&#232;&#191;&#176;  : chr&#229;&#176;&#134;host&#228;&#188;&#160;&#228;&#184;&#139;&#230;&#157;&#165;&#231;&#154;&#132;errno&#229;&#136;&#134;&#229;&#143;&#145;&#231;&#187;&#153;bt&#230;&#136;&#150;&#232;&#128;&#133;gnss*/void bfgn_chr_rx_data_handle(volatile uint8_t *data, uint16_t data_len){uint32_t errnum;if (data_len != CHR_BFG_RX_DATA_LEN) {uapi_diag_error_log1(LOG_PFMODULE, &quot;chr rx data len is wrong! data_len %u @oam_chr.c(225),ERROR" ID="0xa202070a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="chr bt info callback is null! errno %u @oam_chr.c(234),ERROR" ID="0xa2020752" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="chr bt info callback is wrong! errno %u @oam_chr.c(238),ERROR" ID="0xa2020772" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="chr gnss info callback is null! errno %u @oam_chr.c(244),ERROR" ID="0xa20207a2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="chr gnss info callback is wrong! errno %u @oam_chr.c(248),ERROR" ID="0xa20207c2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="chr rx errno is wrong! errno %u @oam_chr.c(253),ERROR" ID="0xa20207ea" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="BFGN CPU utilization function is DISABLED @oam_cs_statistic.c(103),ERROR" ID="0xa016033a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="$$------------- list thread's CPU utilization info -------------$$ @oam_cs_statistic.c(108),INFO" ID="0xa0160365" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="$$------------- list thread's CPU utilization info -------------$$ @oam_cs_statistic.c(109),INFO" ID="0xa016036d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="                   run-time/total-watching-time    ratio @oam_cs_statistic.c(110),INFO" ID="0xa0160375" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="No thread has started up @oam_cs_statistic.c(117),WARNING" ID="0xa01603ab" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="EXCEPTION: @oam_cs_statistic.c(133),ERROR" ID="0xa016042a" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="Thread(prio)%2d:    0x%x / 0x%x            %2d%% @oam_cs_statistic.c(139),INFO" ID="0xa016045d" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="Thread(prio)%2d:    0x%x / 0x%x            %2d%% @oam_cs_statistic.c(141),INFO" ID="0xa016046d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="$$------------- thread's CPU utilization info show over -----------$$ @oam_cs_statistic.c(146),INFO" ID="0xa0160495" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="$$------------- thread's CPU utilization info show over -----------$$ @oam_cs_statistic.c(147),INFO" ID="0xa016049d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="no thread has started up @oam_cs_statistic.c(208),WARNING" ID="0xa0160683" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="no thread has started up @oam_cs_statistic.c(243),WARNING" ID="0xa016079b" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[STACK STAT]Thread(prio)%2d: 0x%-8x/0x%-8x line:0x%-8x  @oam_cs_statistic.c(259),ERROR" ID="0xa016081a" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[STACK STAT]Thread(prio)%2d: 0x%-8x/0x%-8x line:0x%-8x  @oam_cs_statistic.c(261),ERROR" ID="0xa016082a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="Cur Max Softtimer cnt:%d  total:%d @oam_cs_statistic.c(320),INFO" ID="0xa0160a05" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="Cur Max Softtimer cnt:%d  total:%d @oam_cs_statistic.c(321),INFO" ID="0xa0160a0d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="Cur Dma Used LLI cnt:%d  total:%d @oam_cs_statistic.c(331),INFO" ID="0xa0160a5d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="Cur Dma Used LLI cnt:%d  total:%d @oam_cs_statistic.c(332),INFO" ID="0xa0160a65" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="oml_mem_write failed @oam_memquery.c(69),ERROR" ID="0xa248022a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] cursorSpeedMsg is NULL! @parse_cursor_speed_msg.c(16),ERROR" ID="0x969a0082" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] NbToWbCursorSpeedMsg is not equal, dataLen, %u, size, %u @parse_cursor_speed_msg.c(21),ERROR" ID="0x969a00aa" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] NbToWbCursorSpeedMsg is not equal, dataLen, %u, size, %u @parse_cursor_speed_msg.c(22),ERROR" ID="0x969a00b2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][PARSE] CursorSpeedMsg, No, %u mode %u @parse_cursor_speed_msg.c(33),INFO" ID="0x969a010d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] FacSetModeMsg is NULL @parse_factory_msg.c(14),ERROR" ID="0x96940072" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] FacSetModeMsg is not equal, dataLen, %u, size, %u @parse_factory_msg.c(18),ERROR" ID="0x96940092" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][PARSE] FacSetModeMsg, No, %u, mode, %u @parse_factory_msg.c(28),INFO" ID="0x969400e5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] ParseAoaMsg is NULL @parse_imu_msg.c(18),ERROR" ID="0x969e0092" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] ParseAoaMsg is not equal, dataLen, %u, size, %u @parse_imu_msg.c(22),ERROR" ID="0x969e00b2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] ParseAoaMsg is not equal, dataLen, %u, size, %u @parse_imu_msg.c(23),ERROR" ID="0x969e00ba" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[IMU][PARSE] ImuAoaMsg, No, %u @parse_imu_msg.c(30),DBG" ID="0x969e00f6" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] ParseRangingMsg is NULL @parse_imu_msg.c(42),ERROR" ID="0x969e0152" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] ParseRangingMsg is not equal, dataLen, %u, size, %u @parse_imu_msg.c(46),ERROR" ID="0x969e0172" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] ParseRangingMsg is not equal, dataLen, %u, size, %u @parse_imu_msg.c(47),ERROR" ID="0x969e017a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[IMU][PARSE] ImuRangingMsg, No, %u @parse_imu_msg.c(54),DBG" ID="0x969e01b6" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] ParseKeyScanMsg is NULL @parse_imu_msg.c(66),ERROR" ID="0x969e0212" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] ParseKeyScanMsg is not equal, dataLen, %u, size, %u @parse_imu_msg.c(70),ERROR" ID="0x969e0232" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] ParseKeyScanMsg is not equal, dataLen, %u, size, %u @parse_imu_msg.c(71),ERROR" ID="0x969e023a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[IMU][PARSE] ImuKeyScanMsg, No, %u, val, %u @parse_imu_msg.c(78),DBG" ID="0x969e0276" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="key press! @parse_imu_msg.c(85),INFO" ID="0x969e02ad" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[IMU][PARSE] ImuSleepMsg @parse_imu_msg.c(94),DBG" ID="0x969e02f6" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] initImuMsg is NULL! @parse_init_imu_msg.c(24),ERROR" ID="0x95c400c2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] InitImuMsg is not equal, dataLen, %u, size, %u @parse_init_imu_msg.c(29),ERROR" ID="0x95c400ea" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][PARSE] InitImuMsg, No, %u role %u @parse_init_imu_msg.c(37),INFO" ID="0x95c4012d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MAC][PARSE] imu already initialized! @parse_init_imu_msg.c(46),WARNING" ID="0x95c40173" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MAC][PARSE] RadarMsg! @parse_radar_msg.c(14),INFO" ID="0x96740075" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] NbToWbRadarMsg is NULL @parse_radar_msg.c(16),ERROR" ID="0x96740082" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] NbToWbRadarMsg is not equal, dataLen, %u, size, %u @parse_radar_msg.c(20),ERROR" ID="0x967400a2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] NbToWbRadarMsg is not equal, dataLen, %u, size, %u @parse_radar_msg.c(21),ERROR" ID="0x967400aa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] frameContent-&gt;ctsSegNum is abnormal: %u @parse_rm_msg.c(17),ERROR" ID="0x95b0008a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] frameContent-&gt;gapBaseSymNum is abnormal: %u @parse_rm_msg.c(21),ERROR" ID="0x95b000aa" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[ERR] sync para is abnormal, codeLen: %u, syncCodeIdx: %u, syncSymNum: %u @parse_rm_msg.c(27),ERROR" ID="0x95b000da" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[ERR] sync para is abnormal, codeLen: %u, syncCodeIdx: %u, syncSymNum: %u @parse_rm_msg.c(28),ERROR" ID="0x95b000e2" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[ERR] syncOnly para is abnormal, syncOnlyCodeLen: %u, syncOnlyCodeIdx: %u, syncOnlySymNum: %u @parse_rm_msg.c(35),ERROR" ID="0x95b0011a" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[ERR] syncOnly para is abnormal, syncOnlyCodeLen: %u, syncOnlyCodeIdx: %u, syncOnlySymNum: %u @parse_rm_msg.c(36),ERROR" ID="0x95b00122" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] secContent-&gt;rangingRate is abnormal: %u @parse_rm_msg.c(45),ERROR" ID="0x95b0016a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] LPLS ctsCpLen is abnormal: %u @parse_rm_msg.c(51),ERROR" ID="0x95b0019a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] rmMsg-&gt;rmHeader.aox is abnormal: %u @parse_rm_msg.c(61),ERROR" ID="0x95b001ea" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] rmMsg-&gt;rmHeader.roundUsage is abnormal: %u @parse_rm_msg.c(65),ERROR" ID="0x95b0020a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] NbToWbRmMsg is NULL @parse_rm_msg.c(75),ERROR" ID="0x95b0025a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] NbToWbRmMsg is not equal, dataLen, %u, size, %u @parse_rm_msg.c(79),ERROR" ID="0x95b0027a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] NbToWbRmMsg is not equal, dataLen, %u, size, %u @parse_rm_msg.c(80),ERROR" ID="0x95b00282" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][PARSE] RmMsg!, No, %u @parse_rm_msg.c(88),INFO" ID="0x95b002c5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] ParseRmMsg para is abnormal! @parse_rm_msg.c(96),ERROR" ID="0x95b00302" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] AttitudeRsltMsg is NULL @parse_rslt_msg.c(17),ERROR" ID="0x95b8008a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] AttitudeRsltMsg is not equal, dataLen, %u, size, %u @parse_rslt_msg.c(21),ERROR" ID="0x95b800aa" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] AttitudeRsltMsg is not equal, dataLen, %u, size, %u @parse_rslt_msg.c(22),ERROR" ID="0x95b800b2" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[MAC][PARSE] AttitudeRsltMsg! No, %u, type, %u, deltaYaw, %d, deltaPtch, %d @parse_rslt_msg.c(30),INFO" ID="0x95b800f5" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[MAC][PARSE] AttitudeRsltMsg! No, %u, type, %u, deltaYaw, %d, deltaPtch, %d @parse_rslt_msg.c(34),INFO" ID="0x95b80115" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] KeyscanMsg is NULL @parse_rslt_msg.c(43),ERROR" ID="0x95b8015a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] KeyscanMsg is not equal, dataLen, %u, size, %u @parse_rslt_msg.c(47),ERROR" ID="0x95b8017a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] KeyscanMsg is not equal, dataLen, %u, size, %u @parse_rslt_msg.c(48),ERROR" ID="0x95b80182" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="key press! @parse_rslt_msg.c(56),INFO" ID="0x95b801c5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][PARSE] KeyscanMsg! No, %u, value, %u @parse_rslt_msg.c(60),INFO" ID="0x95b801e5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="switch PM_GLP_WAKEUP_STS state failed! @parse_start_msg.c(22),ERROR" ID="0x95c000b2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] StartMsg is NULL! @parse_start_msg.c(27),ERROR" ID="0x95c000da" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] StartMsg is not equal, dataLen, %u, size, %u @parse_start_msg.c(32),ERROR" ID="0x95c00102" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][PARSE] StartMsg, No, %u @parse_start_msg.c(40),INFO" ID="0x95c00145" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] StopMsg is NULL! @parse_stop_msg.c(39),ERROR" ID="0x95c6013a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] StopMsg is not equal, dataLen, %u, size, %u @parse_stop_msg.c(44),ERROR" ID="0x95c60162" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][PARSE] StopMsgID %u No %u @parse_stop_msg.c(51),INFO" ID="0x95c6019d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] NbToWbTsMsg is NULL @parse_ts_msg.c(16),ERROR" ID="0x95cc0082" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] NbToWbTsMsg is not equal, dataLen, %u, size, %u @parse_ts_msg.c(20),ERROR" ID="0x95cc00a2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] NbToWbTsMsg is not equal, dataLen, %u, size, %u @parse_ts_msg.c(21),ERROR" ID="0x95cc00aa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][PARSE] TsMsg, No, %u @parse_ts_msg.c(29),INFO" ID="0x95cc00ed" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[PHY_CAPABILITY][ERR]: channel idx out of range! The input idx is [%u]. However, the num of channels is [%u] @phy_capability.c(149),ERROR" ID="0x95f804aa" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[PHY_CAPABILITY][ERR]: channel idx out of range! The input idx is [%u]. However, the num of channels is [%u] @phy_capability.c(151),ERROR" ID="0x95f804ba" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="PM_GNSS_SelfClose @pm_core_gnss.c(136),INFO" ID="0xa5a00445" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_wakeup_host:Uart reinit @pm_core_gnss.c(166),INFO" ID="0xa5a00535" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="report sleeping @pm_core_gnss.c(213),INFO" ID="0xa5a006ad" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="enter SLP isr,0x=%x glbcnt(%d) @pm_core_gnss.c(237),INFO" ID="0xa5a0076d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[gf]pm_bfgn_wakeup_int_isr wkup_isr=%x glbcnt(%d) @pm_core_gnss.c(272),INFO" ID="0xa5a00885" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_disable_slpint para error @pm_core_gnss.c(346),ERROR" ID="0xa5a00ad2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_enable_slpint para error @pm_core_gnss.c(368),ERROR" ID="0xa5a00b82" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_uart_reinit:clk:%d,baudrate:%d @pm_core_gnss.c(382),INFO" ID="0xa5a00bf5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_uart_reinit:clk:%d,baudrate:%d @pm_core_gnss.c(383),INFO" ID="0xa5a00bfd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_switch_tcxo_freq start @pm_core_gnss.c(408),INFO" ID="0xa5a00cc5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_switch_tcxo_freq close gfpll @pm_core_gnss.c(411),INFO" ID="0xa5a00cdd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_switch_tcxo_freq ok @pm_core_gnss.c(415),INFO" ID="0xa5a00cfd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_bootup_callback start @pm_core_gnss.c(425),INFO" ID="0xa5a00d4d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_bootup_callback SUCC @pm_core_gnss.c(466),INFO" ID="0xa5a00e95" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_bootup_callback ERROR @pm_core_gnss.c(470),INFO" ID="0xa5a00eb5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_gnss_rtc_wakeup_callback PM_GNSS_SS_DS_HOT_START=[0x%x],gnss sts[0x%x] @pm_core_gnss.c(530),INFO" ID="0xa5a01095" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_gnss_rtc_wakeup_callback PM_GNSS_SS_DS_HOT_START=[0x%x],gnss sts[0x%x] @pm_core_gnss.c(532),INFO" ID="0xa5a010a5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_gnss_rtc_wakeup_callback @pm_core_gnss.c(536),INFO" ID="0xa5a010c5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_deepsleep_callback BFGN_DEEPSLEEP_32K @pm_core_gnss.c(566),INFO" ID="0xa5a011b5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_deepsleep_callback BFGN_DEEPSLEEP_REF_BG_ON @pm_core_gnss.c(573),INFO" ID="0xa5a011ed" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="pm_bfgn_deepsleep_callback with tcxo cnt on[%d] @pm_core_gnss.c(578),INFO" ID="0xa5a01215" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[gf]pm_bfgn_deepsleep_callback continue(%d)glbcnt(%d) @pm_core_gnss.c(633),WARNING" ID="0xa5a013cb" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[gf]pm_bfgn_deepsleep_callback continue(%d)glbcnt(%d) @pm_core_gnss.c(634),WARNING" ID="0xa5a013d3" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[gf]pm_bfgn_deepsleep_callback start %d,wakeupcnt = %d @pm_core_gnss.c(647),INFO" ID="0xa5a0143d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[gf]pm_bfgn_deepsleep_callback start %d,wakeupcnt = %d @pm_core_gnss.c(648),INFO" ID="0xa5a01445" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="pm_bfgn_deepsleep_callback start to end consume(%d),now(%d),time1(%d),Wkup Event Enable @pm_core_gnss.c(680),INFO" ID="0xa5a01545" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="pm_bfgn_deepsleep_callback start to end consume(%d),now(%d),time1(%d),Wkup Event Enable @pm_core_gnss.c(682),INFO" ID="0xa5a01555" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="pm_bfgn_deepsleep_wakeup_callback wakeupevent=0x%x @pm_core_gnss.c(708),INFO" ID="0xa5a01625" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="pm_bfgn_deepsleep_wakeup_callback,soft consume(%d),glbcnt_s(%d)glbcnt_e(%d) @pm_core_gnss.c(854),INFO" ID="0xa5a01ab5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="pm_bfgn_deepsleep_wakeup_callback,soft consume(%d),glbcnt_s(%d)glbcnt_e(%d) @pm_core_gnss.c(855),INFO" ID="0xa5a01abd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_workstate_chg NULL Servid %d,idx %d @pm_core_gnss.c(887),INFO" ID="0xa5a01bbd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_workstate_chg NULL Servid %d,idx %d @pm_core_gnss.c(888),INFO" ID="0xa5a01bc5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_work_state_chg return error %d,idx %d @pm_core_gnss.c(895),INFO" ID="0xa5a01bfd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_workstate_chg pm_bfgn_get_stm_lut_index fail @pm_core_gnss.c(909),INFO" ID="0xa5a01c6d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_work_gnss_work  @pm_core_gnss.c(922),INFO" ID="0xa5a01cd5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_work_gnss_sleep  @pm_core_gnss.c(939),INFO" ID="0xa5a01d5d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="pm_bfgn_work_gnss_shutdown  @pm_core_gnss.c(958),INFO" ID="0xa5a01df5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="reboot_exception = 0x%x @pm_core_gnss.c(998),INFO" ID="0xa5a01f35" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="tcxo switch:i2c set baudrate fail, err_code=0x%x @pm_core_gnss.c(1010),ERROR" ID="0xa5a01f92" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="pll switch:i2c set baudrate fail, err_code=0x%x @pm_core_gnss.c(1025),ERROR" ID="0xa5a0200a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="pm_bfgn_mutex_acquire failed, ret = 0x%x @pm_core_gnss.c(1043),ERROR" ID="0xa5a0209a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="pm_bfgn_mutex_release failed, ret = 0x%x @pm_core_gnss.c(1051),ERROR" ID="0xa5a020da" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="pm_crg_cpufreq_enable[%d] @pm_drv_crg.c(55),INFO" ID="0xa03e01bd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[GCPU]pm_crg_bfg_cpufreq_cfg[%d][0x%x] @pm_drv_crg.c(78),INFO" ID="0xa03e0275" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[GCPU]pm_crg_bfg_cpufreq_cfg[%d][0x%x] @pm_drv_crg.c(79),INFO" ID="0xa03e027d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_set_sub_cpu_freq wrong param,servid[%d],req[%d] @pm_drv_crg.c(135),INFO" ID="0xa03e043d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pm_bfgn_set_sub_cpu_freq wrong param,servid[%d],req[%d] @pm_drv_crg.c(136),INFO" ID="0xa03e0445" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="PMU_CMU_CTL_RB_PMU_CMU_CTL_STS_REG = %x @pm_drv_pmu_common.c(120),INFO" ID="0xa04e03c5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="Tsensor val 0x%x  rdy,%u temp %d @pm_drv_pmu_common.c(351),INFO" ID="0xa04e0afd" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="Tsensor val 0x%x  rdy,%u temp %d @pm_drv_pmu_common.c(352),INFO" ID="0xa04e0b05" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Tsensor data invalid @pm_drv_pmu_common.c(355),ERROR" ID="0xa04e0b1a" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="temp[%d], err_en[0x%x], raw[0x%x], raw_stick[0x%x], grm[0x%x], grm_stick[0x%x] @pm_drv_pmu_common.c(457),ERROR" ID="0xa04e0e4a" />
+			<MSG STRUCTURE="diag_log_msg6" NAME="temp[%d], err_en[0x%x], raw[0x%x], raw_stick[0x%x], grm[0x%x], grm_stick[0x%x] @pm_drv_pmu_common.c(460),ERROR" ID="0xa04e0e62" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="wait reg set:0x%x timeout, mask:0x%x, value=0x%x, timeout=%u @pm_drv_utils.c(26),ERROR" ID="0xa04400d2" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="wait reg set:0x%x timeout, mask:0x%x, value=0x%x, timeout=%u @pm_drv_utils.c(27),ERROR" ID="0xa04400da" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="wait reg set:0x%x timeout, mask:0x%x, value=0x%x, timeout=%u @pm_drv_utils.c(53),ERROR" ID="0xa04401aa" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="wait reg set:0x%x timeout, mask:0x%x, value=0x%x, timeout=%u @pm_drv_utils.c(54),ERROR" ID="0xa04401b2" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="wait reg clear:0x%x timeout, mask:0x%x, value=0x%x, timeout=%u @pm_drv_utils.c(79),ERROR" ID="0xa044027a" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="wait reg clear:0x%x timeout, mask:0x%x, value=0x%x, timeout=%u @pm_drv_utils.c(80),ERROR" ID="0xa0440282" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="wait reg clear:0x%x timeout, mask:0x%x, value=0x%x, timeout=%u @pm_drv_utils.c(106),ERROR" ID="0xa0440352" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="wait reg clear:0x%x timeout, mask:0x%x, value=0x%x, timeout=%u @pm_drv_utils.c(107),ERROR" ID="0xa044035a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="set screen size, width: %u mm, height: %u mm @point_location.c(183),INFO" ID="0x966205bd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[WAR] calc acc norm, num is 0 @point_location.c(194),WARNING" ID="0x96620613" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[FAC] calc acc norm, %u(x%u) @point_location.c(200),DBG" ID="0x96620646" />
+			<MSG STRUCTURE="diag_log_msg7" NAME="[POINT](x1000) x0 %d mm, y0 %d mm, z0 %d mm, yaw %d deg, pitch %d deg, point y %d mm, z %d mm. @point_location.c(292),DBG" ID="0x96620926" />
+			<MSG STRUCTURE="diag_log_msg7" NAME="[POINT](x1000) x0 %d mm, y0 %d mm, z0 %d mm, yaw %d deg, pitch %d deg, point y %d mm, z %d mm. @point_location.c(296),DBG" ID="0x96620946" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[INFO][PL] key press, g_lockPointCnt %d @point_location.c(324),INFO" ID="0x96620a25" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[INFO][PL] quit lock point status, gxSum %d, gzSum %d @point_location.c(338),INFO" ID="0x96620a95" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[INFO][PL] quit lock point status, gxSum %d, gzSum %d @point_location.c(339),INFO" ID="0x96620a9d" />
+			<MSG STRUCTURE="diag_log_msg12" NAME="pointPosition: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d @point_location.c(369),DBG" ID="0x96620b8e" />
+			<MSG STRUCTURE="diag_log_msg12" NAME="pointPosition: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d @point_location.c(381),DBG" ID="0x96620bee" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[WAR] calc acc norm, num is max 0xFF @point_location.c(392),WARNING" ID="0x96620c43" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] calc acc norm is so less (x1000)%u @point_location.c(402),ERROR" ID="0x96620c92" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[WAR] reset gyro data, count: %u @point_location.c(431),DBG" ID="0x96620d7e" />
+			<MSG STRUCTURE="diag_log_msg12" NAME="originData: %d, %d, %d, %d, %d, %d, %u, %d, %u, %u, %d, %u. @point_location.c(439),DBG" ID="0x96620dbe" />
+			<MSG STRUCTURE="diag_log_msg12" NAME="originData: %d, %d, %d, %d, %d, %d, %u, %d, %u, %u, %d, %u. @point_location.c(443),DBG" ID="0x96620dde" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[osMonitor]No.%d task was blocked tick %ld, count %ld @runtime_monitor.c(126),ERROR" ID="0xa66c03f2" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[osMonitor]No.%d task was blocked tick %ld, count %ld @runtime_monitor.c(128),ERROR" ID="0xa66c0402" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[osMonitor]No.%d task was blocked up to limited times! @runtime_monitor.c(136),ERROR" ID="0xa66c0442" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[osMonitor]No.%d task was blocked up to limited times! @runtime_monitor.c(137),ERROR" ID="0xa66c044a" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[osMonitor]No.%d task work overtime! threshold tick %d, work time %d @runtime_monitor.c(182),WARNING" ID="0xa66c05b3" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[osMonitor]No.%d task work overtime! threshold tick %d, work time %d @runtime_monitor.c(184),WARNING" ID="0xa66c05c3" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[FSM][INFO]: sched switches from [%s] to [%s] @sched_fsm.c(46),INFO" ID="0x96140175" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[FSM][INFO]: sched switches from [%s] to [%s] @sched_fsm.c(47),INFO" ID="0x9614017d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[FSM][INFO]: sched [%u] to [%u] @sched_fsm.c(49),INFO" ID="0x9614018d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][SetSessionKey] keyLen error: %u @security.c(95),ERROR" ID="0x962c02fa" />
+			<MSG STRUCTURE="diag_log_msg8" NAME="[SEC] g_sessionKey[0-7]: [ 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x ] @security.c(100),DBG" ID="0x962c0326" />
+			<MSG STRUCTURE="diag_log_msg8" NAME="[SEC] g_sessionKey[0-7]: [ 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x ] @security.c(102),DBG" ID="0x962c0336" />
+			<MSG STRUCTURE="diag_log_msg8" NAME="[SEC] g_sessionKey[8-15]: [ 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x ] @security.c(103),DBG" ID="0x962c033e" />
+			<MSG STRUCTURE="diag_log_msg8" NAME="[SEC] g_sessionKey[8-15]: [ 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x ] @security.c(105),DBG" ID="0x962c034e" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC] ctsGapLen error: %u @security.c(111),ERROR" ID="0x962c037a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC] g_rangingKeyUsage.gapOffset: [%u] @security.c(122),DBG" ID="0x962c03d6" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC] ctsInitContextLen error: %u @security.c(133),ERROR" ID="0x962c042a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC] g_rangingKeyUsage.ctsVCounter: [0x%08x] @security.c(143),DBG" ID="0x962c047e" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC] timeInterval: [%u] @security.c(172),DBG" ID="0x962c0566" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][FindSessionKeyBySessionKeyIdx] sessionKeyLen error: %u @security.c(179),ERROR" ID="0x962c059a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC] inputContextLen error, %u @security.c(239),ERROR" ID="0x962c077a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MEMCPY-ERR] &amp;inputContext[headerLen] errno:%d @security.c(256),ERROR" ID="0x962c0802" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC] rangingRate error: %u @security.c(271),ERROR" ID="0x962c087a" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[SEC] rangingRate, %u, bitNum, %u, timeInterval, %u @security.c(277),INFO" ID="0x962c08ad" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][CalcMask] bitNum error: %u @security.c(284),ERROR" ID="0x962c08e2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][GenGapOffset] ctsGapShift error: %u @security.c(315),ERROR" ID="0x962c09da" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SEC] Update gapOffset! @security.c(331),INFO" ID="0x962c0a5d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SEC] Update ctsVCounter! @security.c(349),INFO" ID="0x962c0aed" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][GenRangingKey] ctsContextLen error: %u @security.c(369),ERROR" ID="0x962c0b8a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][DeriveRangingKey] sessionKeyLen error: %u @security.c(406),ERROR" ID="0x962c0cb2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][DeriveRangingKey] inputContextLen error: %u @security.c(411),ERROR" ID="0x962c0cda" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SEC] Key management! @security.c(432),INFO" ID="0x962c0d85" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][UpdateCtsContext] ctsContextLen error: %u @security.c(465),ERROR" ID="0x962c0e8a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC] Update rangingKey, roundIdx: %u @security.c(487),INFO" ID="0x962c0f3d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_AES] AesRoundFunc len error: %u @security_aes.c(122),ERROR" ID="0x962603d2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_AES] byteIdx error: %u @security_aes.c(144),ERROR" ID="0x96260482" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_AES] shiftBitNum error: %u @security_aes.c(156),ERROR" ID="0x962604e2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_AES] keyLen error: %u @security_aes.c(259),ERROR" ID="0x9626081a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_AES] textLen error: %u @security_aes.c(263),ERROR" ID="0x9626083a" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SEC_CAPABILITY] key: [ 0x%08x 0x%08x 0x%08x 0x%08x ] @security_capability.c(13),DBG" ID="0x95fc006e" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[SEC_CAPABILITY] vUpper: [ 0x%08x 0x%08x 0x%08x ] @security_capability.c(15),DBG" ID="0x95fc007e" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_CAPABILITY] TX gapOffset: %u @security_capability.c(28),DBG" ID="0x95fc00e6" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_CAPABILITY] RX gapOffset: %u @security_capability.c(34),DBG" ID="0x95fc0116" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_CAPABILITY] TX initAesVCnt: 0x%08x @security_capability.c(40),DBG" ID="0x95fc0146" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_CAPABILITY] RX initAesVCnt: 0x%08x @security_capability.c(46),DBG" ID="0x95fc0176" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][AssembleCmacMsg] contextLen error: %u @security_cmac.c(20),ERROR" ID="0x962800a2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][GenCmacSubkey] keyLen error: %u @security_cmac.c(32),ERROR" ID="0x96280102" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][InitCmacInput] sessionKeyLen error: %u @security_cmac.c(59),ERROR" ID="0x962801da" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC][Cmac] outputLen error: %u @security_cmac.c(76),ERROR" ID="0x96280262" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_UTILS] inputLen error: %u @security_utils.c(12),ERROR" ID="0x962a0062" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_UTILS] outputLen error: %u @security_utils.c(28),ERROR" ID="0x962a00e2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_UTILS] inputLen error: %u @security_utils.c(41),ERROR" ID="0x962a014a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_UTILS] outputLen error: %u @security_utils.c(57),ERROR" ID="0x962a01ca" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SEC_UTILS] inputLen error: %u @security_utils.c(77),ERROR" ID="0x962a026a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="CalcRollPitchByAcc acc[Z_IDX] is 0! @sins_analyze_imu_status.c(255),ERROR" ID="0x968407fa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="FilterAttitude g_attitudeKf.p + g_attitudeKf.r is 0! @sins_attitude_filter.c(35),ERROR" ID="0x9682011a" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[OFFSET][INIT] x %d, y %d, z %d. @sins_cali.c(79),DBG" ID="0x96a0027e" />
+			<MSG STRUCTURE="diag_log_msg5" NAME="[OFFSET][CALC] x %d, y %d, z %d, staticNum %u, numAfterUpdate %u. @sins_cali.c(207),INFO" ID="0x96a0067d" />
+			<MSG STRUCTURE="diag_log_msg5" NAME="[OFFSET][CALC] x %d, y %d, z %d, staticNum %u, numAfterUpdate %u. @sins_cali.c(209),INFO" ID="0x96a0068d" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[OFFSET][UPDATE] x %d, y %d, z %d. @sins_cali.c(222),INFO" ID="0x96a006f5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] wrong cursor speed mode, %u @sins_main.c(146),ERROR" ID="0x96600492" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[INFO] set cursor speed mode, %u @sins_main.c(149),INFO" ID="0x966004ad" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[INS][WAR] quat norm is zero! @sins_main.c(277),WARNING" ID="0x966008ab" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[INS][WARR] acc norm is zero! @sins_main.c(823),WARNING" ID="0x966019bb" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="No short timer is in used. @softtimer.c(38),ERROR" ID="0xa0060132" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="timer_stop(SHORT_STIMER_INDEX) failed. @softtimer.c(43),ERROR" ID="0xa006015a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="softtimer_start failed. @softtimer.c(61),ERROR" ID="0xa00601ea" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="No Long timer is in used. @softtimer.c(90),ERROR" ID="0xa00602d2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="timer_stop(LONG_STIMER_INDEX) failed. @softtimer.c(95),ERROR" ID="0xa00602fa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="softtimer_start failed. @softtimer.c(112),ERROR" ID="0xa0060382" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="timer_list is NULL, should not call this function. @softtimer.c(159),ERROR" ID="0xa00604fa" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="No softtimer is in the used. @softtimer.c(174),ERROR" ID="0xa0060572" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="tick or g_aulTimeLine is wrong.timer=0x%x,tick=0x%x,g_aulTimeLine[%d]=0x%x @softtimer.c(192),ERROR" ID="0xa0060602" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="tick or g_aulTimeLine is wrong.timer=0x%x,tick=0x%x,g_aulTimeLine[%d]=0x%x @softtimer.c(193),ERROR" ID="0xa006060a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="timer_start failed @softtimer.c(214),ERROR" ID="0xa00606b2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Get timer value err @softtimer.c(247),ERROR" ID="0xa00607ba" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="g_ul_timer_tickpms is not set @softtimer.c(251),ERROR" ID="0xa00607da" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="softtimer_get_current_time_line failed. @softtimer.c(285),ERROR" ID="0xa00608ea" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="hook is NULL @softtimer.c(389),ERROR" ID="0xa0060c2a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="No Timer Available @softtimer.c(397),ERROR" ID="0xa0060c6a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="timer is not validate, timer = 0x%x. @softtimer.c(423),ERROR" ID="0xa0060d3a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="tick is zero. @softtimer.c(432),ERROR" ID="0xa0060d82" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="timer is already in used. @softtimer.c(453),ERROR" ID="0xa0060e2a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="softtimer_start failed. @softtimer.c(465),ERROR" ID="0xa0060e8a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="softtimer_get_current_time_line failed. @softtimer.c(473),ERROR" ID="0xa0060eca" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="timer-&gt;tick is less than time_line_new.tick=0x%x,time_line_new=0x%x. @softtimer.c(485),ERROR" ID="0xa0060f2a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="timer-&gt;tick is less than time_line_new.tick=0x%x,time_line_new=0x%x. @softtimer.c(486),ERROR" ID="0xa0060f32" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="timer_stop(SHORT_STIMER_INDEX) failed. @softtimer.c(498),ERROR" ID="0xa0060f92" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="softtimer_start failed. @softtimer.c(506),ERROR" ID="0xa0060fd2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="timer_stop(SHORT_STIMER_INDEX) failed. @softtimer.c(581),ERROR" ID="0xa006122a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="g_time_line[%d] updata failed. @softtimer.c(594),ERROR" ID="0xa0061292" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="timer_stop(%d) failed. @softtimer.c(599),ERROR" ID="0xa00612ba" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="softtimer_start failed. @softtimer.c(602),ERROR" ID="0xa00612d2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="timer is not validate, timer = 0x%x @softtimer.c(619),ERROR" ID="0xa006135a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="ssi master write reg timeout:addr 0x%x=0x%x!! @ssi_master.c(35),ERROR" ID="0xa1be011a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="ssi master read reg timeout:addr 0x%x=0x%x!! @ssi_master.c(59),ERROR" ID="0xa1be01da" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="ssi master:addr 0x%x read error!! @ssi_master.c(88),ERROR" ID="0xa1be02c2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="ssi master:0x%x[addr]=0x%x[value] ok!! @ssi_master.c(93),INFO" ID="0xa1be02ed" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="ssi master:addr 0x%x=0x%x, expect 0x%x !! @ssi_master.c(96),ERROR" ID="0xa1be0302" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="ssi master:addr 0x%x=0x%x, expect 0x%x !! @ssi_master.c(97),ERROR" ID="0xa1be030a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] g_imuTimer == NULL @sw_proc_init_imu_msg.c(35),ERROR" ID="0x9696011a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] softtimer start failed, ret: 0x%08X @sw_proc_init_imu_msg.c(41),ERROR" ID="0x9696014a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="start timer succ, imuDuration:%u us @sw_proc_init_imu_msg.c(44),DBG" ID="0x96960166" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] softtimer stop failed, ret: 0x%08X @sw_proc_init_imu_msg.c(52),ERROR" ID="0x969601a2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[ERR] softtimer delete failed, ret: 0x%08X @sw_proc_init_imu_msg.c(57),ERROR" ID="0x969601ca" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="stop and delete timer succ! @sw_proc_init_imu_msg.c(60),INFO" ID="0x969601e5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[Freq][Tof][WAR] diffTimeMs is 0 @sw_proc_meas_msg.c(48),WARNING" ID="0x96180183" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[Freq][Tof] freq, %u/s(x10), diff, %u, sendNum, %u @sw_proc_meas_msg.c(52),INFO" ID="0x961801a5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[Freq][Tof] freq, %u/s(x10), diff, %u, sendNum, %u @sw_proc_meas_msg.c(53),INFO" ID="0x961801ad" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MEAS MSG] WbParseMeasMsg g_measMsg.measHeader.valid error: %u @sw_proc_meas_msg.c(64),ERROR" ID="0x96180202" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MEAS][ROUND] local round %u, peer round %u @sw_proc_meas_msg.c(71),INFO" ID="0x9618023d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MEAS](x100) dis %d mm. @sw_proc_meas_msg.c(89),INFO" ID="0x961802cd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SW][PROC][INFO]: Meas msg process complete! @sw_proc_meas_msg.c(105),INFO" ID="0x9618034d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SW][PROC][INFO]: Input radarMsg is NULL! @sw_proc_radar_msg.c(15),INFO" ID="0x9676007d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[SW][PROC][INFO]: Input radar channel: %d. txPower: 0x%x. @sw_proc_radar_msg.c(28),INFO" ID="0x967600e5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[SW][PROC][INFO]: Input radar channel: %d. txPower: 0x%x. @sw_proc_radar_msg.c(29),INFO" ID="0x967600ed" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SW][PROC][INFO]: Radar task has stoped! @sw_proc_radar_msg.c(33),INFO" ID="0x9676010d" />
+			<MSG STRUCTURE="diag_log_msg9" NAME="[SCHED][RTS] mrSource:%u, aox:%u, roundUsage:%u, valRoundsNum:%u, syncDuration:%u, rangingDuration:%u, aoxDuration:%u, syncOnlyOffset:%u, firstAoxAntDis:%u. @sw_proc_rm_msg.c(56),INFO" ID="0x961c01c5" />
+			<MSG STRUCTURE="diag_log_msg9" NAME="[SCHED][RTS] mrSource:%u, aox:%u, roundUsage:%u, valRoundsNum:%u, syncDuration:%u, rangingDuration:%u, aoxDuration:%u, syncOnlyOffset:%u, firstAoxAntDis:%u. @sw_proc_rm_msg.c(60),INFO" ID="0x961c01e5" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][RTS] scene:%u, aoxDirection:%u, aoxAntArray:%u, aoxAgcMode:%u. @sw_proc_rm_msg.c(61),INFO" ID="0x961c01ed" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][RTS] scene:%u, aoxDirection:%u, aoxAntArray:%u, aoxAgcMode:%u. @sw_proc_rm_msg.c(62),INFO" ID="0x961c01f5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SW][PROC][INFO]: Stub Rm msg process complete! @sw_proc_rm_msg.c(106),INFO" ID="0x961c0355" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[CALI PARA][INFO] d11 q 0x%X, decouple matrix carry ant dis info @sw_proc_rm_msg.c(155),DBG" ID="0x961c04de" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[CALI PARA][INFO] d11 q 0x%X, decouple matrix carry ant dis info @sw_proc_rm_msg.c(156),DBG" ID="0x961c04e6" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[CALI PARA][INFO] d11 q %d, decouple matrix does not carry ant dis info. @sw_proc_rm_msg.c(163),DBG" ID="0x961c051e" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[CALI PARA][INFO] d11 q %d, decouple matrix does not carry ant dis info. @sw_proc_rm_msg.c(164),DBG" ID="0x961c0526" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[CALI] board and ant trx time delay %u, tx power 0x%x @sw_proc_rm_msg.c(185),INFO" ID="0x961c05cd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[CALI] board and ant trx time delay %u, tx power 0x%x @sw_proc_rm_msg.c(186),INFO" ID="0x961c05d5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[RM MSG][ERR] already in ranging round! @sw_proc_rm_msg.c(192),ERROR" ID="0x961c0602" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SW][PROC][INFO]: Rm msg process complete! @sw_proc_rm_msg.c(246),INFO" ID="0x961c07b5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] i2c_deinit failed @sw_proc_sleep_msg.c(31),ERROR" ID="0x961e00fa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Curr Sched State is [%u] @sw_proc_start_msg.c(39),INFO" ID="0x961a013d" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[TS MSG] CurrCnt is [%u %u], TsThreshold is [%u] @sw_proc_ts_msg.c(52),INFO" ID="0x962201a5" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[TS MSG] CurrCnt is [%u %u], TsThreshold is [%u] @sw_proc_ts_msg.c(53),INFO" ID="0x962201ad" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TS MSG][ERR] Ts Too Late! @sw_proc_ts_msg.c(55),ERROR" ID="0x962201ba" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SW][PROC][TS_MSG]: Processing ts msg tasks... @sw_proc_ts_msg.c(63),INFO" ID="0x962201fd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SW][PROC][TS_MSG]: Ts msg process completed! @sw_proc_ts_msg.c(82),INFO" ID="0x96220295" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TASK_CFG][ERR]: invalid tx task para! @task_config.c(116),ERROR" ID="0x95fe03a2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TASK_CFG][ERR]: invalid rx task para! @task_config.c(200),ERROR" ID="0x95fe0642" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TASK_CFG][ERR]: invalid rx task para! @task_config.c(226),ERROR" ID="0x95fe0712" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TEST][RX ANT] Primary rx ant [%u], Secondary rx ant [%u] @task_config.c(242),INFO" ID="0x95fe0795" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TEST][RX ANT] Primary rx ant [%u], Secondary rx ant [%u] @task_config.c(244),INFO" ID="0x95fe07a5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="undefined aox rx ant switch idx [%u] @task_config.c(356),ERROR" ID="0x95fe0b22" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="poll undefined ant switch idx, %d @task_config.c(379),ERROR" ID="0x95fe0bda" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[INFO][AGC] slot sched state [%u], aox [%u], agcMode [%u]. @task_config.c(445),DBG" ID="0x95fe0dee" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[INFO][AGC] slot sched state [%u], aox [%u], agcMode [%u]. @task_config.c(446),DBG" ID="0x95fe0df6" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TASK CONFIG][ERR] The sched slot state [%u] isn't trx state! @task_config.c(469),ERROR" ID="0x95fe0eaa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="--------------------TEST END NUM %u-------------------- @task_config.c(474),INFO" ID="0x95fe0ed5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="--------------------TEST START NUM %u-------------------- @task_config.c(475),INFO" ID="0x95fe0edd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="--------------------EXCEED_MAX_START_TIME-------------------- @task_config.c(498),INFO" ID="0x95fe0f95" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TX] Tx continuous start! @task_config.c(529),INFO" ID="0x95fe108d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TX] Tx continuous stop! @task_config.c(533),INFO" ID="0x95fe10ad" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TX][ERR] undefined tx mode:%u @task_config.c(536),ERROR" ID="0x95fe10c2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[SCHED][INFO]: nb cfo is not used when tsSync is used! @task_start_time_calc.c(64),INFO" ID="0x96240205" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][INFO]: adjust tx start time from [%u %u] to [%u %u]! @task_start_time_calc.c(70),INFO" ID="0x96240235" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][INFO]: adjust tx start time from [%u %u] to [%u %u]! @task_start_time_calc.c(72),INFO" ID="0x96240245" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][INFO]: adjust rx start time from [%u %u] to [%u %u]! @task_start_time_calc.c(76),INFO" ID="0x96240265" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][INFO]: adjust rx start time from [%u %u] to [%u %u]! @task_start_time_calc.c(78),INFO" ID="0x96240275" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][POLL][1-AGC] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(39),ERROR" ID="0x9666013a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][POLL][1-AGC] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(40),ERROR" ID="0x96660142" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][POLL][1-AGC][2-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(50),ERROR" ID="0x96660192" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][POLL][1-AGC][2-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(51),ERROR" ID="0x9666019a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][POLL][SD][2-ANT] The agc configuration [%u] is not supported! @time_slot_allocation.c(54),ERROR" ID="0x966601b2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][POLL][SD][2-ANT] The agc configuration [%u] is not supported! @time_slot_allocation.c(55),ERROR" ID="0x966601ba" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][POLL][3-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(73),ERROR" ID="0x9666024a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][POLL][3-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(74),ERROR" ID="0x96660252" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][POLL] The ant configuration [%u] is not supported! @time_slot_allocation.c(77),ERROR" ID="0x9666026a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][POLL] The ant configuration [%u] is not supported! @time_slot_allocation.c(78),ERROR" ID="0x96660272" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP][1-AGC] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(93),ERROR" ID="0x966602ea" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP][1-AGC] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(94),ERROR" ID="0x966602f2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP][1-AGC][2-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(104),ERROR" ID="0x96660342" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP][1-AGC][2-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(105),ERROR" ID="0x9666034a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP][2-ANT] The agc configuration [%u] is not supported! @time_slot_allocation.c(108),ERROR" ID="0x96660362" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP][2-ANT] The agc configuration [%u] is not supported! @time_slot_allocation.c(109),ERROR" ID="0x9666036a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP][3-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(127),ERROR" ID="0x966603fa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP][3-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(128),ERROR" ID="0x96660402" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP] The ant configuration [%u] is not supported! @time_slot_allocation.c(131),ERROR" ID="0x9666041a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][SD][RESP] The ant configuration [%u] is not supported! @time_slot_allocation.c(132),ERROR" ID="0x96660422" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][DD] The AOA ant configuration [%u] is not supported! @time_slot_allocation.c(160),ERROR" ID="0x96660502" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA][DD] The AOA ant configuration [%u] is not supported! @time_slot_allocation.c(161),ERROR" ID="0x9666050a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA] The direction configuration [%u] is not supported! @time_slot_allocation.c(164),ERROR" ID="0x96660522" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOA] The direction configuration [%u] is not supported! @time_slot_allocation.c(165),ERROR" ID="0x9666052a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOD] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(181),ERROR" ID="0x966605aa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOD] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(182),ERROR" ID="0x966605b2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOD] The ant configuration [%u] is not supported! @time_slot_allocation.c(185),ERROR" ID="0x966605ca" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOD] The ant configuration [%u] is not supported! @time_slot_allocation.c(186),ERROR" ID="0x966605d2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOD] The direction configuration [%u] is not supported! @time_slot_allocation.c(189),ERROR" ID="0x966605ea" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR][AOD] The direction configuration [%u] is not supported! @time_slot_allocation.c(190),ERROR" ID="0x966605f2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][INITIATOR] The AOX configuration [%u] is not supported! @time_slot_allocation.c(218),ERROR" ID="0x966606d2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL][1-AGC] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(233),ERROR" ID="0x9666074a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL][1-AGC] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(234),ERROR" ID="0x96660752" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL][1-AGC][2-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(244),ERROR" ID="0x966607a2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL][1-AGC][2-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(245),ERROR" ID="0x966607aa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL][2-ANT] The agc configuration [%u] is not supported! @time_slot_allocation.c(248),ERROR" ID="0x966607c2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL][2-ANT] The agc configuration [%u] is not supported! @time_slot_allocation.c(249),ERROR" ID="0x966607ca" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL][3-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(267),ERROR" ID="0x9666085a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL][3-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(268),ERROR" ID="0x96660862" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL] The ant configuration [%u] is not supported! @time_slot_allocation.c(271),ERROR" ID="0x9666087a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][POLL] The ant configuration [%u] is not supported! @time_slot_allocation.c(272),ERROR" ID="0x96660882" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP][1-AGC] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(287),ERROR" ID="0x966608fa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP][1-AGC] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(288),ERROR" ID="0x96660902" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP][1-AGC][2-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(298),ERROR" ID="0x96660952" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP][1-AGC][2-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(299),ERROR" ID="0x9666095a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP][2-ANT] The agc configuration [%u] is not supported! @time_slot_allocation.c(302),ERROR" ID="0x96660972" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP][2-ANT] The agc configuration [%u] is not supported! @time_slot_allocation.c(303),ERROR" ID="0x9666097a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP][3-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(321),ERROR" ID="0x96660a0a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP][3-ANT] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(322),ERROR" ID="0x96660a12" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP] The ant configuration [%u] is not supported! @time_slot_allocation.c(325),ERROR" ID="0x96660a2a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][SD][RESP] The ant configuration [%u] is not supported! @time_slot_allocation.c(326),ERROR" ID="0x96660a32" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][DD] The AOA ant configuration [%u] is not supported! @time_slot_allocation.c(354),ERROR" ID="0x96660b12" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA][DD] The AOA ant configuration [%u] is not supported! @time_slot_allocation.c(355),ERROR" ID="0x96660b1a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA] The direction configuration [%u] is not supported! @time_slot_allocation.c(358),ERROR" ID="0x96660b32" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOA] The direction configuration [%u] is not supported! @time_slot_allocation.c(359),ERROR" ID="0x96660b3a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOD] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(375),ERROR" ID="0x96660bba" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOD] The mrSource configuration [%u] is not supported! @time_slot_allocation.c(376),ERROR" ID="0x96660bc2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOD] The ant configuration [%u] is not supported! @time_slot_allocation.c(379),ERROR" ID="0x96660bda" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOD] The ant configuration [%u] is not supported! @time_slot_allocation.c(380),ERROR" ID="0x96660be2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOD] The direction configuration [%u] is not supported! @time_slot_allocation.c(383),ERROR" ID="0x96660bfa" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER][AOD] The direction configuration [%u] is not supported! @time_slot_allocation.c(384),ERROR" ID="0x96660c02" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TIME_SLOT_ALLOC][RESPONDER] The AOX configuration [%u] is not supported! @time_slot_allocation.c(412),ERROR" ID="0x96660ce2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SCHED][CALC][ERR] rangingRate is 0, set default time %u @time_slot_allocation.c(422),ERROR" ID="0x96660d32" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[SCHED][CALC][ERR] roundDur &lt; dur , set default time %u @time_slot_allocation.c(433),ERROR" ID="0x96660d8a" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][CALC][ERR] exceed min time, rangingRate, %u, slotNum, %u, duration, %u, interactTime, %u @time_slot_allocation.c(439),ERROR" ID="0x96660dba" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][CALC][ERR] exceed min time, rangingRate, %u, slotNum, %u, duration, %u, interactTime, %u @time_slot_allocation.c(440),ERROR" ID="0x96660dc2" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][CALC] rangingRate, %u, slotNum, %u, duration, %u, measMsgInteractTime, %u cnt @time_slot_allocation.c(443),INFO" ID="0x96660ddd" />
+			<MSG STRUCTURE="diag_log_msg4" NAME="[SCHED][CALC] rangingRate, %u, slotNum, %u, duration, %u, measMsgInteractTime, %u cnt @time_slot_allocation.c(444),INFO" ID="0x96660de5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[RM][PARSE] localRole is INITIATOR! @time_slot_allocation.c(471),INFO" ID="0x96660ebd" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[RM][PARSE] localRole is RESPONDER! @time_slot_allocation.c(475),INFO" ID="0x96660edd" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[TS][CFO] currState %u, syncCfo %d lastCtsCfo %d. @time_sync.c(105),INFO" ID="0x962e034d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TS][ERR]: rpt cort fifo full! @time_sync.c(116),ERROR" ID="0x962e03a2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TS][WAR]: Trk Cfo Error! At Rx Trk Freq [%u], Incorrect Cfo Is [%d] ! @time_sync.c(131),WARNING" ID="0x962e041b" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TS][WAR]: nb cfo [%d] is out of bound! @time_sync.c(143),WARNING" ID="0x962e047b" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TS][INFO]: nb cfo [%d] received. Cfo in wb freq data is [%d]. @time_sync.c(150),INFO" ID="0x962e04b5" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TS][INFO]: wb cfo is set to[%d]! @time_sync.c(161),DBG" ID="0x962e050e" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[TS][INFO]: opt window is now [%u]. the peak is [%u], the cfo is [%d]. @time_sync.c(178),INFO" ID="0x962e0595" />
+			<MSG STRUCTURE="diag_log_msg3" NAME="[TS][INFO]: opt window is now [%u]. the peak is [%u], the cfo is [%d]. @time_sync.c(179),INFO" ID="0x962e059d" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TS][INFO]: current mainPeak is [%u]. optimal mainPeak  [%u]. @time_sync.c(180),INFO" ID="0x962e05a5" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TS][ERR]: Tinterval [%u] is less than the task advance time [%u] @time_sync.c(206),ERROR" ID="0x962e0672" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[TS][ERR]: Tinterval [%u] is less than the task advance time [%u] @time_sync.c(207),ERROR" ID="0x962e067a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[TS][INFO]: tinterval is set to: [%u]  @time_sync.c(210),INFO" ID="0x962e0695" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[TS][ERR]: convertFreqDataToPpm: centerFreq is zero! @time_sync.c(235),ERROR" ID="0x962e075a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="get timer_index failed @timer.c(123),ERROR" ID="0xa00403da" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="get timer_index failed @timer.c(154),ERROR" ID="0xa00404d2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="NULL pst_timer_para @timer.c(196),ERROR" ID="0xa0040622" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="NULL callback function @timer.c(201),ERROR" ID="0xa004064a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Timer resolution is zero @timer.c(206),ERROR" ID="0xa0040672" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Invalid timer mode @timer.c(212),ERROR" ID="0xa00406a2" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Delay count is out of the range @timer.c(217),ERROR" ID="0xa00406ca" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Wrong index,chip_index=%d @timer.c(240),ERROR" ID="0xa0040782" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Timer %d is already started @timer.c(245),INFO" ID="0xa00407ad" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="int_register err(%d) @timer.c(274),ERROR" ID="0xa0040892" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="int_register err(%d) @timer.c(281),ERROR" ID="0xa00408ca" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="Wrong Index @timer.c(305),ERROR" ID="0xa004098a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="Wrong Index, chip_index=0x%x,max_number=%d @timer.c(370),ERROR" ID="0xa0040b92" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pul_current_value=0x%x,pul_load_count=0x%x @timer.c(374),ERROR" ID="0xa0040bb2" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="pul_current_value=0x%x,pul_load_count=0x%x @timer.c(375),ERROR" ID="0xa0040bba" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="timer_dbac_setup:already registered. chip_index=%d @timer.c(419),ERROR" ID="0xa0040d1a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="NT_Register(%d, TIMER_IRQ_PRIORITY, 0x%x) @timer.c(430),ERROR" ID="0xa0040d72" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="NT_Register(%d, TIMER_IRQ_PRIORITY, 0x%x) @timer.c(431),ERROR" ID="0xa0040d7a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="timer_dbac_exit: Timer %d is not started @timer.c(497),INFO" ID="0xa0040f8d" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="timer_dbac_setup:already registered. chip_index=%d @timer.c(535),ERROR" ID="0xa00410ba" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="int_register err(%d) @timer.c(545),ERROR" ID="0xa004110a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="timer_dbac_exit: Timer %d is not started @timer.c(599),INFO" ID="0xa00412bd" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][ASSEM] AckMsg, srcMsgID, %u, No, %u @wb_assemble_ack_msg.c(15),INFO" ID="0x95c8007d" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to ackMsg! @wb_assemble_ack_msg.c(19),ERROR" ID="0x95c8009a" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="WbAssembleMeasMsg, pause ranging! @wb_assemble_meas_msg.c(25),WARNING" ID="0x95a600cb" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[MEMALLOC-ERR] can not allocate heap to measMsg! @wb_assemble_meas_msg.c(38),ERROR" ID="0x95a60132" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[MAC][ASSEM] MeasMsg, No, %u round %u @wb_assemble_meas_msg.c(46),INFO" ID="0x95a60175" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] AckMsg is NULL @wb_parse_ack_msg.c(14),ERROR" ID="0x95a40072" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] AckMsg is not equal, dataLen, %u, size, %u @wb_parse_ack_msg.c(18),ERROR" ID="0x95a40092" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] AckMsg is not equal, dataLen, %u, size, %u @wb_parse_ack_msg.c(19),ERROR" ID="0x95a4009a" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][PARSE] receive ack of %u @wb_parse_ack_msg.c(30),INFO" ID="0x95a400f5" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] cirReportMsg is NULL! @wb_parse_cir_report_msg.c(15),ERROR" ID="0x9698007a" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] cirReportMsg isn't equal, dataLen %u, size %u @wb_parse_cir_report_msg.c(20),ERROR" ID="0x969800a2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][PARSE] cirReportMsg, flag %u @wb_parse_cir_report_msg.c(29),INFO" ID="0x969800ed" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="[ERR] WbParseMeasMsg is NULL @wb_parse_meas_msg.c(25),ERROR" ID="0x95aa00ca" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] WbParseMeasMsg is not equal, dataLen, %u, size, %u @wb_parse_meas_msg.c(29),ERROR" ID="0x95aa00ea" />
+			<MSG STRUCTURE="diag_log_msg2" NAME="[ERR] WbParseMeasMsg is not equal, dataLen, %u, size, %u @wb_parse_meas_msg.c(30),ERROR" ID="0x95aa00f2" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="[MAC][PARSE] MeasMsg, No, %u @wb_parse_meas_msg.c(38),INFO" ID="0x95aa0135" />
+			<MSG STRUCTURE="diag_log_msg0" NAME="switch PM_GLP_WORK_STS state failed! @wb_task.c(34),ERROR" ID="0x96320112" />
+			<MSG STRUCTURE="diag_log_msg1" NAME="Failed to create task: %u @wb_task.c(54),ERROR" ID="0x963201b2" />
+			</MSG_LOG><LAYER_LOG>
+        </LAYER_LOG>
+        <USERPLANE_LOG>
+        </USERPLANE_LOG>
+    </SUBSYSTEM>
+    <SUBSYSTEM NAME="apps_core" DATA_STRUCT_FILE="..\diag\apps_core_hso_msg_struct_def.txt" DESCRIPTION="" MULTIMODE="apps_core">
+        <MSG_LOG>
+        </MSG_LOG>
+        <LAYER_LOG>
+        </LAYER_LOG>
+        <USERPLANE_LOG>
+        </USERPLANE_LOG>
+    </SUBSYSTEM>
+    <SUBSYSTEM NAME="prot_core" DATA_STRUCT_FILE="..\diag\prot_core_hso_msg_struct_def.txt" DESCRIPTION="" MULTIMODE="prot_core">
+        <MSG_LOG>
+        </MSG_LOG>
+        <LAYER_LOG>
+        </LAYER_LOG>
+        <USERPLANE_LOG>
+        </USERPLANE_LOG>
+    </SUBSYSTEM>
+    <SUBSYSTEM NAME="ota_msg" DATA_STRUCT_FILE="..\diag\fix_struct_def.txt" DESCRIPTION="" MULTIMODE="ota_msg">
+        <MSG_LOG>
+        </MSG_LOG>
+        <LAYER_LOG>
+        </LAYER_LOG>
+        <USERPLANE_LOG>
+        </USERPLANE_LOG>
+    </SUBSYSTEM>
+    <SUBSYSTEM NAME="fix_msg" DATA_STRUCT_FILE="..\diag\fix_struct_def.txt" DESCRIPTION="" MULTIMODE="fix_msg">
+        <MSG_LOG>
+            
+            <MSG NAME="EXCEPTION_LAST_RUN_INFO" ID="0x100003" />
+        </MSG_LOG>
+        <LAYER_LOG>
+        </LAYER_LOG>
+        <USERPLANE_LOG>
+        </USERPLANE_LOG>
+    </SUBSYSTEM>
+</MSS>

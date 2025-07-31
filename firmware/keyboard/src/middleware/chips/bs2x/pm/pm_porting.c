@@ -22,7 +22,7 @@
 #include "preserve.h"
 #include "tcxo.h"
 #if defined(PM_SUPPORT_USB_WKUP)
-#include "dwc_otg_pcd.h"
+#include "implementation/usb_init.h"
 #endif
 
 #define ULP_RST_RECORD           0x5702C520
@@ -608,7 +608,7 @@ void pm_usb_register_resume_cbk(pm_usb_cbk_t resume)
 
 int pm_usb_wkup_host(void)
 {
-    return dwc_otg_remote_wakeup();
+    return usb_device_remote_wakeup();
 }
 #endif
 

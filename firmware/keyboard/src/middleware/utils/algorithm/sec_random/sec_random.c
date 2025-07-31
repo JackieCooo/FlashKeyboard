@@ -2,7 +2,7 @@
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2012-2020. All rights reserved.
  * Description: The random number generation module can be used in the security field,
  *              and it is implemented by referring to the good practices that the company has reviewed.
- *
+ * Author: 
  * Create: 2018-5-15
  */
 

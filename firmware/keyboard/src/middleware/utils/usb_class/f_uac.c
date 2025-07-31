@@ -262,6 +262,16 @@ static uint8_t fuac_channel_num_get(int channel_mask)
   return num;
 }
 
+static void uac_set_playback_transfer_data_size(struct uac_dev_s *uac, int rate, int size, int chmask)
+{
+  uint32_t interval;
+
+  spin_lock(&uac->lock);
+  interval = UAC_FACTOR >> (g_fuac_as_in_ep_desc.bInterval - 1);
+  g_uac_iso_data_size = DIV_ROUND_UP(rate, interval) * size * fuac_channel_num_get(chmask);
+  spin_unlock(&uac->lock);
+}
+
 static struct usb_devdesc_s g_fuac_device_desc =
 {
   .len          = sizeof(struct usb_devdesc_s),
@@ -431,10 +441,10 @@ static struct uac_format_type_i_discrete_descriptor g_fuac_as_in_type_i_desc =
   .bDescriptorType    = USB_DESC_TYPE_CSINTERFACE,
   .bDescriptorSubtype = UAC_FORMAT_TYPE,
   .bFormatType        = UAC_FORMAT_TYPE_I,
-  .bBitResolution     = 16,
+  .bBitResolution     = UAC_BIT_DEPTH,
 #ifdef UAC_VER_1_0
   .bNrChannels        = UAC_CHANNEL_NUM,
-  .bSubFrameSize      = 2,
+  .bSubFrameSize      = UAC_BIT_DEPTH / 8,
   .bSamFreqType       = 4,
   HSETM(.tSamFreq[0], UAC_SAMPLING_RATE_8K),
   HSETM(.tSamFreq[1], UAC_SAMPLING_RATE_16K),
@@ -582,10 +592,10 @@ static struct uac_format_type_i_discrete_descriptor g_fuac_as_out_type_i_desc =
   .bDescriptorType    = USB_DESC_TYPE_CSINTERFACE,
   .bDescriptorSubtype = UAC_FORMAT_TYPE,
   .bFormatType        = UAC_FORMAT_TYPE_I,
-  .bBitResolution     = 16,
+  .bBitResolution     = UAC_BIT_DEPTH,
 #ifdef UAC_VER_1_0
   .bNrChannels        = UAC_CHANNEL_NUM,
-  .bSubFrameSize      = 2,
+  .bSubFrameSize      = UAC_BIT_DEPTH / 8,
   .bSamFreqType       = 4,
   HSETM(.tSamFreq[0], UAC_SAMPLING_RATE_8K),
   HSETM(.tSamFreq[1], UAC_SAMPLING_RATE_16K),
@@ -753,7 +763,7 @@ static void uac_free_out_queue(struct uac_dev_s *uac)
 
 static void configure_out_endpoint(struct uac_dev_s *uac)
 {
-  struct usbdev_req_s *req = &uac->outputreq;
+  struct usbdev_req_s *req = uac->outputreq;
 
   if (uac->out_ep_enabled == true)
     {
@@ -830,221 +840,113 @@ static void configure_out_endpoint(struct uac_dev_s *uac)
 }
 #endif
 
-static void configure_in_endpoint(struct uac_dev_s *uac)
-{
-  uint32_t interval;
-
-  spin_lock(&uac->lock);
-  uac->busy_flag = 0;
-  interval = UAC_FACTOR >> (g_fuac_as_in_ep_desc.bInterval - 1);
-#ifdef UAC_VER_1_0
-  g_uac_iso_data_size = DIV_ROUND_UP(g_uac_opts.p_srate, interval) * g_uac_opts.p_ssize *
-                        fuac_channel_num_get(g_uac_opts.p_chmask);
-
-#else
-  g_uac_iso_data_size = DIV_ROUND_UP(g_uac2_opts.p_srate_curr, interval) * g_uac2_opts.p_ssize *
-                        fuac_channel_num_get(g_uac2_opts.p_chmask);
-#endif
-  spin_unlock(&uac->lock);
-
-  if (uac->in_ep_enabled == true)
-    {
-      uac->in_ep_enabled = false;
-      (void)EP_DISABLE(uac->in_ep);
-      EP_FLUSH(uac->in_ep);
-    }
-  uac->in_ep_enabled = true;
-
-  (void)EP_CONFIGURE(uac->in_ep, (const struct usb_epdesc_s *)&g_fuac_as_in_ep_desc, 0);
-}
-
 #ifdef UAC_VER_1_0
 static void uac_set_sampling_rate(struct uac_dev_s *uac, uint32_t rate)
 {
-  int uac_rate = rate;
-  if (uac->dir == USB_DIR_IN && g_uac_opts.p_srate != uac_rate)
+  if (uac->dir == USB_DIR_IN && (uint32_t)g_uac_opts.p_srate != rate)
     {
-      g_uac_opts.p_srate = uac_rate;
-      configure_in_endpoint(uac);
+      g_uac_opts.p_srate = rate;
+      uac_set_playback_transfer_data_size(uac, g_uac_opts.p_srate, g_uac_opts.p_ssize, g_uac_opts.p_chmask);
+      PRINTK("<<<in ep rate:%d, size:%u>>>\n", g_uac_opts.p_srate, g_uac_iso_data_size);
     }
-  else if (uac->dir == USB_DIR_OUT && g_uac_opts.c_srate != uac_rate)
+  else if (uac->dir == USB_DIR_OUT && ((uint32_t)g_uac_opts.c_srate != rate || uac->out_connected == 0))
     {
-      g_uac_opts.c_srate = uac_rate;
+      g_uac_opts.c_srate = rate;
       configure_out_endpoint(uac);
+      uac->out_connected = 1;
+      PRINTK("<<<out ep rate:%d>>>\n", g_uac_opts.c_srate);
     }
   uac->dir = UAC_DIR_INVALID;
 }
-#else
-static void uac2_set_sampling_rate(struct uac_dev_s *uac, uint32_t rate)
+
+static uint32_t uac_get_rate_range(uint8_t *buf, int dir)
 {
-  if (uac->clock_id == IN_CLK_ID && g_uac2_opts.p_srate_curr != rate)
-    {
-      g_uac2_opts.p_srate_curr = rate;
-      configure_in_endpoint(uac);
-    }
-  if (uac->clock_id == OUT_CLK_ID && g_uac2_opts.c_srate_curr != rate)
-    {
-      g_uac2_opts.c_srate_curr = rate;
-      configure_out_endpoint(uac);
-    }
-}
-#endif
+  uint32_t ret = 0;
 
-static void uac_setcur_complete(struct uac_dev_s *uac, uint32_t rate)
-{
-  bool rate_switched = false;
-
-#ifdef UAC_VER_1_0
-  uac_set_sampling_rate(uac, rate);
-#endif
-  if (uac->connected == 0)
-    {
-#ifdef UAC_VER_1_0
-      if (uac->p_srate != g_uac_opts.p_srate)
-        {
-          uac->p_srate = g_uac_opts.p_srate;
-          rate_switched = true;
-        }
-      PRINTK("<<<rate:%d, size:%u>>>\n", g_uac_opts.p_srate, g_uac_iso_data_size);
-#else
-      if (uac->p_srate != g_uac2_opts.p_srate_curr)
-        {
-          uac->p_srate = g_uac2_opts.p_srate_curr;
-          rate_switched = true;
-        }
-      PRINTK("usb connected, out ep rate:%u, in ep rate:%u\n",
-             g_uac2_opts.c_srate_curr, g_uac2_opts.p_srate_curr);
-#endif
-      spin_lock(&uac->lock);
-      if (!rate_switched)
-        {
-          uac->data_buf_head = 0;
-          uac->data_buf_tail = 0;
-          uac->data_offset = 0;
-          (void)memset_s(uac->data_buf_flag, UAC_BUF_COUNT_MAX, UAC_BUF_IDLE, UAC_BUF_COUNT_MAX);
-        }
-      uac->connected = 1;
-      spin_unlock(&uac->lock);
-      configure_in_endpoint(uac);
-      configure_out_endpoint(uac);
-    }
-}
-
-static void fuac_request_complete(struct usbdev_ep_s *ep, struct usbdev_req_s *req)
-{
-  struct uac_dev_s *uac = (struct uac_dev_s *)req->priv;
-  uint8_t *buf = (uint8_t *)req->buf;
-  uint32_t rate = UAC_GETRATE(buf);
-  (void)ep;
-
-  switch (uac->control)
-    {
-    case UAC_SETCUR_COMPLETE:
-      uac_setcur_complete(uac, rate);
-      break;
-
-#ifndef UAC_VER_1_0
-    case UAC2_SET_SAMPLING_RATE:
-      uac2_set_sampling_rate(uac, rate);
-      break;
-#endif
-
-    default:
-      break;
-    }
-  uac->control = ~0;
-}
-
-void fuac_input_req_complete(struct usbdev_ep_s *ep, struct usbdev_req_s *req)
-{
-  struct uac_dev_s *uac = (struct uac_dev_s *)req->priv;
-  uint32_t head = uac->data_buf_head;
-  uint32_t head_next;
-
-  if (LOS_AtomicRead(&uac->busy_flag) == 0)
-    {
-      (void)LOS_EventWrite(&uac->in_complete_event, UAC_COMPLETE_EVENT);
-      return;
-    }
-
-  spin_lock(&uac->lock);
-
-  if (uac->data_buf_len != uac->data_offset)
-    {
-      uac_send_data_sub(uac);
-      spin_unlock(&uac->lock);
-      return;
-    }
-
-  uac->data_offset = 0;
-
-  head_next = (head + 1) % uac->data_buf_count;
-  if (head_next != uac->data_buf_tail && uac->data_buf_flag[head_next] == UAC_BUF_USE)
-    {
-      uac->data_buf_flag[head] = UAC_BUF_IDLE;
-      uac->data_buf_head = head_next;
-    }
-
-  uac_send_data_sub(uac);
-  spin_unlock(&uac->lock);
-}
-
-static void audio_set_endpoint_req(struct usbdev_s *dev, struct usbdev_req_s *req,
-                                   const struct usb_ctrlreq_s *ctrl)
-{
-  struct uac_dev_s *uac = (struct uac_dev_s *)req->priv;
-  uint8_t request = ctrl->req;
-  uint8_t new_req = 0;
-
-  uac->dir = UAC_DIR_INVALID;
-  req->len = USB_GETW(ctrl->len);
-
-  switch (request)
-    {
-#ifdef UAC_VER_1_0
-    case SET_CUR_UAC:
-    case SET_MIN_UAC:
-    case SET_MAX_UAC:
-    case SET_RES_UAC:
-      uac->dir = USB_GETW(ctrl->index) & 0xF0;
-#else
-    case UAC2_CS_CUR:
-      if (ctrl->value[1] == UAC2_CS_CONTROL_SAM_FREQ)
-        {
-          uac->clock_id = ctrl->index[1];
-        }
-#endif
-      new_req++;
-      break;
-
-    default:
-      usb_err("Unknown request: %#x\n", request);
-      break;
-    }
-
-  if (new_req)
-    {
-      (void)EP_SUBMIT(dev->ep0, req);
-    }
-}
-
-#ifdef UAC_VER_1_0
-static void uac_get_rate_range(uint8_t *buf, int dir)
-{
   if (dir == USB_DIR_IN)
     {
       buf[0] = (uint8_t)g_uac_opts.p_srate;
       buf[1] = (uint8_t)(g_uac_opts.p_srate >> 8);
       buf[2] = (uint8_t)(g_uac_opts.p_srate >> 16);
+      ret = 0x3;
     }
   else if (dir == USB_DIR_OUT)
     {
       buf[0] = (uint8_t)g_uac_opts.c_srate;
       buf[1] = (uint8_t)(g_uac_opts.c_srate >> 8);
       buf[2] = (uint8_t)(g_uac_opts.c_srate >> 16);
+      ret = 0x3;
+    }
+
+  return ret;
+}
+
+static void uac_set_endpoint_req(struct usbdev_s *dev, struct usbdev_req_s *req,
+                                 const struct usb_ctrlreq_s *ctrl)
+{
+  struct uac_dev_s *uac = (struct uac_dev_s *)req->priv;
+  uint8_t request = ctrl->req;
+
+  uac->dir = UAC_DIR_INVALID;
+  switch (request)
+    {
+    case SET_CUR_UAC:
+    case SET_MIN_UAC:
+    case SET_MAX_UAC:
+    case SET_RES_UAC:
+      uac->dir = USB_GETW(ctrl->index) & 0xF0;
+      req->len = MIN(USB_GETW(ctrl->len), (uint16_t)USB_COMP_EP0_BUFSIZ);
+      (void)EP_SUBMIT(dev->ep0, req);
+      break;
+
+    default:
+      usb_warn("Unknown request: %#x\n", request);
+      break;
+    }
+}
+
+static void uac_get_endpoint_req(struct usbdev_s *dev, struct usbdev_req_s *req,
+                                   const struct usb_ctrlreq_s *ctrl)
+{
+  uint8_t request = ctrl->req;
+  uint8_t *buf = (uint8_t *)req->buf;
+
+  switch (request)
+    {
+    case GET_CUR_UAC:
+    case GET_MIN_UAC:
+    case GET_MAX_UAC:
+    case GET_RES_UAC:
+      req->len = uac_get_rate_range(buf, USB_GETW(ctrl->index) & 0xF0);
+      (void)EP_SUBMIT(dev->ep0, req);
+      break;
+
+    case GET_MEM_UAC:
+      break;
+
+    default:
+      usb_warn("Unknown request: %#x\n", request);
+      break;
     }
 }
 #else
+static void uac_set_sampling_rate(struct uac_dev_s *uac, uint32_t rate)
+{
+  if (uac->clock_id == IN_CLK_ID && g_uac2_opts.p_srate_curr != rate)
+    {
+      g_uac2_opts.p_srate_curr = rate;
+      uac_set_playback_transfer_data_size(uac, g_uac2_opts.p_srate_curr, g_uac2_opts.p_ssize, g_uac2_opts.p_chmask);
+      PRINTK("<<<in ep rate:%u, size:%u>>>\n",  g_uac2_opts.p_srate_curr, g_uac_iso_data_size);
+    }
+  else if (uac->clock_id == OUT_CLK_ID && (g_uac2_opts.c_srate_curr != rate || uac->out_connected == 0))
+    {
+      g_uac2_opts.c_srate_curr = rate;
+      configure_out_endpoint(uac);
+      uac->out_connected = 1;
+      PRINTK("<<<out ep rate:%u>>>\n", g_uac2_opts.c_srate_curr);
+    }
+}
+
 static uint32_t uac2_get_rate_range(uint8_t *buf, uint32_t buf_len, uint8_t clock_id)
 {
   errno_t ret;
@@ -1075,53 +977,140 @@ static uint32_t uac2_get_rate_range(uint8_t *buf, uint32_t buf_len, uint8_t cloc
     }
   return len;
 }
-#endif
 
-static uint32_t audio_get_endpoint_req(struct usbdev_s *dev, struct usbdev_req_s *req,
-                                       const struct usb_ctrlreq_s *ctrl)
+static void uac_set_interface_req(struct usbdev_s *dev, struct usbdev_req_s *req,
+                                  const struct usb_ctrlreq_s *ctrl)
 {
+  struct uac_dev_s *uac = (struct uac_dev_s *)req->priv;
   uint8_t request = ctrl->req;
-  uint8_t new_req = 0;
-  uint8_t *buf = (uint8_t *)req->buf;
-  uint32_t ret = 0;
-
-  req->len = USB_GETW(ctrl->len);
 
   switch (request)
     {
-#ifdef UAC_VER_1_0
-    case GET_CUR_UAC:
-    case GET_MIN_UAC:
-    case GET_MAX_UAC:
-    case GET_RES_UAC:
-      uac_get_rate_range(buf, USB_GETW(ctrl->index) & 0xF0);
-      new_req++;
+    case UAC2_CS_CUR:
+      if (ctrl->value[1] == UAC2_CS_CONTROL_SAM_FREQ)
+        {
+          uac->clock_id = ctrl->index[1];
+          req->len = MIN(USB_GETW(ctrl->len), USB_COMP_EP0_BUFSIZ);
+          (void)EP_SUBMIT(dev->ep0, req);
+        }
       break;
 
-    case GET_MEM_UAC:
+    default:
+      usb_warn("Unknown request: %#x\n", request);
       break;
-#else
+    }
+}
+
+static void uac_get_interface_req(struct usbdev_s *dev, struct usbdev_req_s *req,
+                                  const struct usb_ctrlreq_s *ctrl)
+{
+  uint8_t request = ctrl->req;
+  uint8_t *buf = (uint8_t *)req->buf;
+  uint32_t buf_len;
+
+  buf_len = MIN(USB_GETW(ctrl->len), USB_COMP_EP0_BUFSIZ);
+  switch (request)
+    {
     case UAC2_CS_RANGE:
       if (ctrl->value[1] == UAC2_CS_CONTROL_SAM_FREQ)
         {
-          ret = uac2_get_rate_range(buf, req->len, ctrl->index[1]);
-          new_req++;
-          req->len = ret;
+          req->len = uac2_get_rate_range(buf, buf_len, ctrl->index[1]);
+          (void)EP_SUBMIT(dev->ep0, req);
         }
       break;
-#endif
 
     default:
-      usb_err("Unknown request: %#x\n", request);
+      usb_warn("Unknown request: %#x\n", request);
       break;
     }
+}
+#endif
 
-  if (new_req)
+static void uac_free_req(struct usbdev_ep_s *ep, struct usbdev_req_s *req, uint8_t is_free_buf)
+{
+  if (is_free_buf)
     {
-      (void)EP_SUBMIT(dev->ep0, req);
+      EP_FREEBUFFER(ep, req->buf);
     }
 
-  return ret;
+  EP_FREEREQ(ep, req);
+}
+
+static struct usbdev_req_s *uac_alloc_req(struct usbdev_ep_s *ep, uint16_t len)
+{
+  struct usbdev_req_s *req;
+
+  req = EP_ALLOCREQ(ep);
+  if (req == NULL)
+    {
+      return NULL;
+    }
+
+  if (len == 0)
+    {
+      return req;
+    }
+
+  req->len = len;
+  req->buf = EP_ALLOCBUFFER(ep, len);
+  if (req->buf == NULL)
+    {
+      EP_FREEREQ(ep, req);
+      req = NULL;
+    }
+
+  return req;
+}
+
+static void fuac_request_complete(struct usbdev_ep_s *ep, struct usbdev_req_s *req)
+{
+  struct uac_dev_s *uac = (struct uac_dev_s *)req->priv;
+  uint8_t *buf = (uint8_t *)req->buf;
+  (void)ep;
+
+  switch (uac->control)
+    {
+    case UAC_SET_SAMPLING_RATE:
+      uac_set_sampling_rate(uac, UAC_GETRATE(buf));
+      break;
+
+    default:
+      break;
+    }
+  uac->control = ~0;
+}
+
+void fuac_input_req_complete(struct usbdev_ep_s *ep, struct usbdev_req_s *req)
+{
+  struct uac_dev_s *uac = (struct uac_dev_s *)req->priv;
+  uint32_t head = uac->data_buf_head;
+  uint32_t head_next;
+
+  if (LOS_AtomicRead(&uac->busy_flag) == 0)
+    {
+      (void)LOS_EventWrite(&uac->in_complete_event, UAC_COMPLETE_EVENT);
+      return;
+    }
+
+  spin_lock(&uac->lock);
+
+  if (uac->data_buf_len != uac->data_offset)
+    {
+      uac_send_data_sub(uac);
+      spin_unlock(&uac->lock);
+      return;
+    }
+
+  head_next = (head + 1) % uac->data_buf_count;
+  if (head_next != uac->data_buf_tail && uac->data_buf_flag[head_next] == UAC_BUF_USE)
+    {
+      uac->data_offset = 0;
+      uac->data_buf_flag[head] = UAC_BUF_IDLE;
+      uac->data_buf_head = head_next;
+    }
+
+  uac_send_data_sub(uac);
+  spin_unlock(&uac->lock);
 }
 
 static void fuac_source_free(const struct usbdevclass_driver_s *driver, struct usbdev_s *dev)
@@ -1137,10 +1126,10 @@ static void fuac_source_free(const struct usbdevclass_driver_s *driver, struct u
     }
 
 #if UAC_GADGET_SPEAKER
-  if (uac->outputreq.buf != NULL)
+  if (uac->outputreq != NULL)
     {
-      free(uac->outputreq.buf);
-      uac->outputreq.buf = NULL;
+      uac_free_req(uac->out_ep, uac->outputreq, 1);
+      uac->outputreq = NULL;
     }
   if (uac->out_ep != NULL)
     {
@@ -1151,6 +1140,11 @@ static void fuac_source_free(const struct usbdevclass_driver_s *driver, struct u
   (void)LOS_EventDestroy(&uac->out_event);
 #endif
 
+  if (uac->inputreq != NULL)
+    {
+      uac_free_req(uac->in_ep, uac->inputreq, 0);
+      uac->inputreq = NULL;
+    }
   if (uac->in_ep != NULL)
     {
       DEV_FREEEP(dev, uac->in_ep);
@@ -1217,18 +1211,16 @@ static int usbclass_uac_bind(struct usbdevclass_driver_s *driver, struct usbdev_
   ep->priv    = (void *)uac;
   uac->out_ep = ep;
 
-  (void)memset_s(&(uac->outputreq), sizeof(struct usbdev_req_s), 0, sizeof(struct usbdev_req_s));
-  uac->outputreq.callback = fuac_output_request_complete;
-  uac->outputreq.priv     = (void *)uac;
-  uac->outputreq.buf      = memalign(USB_CACHE_ALIGN_SIZE, ISO_DATA_SIZE);
-  if (uac->outputreq.buf == NULL)
+  uac->outputreq = uac_alloc_req(uac->out_ep, ISO_DATA_SIZE);
+  if (uac->outputreq == NULL)
     {
-      usb_err("Malloc output buf failed!\n");
+      usb_err("Malloc output req failed!\n");
       goto fail;
     }
-  uac->outputreq.len      = ISO_DATA_SIZE;
-  ep->handle_req          = &uac->outputreq;
-  devinfo->epno[0]        = ep->eplog;
+  uac->outputreq->priv     = (void *)uac;
+  uac->outputreq->callback = fuac_output_request_complete;
+  ep->handle_req           = uac->outputreq;
+  devinfo->epno[0]         = ep->eplog;
 #endif
 
   /* Initialize AudioStreaming IN endpoint */
@@ -1239,12 +1231,17 @@ static int usbclass_uac_bind(struct usbdevclass_driver_s *driver, struct usbdev_
     {
       goto fail;
     }
-  (void)memset_s(&uac->inputreq, sizeof(struct usbdev_req_s), 0, sizeof(struct usbdev_req_s));
-  uac->inputreq.callback            = fuac_input_req_complete;
-  uac->inputreq.priv                = (void *)uac;
-  uac->inputreq.buf                 = NULL;
+
+  uac->inputreq = uac_alloc_req(ep, 0);
+  if (uac->inputreq == NULL)
+    {
+      usb_err("Malloc input req failed!\n");
+      goto fail;
+    }
+  uac->inputreq->callback           = fuac_input_req_complete;
+  uac->inputreq->priv               = (void *)uac;
   ep->priv                          = (void *)uac;
-  ep->handle_req                    = &uac->inputreq;
+  ep->handle_req                    = uac->inputreq;
   uac->in_ep                        = ep;
   devinfo->epno[UAC_GADGET_SPEAKER] = ep->eplog;
   uac->control                      = ~0;
@@ -1270,7 +1267,7 @@ static int usbclass_uac_unbind(struct usbdevclass_driver_s *driver, struct usbde
     }
 
   uac_dev = ((struct uac_driver_s *)driver)->dev;
-  if (LOS_AtomicRead(&uac_dev->busy_flag) || uac_dev->data_buf_count != 0)
+  if (uac_dev->data_buf_count != 0)
     {
       usb_err("uac device is busy! \n");
       return -1;
@@ -1296,21 +1293,83 @@ static int usbclass_uac_unbind(struct usbdevclass_driver_s *driver, struct usbde
   return 0;
 }
 
-static int usbclass_uac_set_alt(struct uac_dev_s *dev, unsigned intf, unsigned alt)
+static void usbclass_uac_set_configuration(struct uac_dev_s *dev)
 {
-  (void)intf;
-  (void)alt;
-
-  dev->busy_flag = 0;
-
+  dev->in_connected = 0;
   if (dev->in_ep_enabled == true)
     {
       (void)EP_DISABLE(dev->in_ep);
       dev->in_ep_enabled = false;
     }
 
-  (void)EP_CONFIGURE(dev->in_ep, (const struct usb_epdesc_s *)&g_fuac_as_in_ep_desc, 0);
-  dev->in_ep_enabled = true;
+#if UAC_GADGET_SPEAKER
+  dev->out_connected = 0;
+  if (dev->out_ep_enabled == true)
+    {
+      (void)EP_DISABLE(dev->out_ep);
+      dev->out_ep_enabled = false;
+    }
+#endif
+}
+
+static void uac_start_playback(struct uac_dev_s *dev)
+{
+#ifdef UAC_VER_1_0
+  uac_set_playback_transfer_data_size(dev, g_uac_opts.p_srate, g_uac_opts.p_ssize, g_uac_opts.p_chmask);
+#else
+  uac_set_playback_transfer_data_size(dev, g_uac2_opts.p_srate_curr, g_uac2_opts.p_ssize, g_uac2_opts.p_chmask);
+#endif
+
+  if (dev->in_ep_enabled == false)
+    {
+      (void)EP_CONFIGURE(dev->in_ep, (const struct usb_epdesc_s *)&g_fuac_as_in_ep_desc, 0);
+      dev->in_ep_enabled = true;
+    }
+  dev->in_connected = 1;
+}
+
+static void uac_stop_playback(struct uac_dev_s *dev)
+{
+  spin_lock(&dev->lock);
+  dev->in_connected = 0;
+  LOS_AtomicSet(&dev->busy_flag, 0);
+  if (dev->in_ep_enabled == true)
+    {
+      (void)EP_DISABLE(dev->in_ep);
+      EP_FLUSH(dev->in_ep);
+      dev->in_ep_enabled = false;
+    }
+
+  dev->data_buf_head = 0;
+  dev->data_buf_tail = 0;
+  dev->data_offset = 0;
+  (void)memset_s(dev->data_buf_flag, UAC_BUF_COUNT_MAX, UAC_BUF_IDLE, UAC_BUF_COUNT_MAX);
+  spin_unlock(&dev->lock);
+}
+
+static int usbclass_uac_set_alt(struct uac_dev_s *dev, unsigned intf, unsigned alt)
+{
+  if (alt > 1)
+    {
+      return -1;
+    }
+
+  /* Currently, only the microphone scene supports pausing and resuming data streaming,
+   * but the speaker scene does not. Therefore, if there is a mismatch in the speaker scene,
+   * no error will be reported.
+   */
+
+  if (intf == g_fuac_as_in_alt_1_desc.ifno)
+    {
+      if (alt)
+        {
+          uac_start_playback(dev);
+        }
+      else
+        {
+          uac_stop_playback(dev);
+        }
+    }
 
   return 0;
 }
@@ -1322,6 +1381,7 @@ static int usbclass_uac_setup(struct usbdevclass_driver_s *driver, struct usbdev
   struct uac_dev_s *uac;
   struct uac_driver_s *drvr;
   struct usbdev_req_s *req;
+  int ret = 0;
 
   (void)dataout;
   (void)outlen;
@@ -1338,19 +1398,18 @@ static int usbclass_uac_setup(struct usbdevclass_driver_s *driver, struct usbdev
       return -1;
     }
 
-  req           = dev->ep0->handle_req;
-  req_type      = ctrl->type;
-  req->callback = fuac_request_complete;
-  req->priv     = uac;
+  req      = dev->ep0->handle_req;
+  req_type = ctrl->type;
 
   if ((req_type & USB_REQ_TYPE_MASK) == USB_REQ_TYPE_STANDARD)
     {
       switch (ctrl->req)
         {
         case USB_REQ_SETCONFIGURATION:
-          uac->connected = 0;
+          usbclass_uac_set_configuration(uac);
+          break;
         case USB_REQ_SETINTERFACE:
-          (void)usbclass_uac_set_alt(uac, USB_GETW(ctrl->index), USB_GETW(ctrl->value));
+          ret = usbclass_uac_set_alt(uac, USB_GETW(ctrl->index), USB_GETW(ctrl->value));
           break;
 
         default:
@@ -1361,28 +1420,35 @@ static int usbclass_uac_setup(struct usbdevclass_driver_s *driver, struct usbdev
     {
       switch (req_type)
         {
-        case USB_DIR_OUT | USB_REQ_TYPE_CLASS | USB_REQ_RECIPIENT_INTERFACE:
+#ifdef UAC_VER_1_0
         case USB_DIR_OUT | USB_REQ_TYPE_CLASS | USB_REQ_RECIPIENT_ENDPOINT:
-          audio_set_endpoint_req(dev, req, ctrl);
-          uac->control = UAC_SET_EP_CONTROL;
+          req->callback = fuac_request_complete;
+          req->priv     = uac;
+          uac_set_endpoint_req(dev, req, ctrl);
+          uac->control  = UAC_SET_SAMPLING_RATE;
+          break;
+
+        case USB_DIR_IN | USB_REQ_TYPE_CLASS | USB_REQ_RECIPIENT_ENDPOINT:
+          uac_get_endpoint_req(dev, req, ctrl);
+          break;
+#else
+        case USB_DIR_OUT | USB_REQ_TYPE_CLASS | USB_REQ_RECIPIENT_INTERFACE:
+          req->callback = fuac_request_complete;
+          req->priv     = uac;
+          uac_set_interface_req(dev, req, ctrl);
+          uac->control  = UAC_SET_SAMPLING_RATE;
           break;
 
         case USB_DIR_IN | USB_REQ_TYPE_CLASS | USB_REQ_RECIPIENT_INTERFACE:
-        case USB_DIR_IN | USB_REQ_TYPE_CLASS | USB_REQ_RECIPIENT_ENDPOINT:
-
-          /* The return value is applicable only to UAC2.0. */
-
-          if (audio_get_endpoint_req(dev, req, ctrl) > 0)
-            {
-              uac->control = UAC_SETCUR_COMPLETE;
-            }
+          uac_get_interface_req(dev, req, ctrl);
           break;
+#endif
 
         default:
           break;
         }
     }
-  return 0;
+  return ret;
 }
 
 static void usbclass_uac_disconnect(struct usbdevclass_driver_s *driver, struct usbdev_s *dev)
@@ -1397,13 +1463,10 @@ static void usbclass_uac_disconnect(struct usbdevclass_driver_s *driver, struct 
       return;
     }
 
-  if (uac_dev->in_ep_enabled == true)
-    {
-      (void)EP_DISABLE(uac_dev->in_ep);
-      uac_dev->in_ep_enabled = false;
-    }
+  uac_stop_playback(uac_dev);
 
 #if UAC_GADGET_SPEAKER
+  uac_dev->out_connected = 0;
   if (uac_dev->out_ep_enabled == true)
     {
       (void)EP_DISABLE(uac_dev->out_ep);
@@ -1414,10 +1477,6 @@ static void usbclass_uac_disconnect(struct usbdevclass_driver_s *driver, struct 
   uac_free_out_queue(uac_dev);
   spin_unlock(&uac_dev->lock);
 #endif
-
-  spin_lock(&uac_dev->lock);
-  uac_dev->connected = 0;
-  spin_unlock(&uac_dev->lock);
 }
 
 static struct usbd_string g_fuac_device_strings[] =
@@ -1488,18 +1547,6 @@ int16_t uac_mkcfgdesc(uint8_t *buf, struct usbdev_devinfo_s *devinfo, uint8_t sp
   uint8_t *des;
   errno_t ret;
 
-  g_fuac_iad.firstif = devinfo->ifnobase;
-  g_fuac_ac_intf_desc.ifno = devinfo->ifnobase;
-#if UAC_GADGET_SPEAKER
-  g_fuac_as_out_alt_0_desc.ifno = devinfo->ifnobase + 1;
-  g_fuac_as_out_alt_1_desc.ifno = devinfo->ifnobase + 1;
-#endif
-  g_fuac_as_in_alt_0_desc.ifno = devinfo->ifnobase + 1 + UAC_GADGET_SPEAKER;
-  g_fuac_as_in_alt_1_desc.ifno = devinfo->ifnobase + 1 + UAC_GADGET_SPEAKER;
-#ifdef UAC_VER_1_0
-  g_fuac_ac_head_desc.bIfnr[0] = devinfo->ifnobase + 1;
-  g_fuac_ac_head_desc.bIfnr[UAC_GADGET_SPEAKER] = devinfo->ifnobase + 1 + UAC_GADGET_SPEAKER;
-#endif
   uac_set_channel_num();
 
   des = link_fuac_descriptors(&total_len);
@@ -1633,6 +1680,19 @@ void usbdev_uac_initialize_sub(struct composite_devdesc_s *dev, int ifnobase, in
 
   dev->classobject  = uac_classobject;
   dev->uninitialize = uac_uninitialize;
+
+  g_fuac_iad.firstif = ifnobase;
+  g_fuac_ac_intf_desc.ifno = ifnobase;
+#if UAC_GADGET_SPEAKER
+  g_fuac_as_out_alt_0_desc.ifno = ifnobase + 1;
+  g_fuac_as_out_alt_1_desc.ifno = ifnobase + 1;
+#endif
+  g_fuac_as_in_alt_0_desc.ifno = ifnobase + 1 + UAC_GADGET_SPEAKER;
+  g_fuac_as_in_alt_1_desc.ifno = ifnobase + 1 + UAC_GADGET_SPEAKER;
+#ifdef UAC_VER_1_0
+  g_fuac_ac_head_desc.bIfnr[0] = ifnobase + 1;
+  g_fuac_ac_head_desc.bIfnr[UAC_GADGET_SPEAKER] = ifnobase + 1 + UAC_GADGET_SPEAKER;
+#endif
 
   dev->devinfo.ifnobase = ifnobase; /* Offset to Interface-IDs */
   dev->minor            = minor;    /* The minor interface number */

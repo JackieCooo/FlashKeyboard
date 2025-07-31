@@ -619,7 +619,11 @@ SECTIONS
     g_ram_size = LENGTH(DTCM);
 
     /* Initialised data */
+#ifdef RAM_PARTIAL_RETENTION
     .data : ALIGN(32)
+#else
+    .data :
+#endif
     {
         . = ALIGN(8);
         FILL(0xFF)
@@ -706,3 +710,9 @@ SECTIONS
         KEEP(*(patch.soft))
     } > SYMBOL_UNREACH
 }
+
+#ifdef RAM_PARTIAL_RETENTION
+ASSERT((__data_load__ - __flash_text_end_) < 32, "The new section is not linked.");
+#else
+ASSERT((__data_load__ - __flash_text_end_) < 8, "The new section is not linked.");
+#endif

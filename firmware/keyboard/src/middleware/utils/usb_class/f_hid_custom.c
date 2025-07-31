@@ -158,7 +158,11 @@ static struct usb_ifdesc_s g_fhid_intf_desc =
   .type     = USB_DESC_TYPE_INTERFACE,
   .ifno     = 0,    /* Index number of this interface */
   .alt      = 0,    /* Index of this settings */
+#ifdef CONFIG_DRIVERS_USB_HID_CUSTOM_ENABLE_OUT_EP
   .neps     = 2,    /* Number of endpoint */
+#else
+  .neps     = 1,    /* Number of endpoint */
+#endif
   .classid  = 0x03, /* bInterfaceClass: HID */
   .subclass = 1,    /* bInterfaceSubClass : 1=BOOT, 0=no boot */
   .protocol = 0,    /* bInterfaceProtocol : 0=none, 1=keyboard, 2=mouse */
@@ -270,7 +274,9 @@ static const uint8_t *g_fhid_desc_array[HID_DESC_ARRAY_MAX_NUM] =
     (const uint8_t *)&g_fhid_intf_desc,
     (const uint8_t *)&g_fhid_desc,
     (const uint8_t *)&g_fhid_in_ep_desc,
+#ifdef CONFIG_DRIVERS_USB_HID_CUSTOM_ENABLE_OUT_EP
     (const uint8_t *)&g_fhid_out_ep_desc,
+#endif
 #ifdef CONFIG_RCU_MASS_PRODUCTION_TEST
     (const uint8_t *)&g_fhid_intf2_desc,
     (const uint8_t *)&g_fhid2_desc,
@@ -874,6 +880,36 @@ static void usb_init_suc(void)
   }
 }
 
+static void usbclass_hid_get_descriptor(struct usbdev_s *dev, uint16_t len, uint16_t index)
+{
+  struct usbdev_req_s *req = dev->ep0->handle_req;
+  errno_t ret;
+  uint16_t offset = 0;
+  for (uint32_t i = 0; i < HID_DESC_ARRAY_MAX_NUM; i++)
+  {
+    if (g_fhid_desc_array[i] == NULL)
+    {
+      usb_err("not matched index\n");
+      return;
+    }
+    struct usb_ifdesc_s *intf_desc = (struct usb_ifdesc_s *)g_fhid_desc_array[i];
+    if (intf_desc->type == USB_DESC_TYPE_INTERFACE && intf_desc->ifno == index)
+    {
+      offset = i + 1;
+      break;
+    }
+  }
+  ret = memcpy_s(req->buf, USB_COMP_EP0_BUFSIZ,
+    g_fhid_desc_array[offset], g_fhid_desc.bLength);
+  if (ret != EOK)
+    {
+      usb_err("memcpy fail\n");
+      return;
+    }
+
+  req->len = MIN(len, g_fhid_desc.bLength);
+}
+
 static int usbclass_hid_setup(struct usbdevclass_driver_s *driver, struct usbdev_s *dev,
                               const struct usb_ctrlreq_s *ctrl, uint8_t *dataout, size_t outlen)
 {
@@ -930,6 +966,11 @@ static int usbclass_hid_setup(struct usbdevclass_driver_s *driver, struct usbdev
             if (MSBYTE(value) == USB_HID_REPORT && index < g_fhid_report_map.report_num)
               {
                 usbclass_hid_get_report(dev, len, index);
+                new_req = 1;
+              }
+              else if (MSBYTE(value) == USB_DESC_TYPE_HID && index < g_fhid_report_map.report_num)
+              {
+                usbclass_hid_get_descriptor(dev, len, index);
                 new_req = 1;
               }
           }

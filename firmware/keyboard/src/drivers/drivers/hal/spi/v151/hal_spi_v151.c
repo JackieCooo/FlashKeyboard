@@ -374,7 +374,12 @@ errcode_t hal_spi_v151_write(spi_bus_t bus, hal_spi_xfer_data_t *data, uint32_t 
         hal_spi_ssienr_set_ssi_en(bus, 0);
         if (data->rx_bytes > 0 && data->rx_buff != NULL) {
             hal_spi_v151_spi_mcr_set_mtrc(bus, 0);
-            hal_spi_v151_spi_ctrb_set_nrdf(bus, (uint32_t)(data->rx_bytes / frame_bytes) - 1);
+            if (data->rx_bytes > 1) {
+                hal_spi_v151_spi_mcr_set_mss(bus, true);
+                hal_spi_v151_spi_ctrb_set_nrdf(bus, (uint32_t)(data->rx_bytes / frame_bytes) - 0x1);
+            } else {
+                hal_spi_v151_spi_mcr_set_mss(bus, false);
+            }
         } else {
             hal_spi_v151_spi_mcr_set_mtrc(bus, 1);
         }

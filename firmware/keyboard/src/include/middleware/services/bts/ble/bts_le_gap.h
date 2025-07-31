@@ -455,6 +455,45 @@ typedef struct {
 
 /**
  * @if Eng
+ * @brief Enum of scan filter duplicates.
+ * @else
+ * @brief 扫描过滤配置
+ * @endif
+ */
+typedef enum {
+    GAP_BLE_FILTER_DUPLICATES_DISABLE = 0,       /*!< @if Eng reports each received broadcast packet
+                                                      @else   上报每个收到的广播包 @endif */
+    GAP_BLE_FILTER_DUPLICATES_ENABLE,            /*!< @if Eng do not report duplicate broadcast packets
+                                                      @else   不上报重复的广播包 @endif */
+    GAP_BLE_FILTER_DUPLICATES_ENABLE_FOR_PERIOD, /*!< @if Eng do not report duplicate broadcast packets
+                                                              in a period.
+                                                      @else   周期内不上报重复的广播包 @endif */
+} gap_ble_filter_duplicates_t;
+
+/**
+ * @if Eng
+ * @brief Struct of BLE scan extended parameters.
+ * @else
+ * @brief BLE扫描扩展参数。
+ * @endif
+ */
+typedef struct {
+    uint8_t filter_duplicate; /*!< @if Eng Scan filter duplicates { @ref gap_ble_filter_duplicates_t }
+                                   @else   扫描的过滤配置 { @ref gap_ble_filter_duplicates_t } @endif */
+    uint8_t limited;          /*!< @if Eng Reserved field
+                                   @else   保留字段 @endif */
+    uint16_t duration;        /*!< @if Eng Indicates the scanning duration. The value 0 indicates
+                                           continuous scanning. The default value is 0. Unit: 10 ms.
+                                   @else   扫描的持续时间，0表示持续扫描，默认值为0，单位: 10ms @endif */
+    uint16_t period;          /*!< @if Eng Indicates the scanning period. When the value is 0,
+                                           the scanning ends after the specified duration.
+                                           The default value is 0. Unit: 1.28s.
+                                   @else   扫描周期, 取0时扫描执行duration时间后会超时结束
+                                           默认值为0, 单位: 1.28s @endif */
+} gap_ble_extern_scan_params_t;
+
+/**
+ * @if Eng
  * @brief Enum of Bluetooth pairing state.
  * @else
  * @brief 蓝牙配对状态。
@@ -1372,6 +1411,25 @@ errcode_t gap_ble_set_scan_parameters(const gap_ble_scan_params_t *param);
 
 /**
  * @if Eng
+ * @brief Use this funtion to set scan extended parameters.
+ * @par   Use this funtion to set scan extended parameters.
+ * @param  [in] param scan extended parameters.
+ * @retval error code.
+ * @par Dependency:
+ * @li  bts_def.h
+ * @else
+ * @brief  设置扫描扩展参数。
+ * @par    设置扫描扩展参数。
+ * @param  [in] param 扫描扩展参数。
+ * @retval 执行结果错误码。
+ * @par 依赖:
+ * @li  bts_def.h
+ * @endif
+ */
+errcode_t gap_ble_set_scan_extern_parameters(const gap_ble_extern_scan_params_t *param);
+
+/**
+ * @if Eng
  * @brief Use this funtion to start scan.
  * @par   Use this funtion to start scan.
  * @retval error code, the scan result will be returned at { @ref gap_ble_scan_result_callback }.
@@ -1819,8 +1877,8 @@ errcode_t bth_ota_init(void);
  * @if Eng
  * @brief Use this funtion to config customize information.
  * @par   Use this funtion to config customize information.
- * @param  [in]  ble_pwr ble max power.
- * @param  [in]  sle_pwr sle max power.
+ * @param  [in]  gfsk_pwr ble/sle GFSK max power.
+ * @param  [in]  psk_pwr sle PSK max power.
  * @retval ERRCODE_SUCC Success.
  * @retval Other        Failure. For details, see @ref errcode_t
  * @par Dependency:
@@ -1828,15 +1886,15 @@ errcode_t bth_ota_init(void);
  * @else
  * @brief  配置定制化信息
  * @par    配置定制化信息
- * @param  [in]  ble_pwr ble 最大功率.
- * @param  [in]  sle_pwr sle 最大功率.
+ * @param  [in]  gfsk_pwr ble/sle GFSK 最大功率.
+ * @param  [in]  psk_pwr sle PSK 最大功率.
  * @retval ERRCODE_SUCC 成功。
  * @retval Other        失败。参考 @ref errcode_t
  * @par 依赖:
  * @li  bt_data_config.h
  * @endif
  */
-errcode_t ble_customize_max_pwr(int8_t ble_pwr, int8_t sle_pwr);
+errcode_t ble_customize_max_pwr(int8_t gfsk_pwr, int8_t psk_pwr);
 
 /**
  * @if Eng

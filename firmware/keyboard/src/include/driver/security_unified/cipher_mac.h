@@ -2,7 +2,7 @@
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2024-2024. All rights reserved. \n
  *
  * Description: Provides cipher mac driver header \n
- * \n
+ * Author:  \n
  * History: \n
  * 2024-01-24, Create file. \n
  */

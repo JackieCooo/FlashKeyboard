@@ -12,6 +12,8 @@ set(PUBLIC_HEADER
     ${CMAKE_CURRENT_SOURCE_DIR}/br
     ${CMAKE_CURRENT_SOURCE_DIR}/common
     ${CMAKE_CURRENT_SOURCE_DIR}/sle
+    ${CMAKE_CURRENT_SOURCE_DIR}/slem/slem_posalg
+    ${CMAKE_CURRENT_SOURCE_DIR}/slem/slem_appalg
 )
 
 set(PRIVATE_HEADER

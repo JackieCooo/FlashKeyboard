@@ -88,4 +88,10 @@ typedef struct {
 typedef struct {
     uint32_t board_ant_trx_time_delay;
 } slp_air_mouse_time_delay_cali_info_type_t;
+
+typedef struct {
+    int32_t x;
+    int32_t y;
+    int32_t z;
+} slp_air_mouse_gyro_zero_offset_type_t;
 #endif /* COMMON_H */

@@ -70,14 +70,10 @@ extern "C" {
 
 #define DIV_ROUND_UP(n,d)   (((n) + (d) - 1) / (d))
 
-#define UAC_GETRATE(ptr)           \
-  ((uint32_t)((ptr)[0])          | \
-  (((uint32_t)((ptr)[1])) << 8)  | \
-  (((uint32_t)((ptr)[2])) << 16))
+#define UAC_COMPLETE_EVENT         0x1
+#define UAC_COMPLETE_EVENT_TIMEOUT 3
 
-#define UAC_COMPLETE_EVENT 0x1
-
-#define UAC_BUF_COUNT_MAX 10
+#define UAC_BUF_COUNT_MAX    10
 
 enum uac_buf_state
 {
@@ -90,17 +86,17 @@ struct uac_dev_s
   uint8_t            *descs;  /* Pointer to the concatenated descriptors */
   uint32_t           desl;    /* Length of all descriptors */
   uint32_t           control; /* Class-specific control request value */
-  struct usbdev_ep_s *out_ep; /* Control transfer endpoint */
-  struct usbdev_ep_s *in_ep;  /* Audio Streaming endpoint */
+  struct usbdev_ep_s *out_ep; /* Audio OUT streaming endpoint */
+  struct usbdev_ep_s *in_ep;  /* Audio IN streaming endpoint */
   bool               out_ep_enabled;
   bool               in_ep_enabled;
 
-  struct usbdev_req_s ctrlreq;   /* Control request */
-  struct usbdev_req_s outputreq; /* Audio Control request */
-  struct usbdev_req_s inputreq;  /* Audio Streaming request */
+  struct usbdev_req_s *outputreq; /* Audio OUT streaming request */
+  struct usbdev_req_s *inputreq;  /* Audio IN streaming request */
   uint32_t            dyn_fc;    /* Dynamic format change, non-zero indicates that format change occurred */
 
-  volatile int connected;        /* Connected to USB host ? */
+  volatile int in_connected;     /* Audio IN connected to USB host ? */
+  volatile int out_connected;    /* Audio OUT connected to USB host ? */
   uint32_t     fid;              /* Frame Identifier */
 
   uint8_t    *data_buf[UAC_BUF_COUNT_MAX];     /* Address to store audio data to be sent */
@@ -113,7 +109,6 @@ struct uac_dev_s
   uint32_t   data_offset;    /* The data length of the current audio data buf that has been taken away by the Host */
   uint32_t   data_buf_head;  /* The index number corresponding to the audio data buf sent to the USB controller layer */
   uint32_t   data_buf_tail;  /* The application layer obtains the index number corresponding to the UAC idle buf */
-  int        p_srate;        /* Playback sample rate before switching */
   EVENT_CB_S in_complete_event;
 
   volatile Atomic        busy_flag;
@@ -317,9 +312,7 @@ struct uac_feature_unit_descriptor
 #define UAC_VS_UPDATE_FRAME_SEGMENT_CONTROL        0x08
 #define UAC_VS_SYNCH_DELAY_CONTROL                 0x09
 
-#define UAC_SETCUR_COMPLETE             0xfe
-
-#define UAC2_SET_SAMPLING_RATE          0xffe
+#define UAC_SET_SAMPLING_RATE           0xffe
 
 /* Audio Class-Specific AC Interface Descriptor Subtypes, UAC spec. 1.0 table A-5, UAC spec. 2.0 Table A-9. */
 
@@ -387,11 +380,6 @@ struct uac_feature_unit_descriptor
 #define UAC_SAMPLING_RATE_192K    192000
 #define UAC_SAMPLING_RATE_384K    384000
 
-#define UAC_DEF_CSRATE            UAC_SAMPLING_RATE_48K
-#define UAC_DEF_PSRATE            UAC_SAMPLING_RATE_8K
-#define UAC_DEF_CSSIZE            2
-#define UAC_DEF_PSSIZE            2
-
 #if defined(CONFIG_DRIVERS_USB_UAC_GADGET_VER_1_0_SPEAKER) || defined(CONFIG_DRIVERS_USB_UAC_GADGET_VER_2_0)
 #define UAC_GADGET_SPEAKER        1
 #else
@@ -424,24 +412,49 @@ struct uac_feature_unit_descriptor
 #ifdef UAC_VER_1_0
 #define UAC_VERSION               0
 #define UAC_SPEC_VERSION          0x100
+#define UAC_AC_IF_STRDESC_LEN     38
+#define UAC_EP_TRANSFER_TYPE      (USB_EP_ATTR_XFER_ISOC | USB_EP_ATTR_ASYNC)
+#define UAC_GETRATE(ptr)            \
+  ((uint32_t)((ptr)[0])           | \
+  (((uint32_t)((ptr)[1])) << 8)   | \
+  (((uint32_t)((ptr)[2])) << 16))
+
+#ifdef CONFIG_DRIVERS_USB_UAC_CHANNEL_1
 #define UAC_CHANNEL_NUM           1
 #define UAC_DEF_PCHMASK           0x1    /* Playback support signal channel. */
 #define UAC_DEF_CCHMASK           0x1
-#define UAC_AC_IF_STRDESC_LEN     38
-#define UAC_EP_TRANSFER_TYPE      (USB_EP_ATTR_XFER_ISOC | USB_EP_ATTR_ASYNC)
-#define UAC_SET_EP_CONTROL        UAC_SETCUR_COMPLETE
-#else
+#elif CONFIG_DRIVERS_USB_UAC_CHANNEL_2
+#define UAC_CHANNEL_NUM           2
+#define UAC_DEF_PCHMASK           0x3    /* Playback support dual channel. */
+#define UAC_DEF_CCHMASK           0x3
+#elif CONFIG_DRIVERS_USB_UAC_CHANNEL_4
+#define UAC_CHANNEL_NUM           4
+#define UAC_DEF_PCHMASK           0xf    /* Playback support four channel. */
+#define UAC_DEF_CCHMASK           0xf
+#endif /* CONFIG_DRIVERS_USB_UAC_CHANNEL_1 */
+#ifdef CONFIG_DRIVERS_USB_UAC_BIT_DEPTH_16
+#define UAC_BIT_DEPTH             16
+#elif CONFIG_DRIVERS_USB_UAC_BIT_DEPTH_24
+#define UAC_BIT_DEPTH             24
+#endif /* CONFIG_DRIVERS_USB_UAC_BIT_DEPTH_16 */
+#else  /* UAC_VER_2_0 */
 #define UAC_VERSION               0x20
 #define UAC_SPEC_VERSION          0x200
 #define UAC_CHANNEL_NUM           2
 #define UAC_DEF_PCHMASK           0x3    /* Playback support dual channel. */
 #define UAC_DEF_CCHMASK           0x3
+#define UAC_BIT_DEPTH             16
 #define UAC_AC_IF_STRDESC_LEN     44
 #define UAC_EP_TRANSFER_TYPE      (USB_EP_ATTR_XFER_ISOC | USB_EP_ATTR_SYNC)
-#define UAC_SET_EP_CONTROL        UAC2_SET_SAMPLING_RATE
 
 #define CONTROL_RDWR              3
-#endif
+#define UAC_GETRATE(ptr)          USB_GETDW(ptr)
+#endif /* UAC_VER_1_0 */
+
+#define UAC_DEF_CSRATE            UAC_SAMPLING_RATE_48K
+#define UAC_DEF_PSRATE            UAC_SAMPLING_RATE_8K
+#define UAC_DEF_CSSIZE            UAC_BIT_DEPTH / 8
+#define UAC_DEF_PSSIZE            UAC_BIT_DEPTH / 8
 
 #define UAC_DIR_INVALID           -1
 

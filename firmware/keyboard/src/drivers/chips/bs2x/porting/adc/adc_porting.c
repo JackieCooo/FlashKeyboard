@@ -48,6 +48,7 @@ static const trim_cfg_t g_trim_cfg[] = {
     { 0x8, 0xF4, 0x5, 0x4 }, // efuse: 0x5702886C[8-11], VREFLDO_trim: 0x570363F4[5-8]
 };
 static afe_config_t g_afe_cail_code = { 0 };
+static bool g_adc_entirely_status = false;
 
 void adc_port_register_hal_funcs(void)
 {
@@ -332,6 +333,7 @@ static bool adc_channel_vaild_check(adc_channel_t channel)
 errcode_t adc_port_gadc_entirely_open(adc_channel_t channel, bool self_cali)
 {
     if (!adc_channel_vaild_check(channel)) { return ERRCODE_ADC_INVALID_PARAMETER; }
+    if (g_adc_entirely_status) { return ERRCODE_SUCC; }
     pin_t adc_pin[] = {S_MGPIO2, S_MGPIO3, S_MGPIO4, S_MGPIO5, S_MGPIO28, S_MGPIO29, S_MGPIO30, S_MGPIO31};
     uapi_adc_init(ADC_CLOCK_NONE);
 #if defined(CONFIG_PINCTRL_SUPPORT_IE)
@@ -346,14 +348,21 @@ errcode_t adc_port_gadc_entirely_open(adc_channel_t channel, bool self_cali)
     if (self_cali) {
         adc_calibration(AFE_GADC_MODE, true, true, true);
     } else {
+        afe_config_t afe_cail_code = { 0 };
+        if (memcmp(&g_afe_cail_code, &afe_cail_code, sizeof(afe_config_t)) == 0) {
+            g_adc_entirely_status = true;
+            return ERRCODE_ADC_INVALID_PARAMETER;
+        }
         adc_set_cali_code(AFE_GADC_MODE, &g_afe_cail_code);
     }
+    g_adc_entirely_status = true;
     return ERRCODE_SUCC;
 }
 
 int32_t adc_port_gadc_entirely_sample(adc_channel_t channel)
 {
     if (!adc_channel_vaild_check(channel)) { return ERRCODE_ADC_INVALID_PARAMETER; }
+    if (!g_adc_entirely_status) { return ERRCODE_FAIL; }
     pin_t adc_pin[] = {S_MGPIO2, S_MGPIO3, S_MGPIO4, S_MGPIO5, S_MGPIO28, S_MGPIO29, S_MGPIO30, S_MGPIO31};
 #if defined(CONFIG_PINCTRL_SUPPORT_IE)
     /* ADC管脚无需配置IE使能且管脚默认IE为0，为防止用户修改IE，特在此将IE配置为0 */
@@ -371,9 +380,11 @@ int32_t adc_port_gadc_entirely_sample(adc_channel_t channel)
 errcode_t adc_port_gadc_entirely_close(adc_channel_t channel)
 {
     if (!adc_channel_vaild_check(channel)) { return ERRCODE_ADC_INVALID_PARAMETER; }
+    if (!g_adc_entirely_status) { return ERRCODE_SUCC; }
     g_afe_cail_code = adc_get_cali_code();
     uapi_adc_close_channel(channel);
     uapi_adc_power_en(AFE_GADC_MODE, false);
     uapi_adc_deinit();
+    g_adc_entirely_status = false;
     return ERRCODE_SUCC;
 }

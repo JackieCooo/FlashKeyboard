@@ -85,13 +85,6 @@ config DISABLE_GPIO_INTERRUPT_DURING_PAD_SWITCHING
 
 endif
 
-config SAMPLE_ENABLE
-    bool
-    prompt "Enable Sample."
-    default y
-    help
-        This option means support Samples.
-
 config KEYBOARD_APP_ENABLE
     bool
     prompt "Enable Keyboard Application."

@@ -353,10 +353,12 @@ static void i2c_dma_isr(uint8_t int_type, uint8_t ch, uintptr_t arg)
         /* channel default value is 0, means not used. channel > 0 means used.
            So ch + 1 will not misjudgment with channel value 0. */
         if (g_dma_trans[i].read_channel == ch + 1) {
+            g_dma_trans[i].read_channel = 0;
             bus = i;
             break;
         }
         if (g_dma_trans[i].write_channel == ch + 1) {
+            g_dma_trans[i].write_channel = 0;
             bus = i;
             break;
         }

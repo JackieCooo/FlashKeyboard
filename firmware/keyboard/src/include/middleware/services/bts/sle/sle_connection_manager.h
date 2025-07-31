@@ -90,13 +90,13 @@ typedef enum {
  * @endif
  */
 typedef enum {
-    SLE_CRYTO_ALGO_AC1     = 0x00,   /*!< @if Eng crytography algorithm ac1
+    SLE_CRYTO_ALGO_AC1     = 0x01,   /*!< @if Eng crytography algorithm ac1
                                           @else   AC1加密算法类型 @endif */
-    SLE_CRYTO_ALGO_AC2     = 0x01,   /*!< @if Eng crytography algorithm ac2
+    SLE_CRYTO_ALGO_AC2     = 0x02,   /*!< @if Eng crytography algorithm ac2
                                           @else   AC2加密算法类型@endif */
-    SLE_CRYTO_ALGO_EA1     = 0x02,   /*!< @if Eng crytography algorithm ea1
+    SLE_CRYTO_ALGO_EA1     = 0x03,   /*!< @if Eng crytography algorithm ea1
                                           @else   EA1加密算法类型 @endif */
-    SLE_CRYTO_ALGO_EA2     = 0x03,   /*!< @if Eng crytography algorithm ea2
+    SLE_CRYTO_ALGO_EA2     = 0x04,   /*!< @if Eng crytography algorithm ea2
                                           @else   EA2加密算法类型 @endif */
 } sle_crypto_algo_t;
 
@@ -108,9 +108,9 @@ typedef enum {
  * @endif
  */
 typedef enum {
-    SLE_KEY_DERIV_ALGO_HA1     = 0x00,   /*!< @if Eng key derivation algorithm ac1
+    SLE_KEY_DERIV_ALGO_HA1     = 0x01,   /*!< @if Eng key derivation algorithm ac1
                                               @else   HA1秘钥分发算法类型 @endif */
-    SLE_KEY_DERIV_ALGO_HA2     = 0x01,   /*!< @if Eng key derivation algorithm ac2
+    SLE_KEY_DERIV_ALGO_HA2     = 0x02,   /*!< @if Eng key derivation algorithm ac2
                                               @else   HA2秘钥分发算法类型 @endif */
 } sle_key_deriv_algo_t;
 
@@ -1403,8 +1403,8 @@ errcode_t sle_connection_register_callbacks(sle_connection_callbacks_t *func);
  * @if Eng
  * @brief Use this funtion to config customize information.
  * @par   Use this funtion to config customize information.
- * @param  [in] ble_pwr ble max power.
- * @param  [in] sle_pwr sle max power.
+ * @param  [in] gfsk_pwr ble/sle GFSK max power.
+ * @param  [in] psk_pwr sle PSK max power.
  * @retval ERRCODE_SUCC Success.
  * @retval Other        Failure. For details, see @ref errcode_t
  * @par Dependency:
@@ -1412,15 +1412,15 @@ errcode_t sle_connection_register_callbacks(sle_connection_callbacks_t *func);
  * @else
  * @brief  配置定制化信息
  * @par    配置定制化信息
- * @param  [in] ble_pwr ble 最大功率
- * @param  [in] sle_pwr sle 最大功率.
+ * @param  [in] gfsk_pwr ble/sle GFSK 最大功率.
+ * @param  [in] psk_pwr sle PSK 最大功率.
  * @retval ERRCODE_SUCC 成功。
  * @retval Other        失败。参考 @ref errcode_t
  * @par 依赖:
  * @li  bt_data_config.h
  * @endif
  */
-errcode_t sle_customize_max_pwr(int8_t ble_pwr, int8_t sle_pwr);
+errcode_t sle_customize_max_pwr(int8_t gfsk_pwr, int8_t psk_pwr);
 
 /**
  * @if Eng
