@@ -1,0 +1,6 @@
+config KEYBOARD_NAME
+    string
+    prompt "Keyboard Name"
+    default "Flash Keyboard"
+    help
+        This is the device's name that will be display.

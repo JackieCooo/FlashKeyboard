@@ -4,12 +4,15 @@
             "name": "c/cpp plugin configurations",
             "compilerPath": "",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}\\**"
+            ],
+            "defines": [
+                "BGLE_TASK_EXIST"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "${workspaceFolder}/**"
+                    "${workspaceFolder}\\**"
                 ]
             }
         }
