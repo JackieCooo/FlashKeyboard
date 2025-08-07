@@ -1,17 +1,3 @@
-/**
- * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2023-2023. All rights reserved.
- *
- * Description: BLE HID KEYBOARD Service config. \n
- *
- * History: \n
- * 2023-7-10, Create file. \n
- */
-
-/**
- * @defgroup bluetooth_bts_hid_server HID SERVER API
- * @ingroup  bluetooth
- * @{
- */
 #ifndef BLE_HID_SERVER_KEYBOARD_H
 #define BLE_HID_SERVER_KEYBOARD_H
 

@@ -12,6 +12,7 @@ target = {
         'defines': [
             'SUPPORT_CFBB_UPG', 'BGLE_TASK_EXIST', 'SUPPORT_MULTI_LIBS', 'SW_UART_DEBUG', 'XO_32M_CALI',
             'SUPPORT_SET_KEYS', 'SUPPORT_SFC_IRQ_LOCK', 'CONFIG_OTA_UPDATE_SUPPORT',
+            'CONFIG_DRIVERS_USB_HID_FUNC_INTERFACE', 'CONFIG_DRIVERS_USB_HID_OUTPUT_REPORT'
         ],
         'ram_component': [
             # Application Region

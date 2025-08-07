@@ -7,7 +7,8 @@
                 "${workspaceFolder}\\**"
             ],
             "defines": [
-                "BGLE_TASK_EXIST"
+                "BGLE_TASK_EXIST",
+                "CONFIG_DRIVERS_USB_HID_FUNC_INTERFACE", "CONFIG_DRIVERS_USB_HID_OUTPUT_REPORT"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
