@@ -8,7 +8,12 @@
             ],
             "defines": [
                 "BGLE_TASK_EXIST",
-                "CONFIG_DRIVERS_USB_HID_FUNC_INTERFACE", "CONFIG_DRIVERS_USB_HID_OUTPUT_REPORT"
+                "CONFIG_DRIVERS_USB_HID_FUNC_INTERFACE",
+                "CONFIG_DRIVERS_USB_HID_OUTPUT_REPORT",
+                "CONFIG_PINCTRL_SUPPORT_IE",
+                "CONFIG_DRIVERS_USB_HID_OUTPUT_REPORT",
+                "CONFIG_DRIVERS_USB_HID_CUSTOM_ENABLE_OUT_EP",
+                "SW_UART_DEBUG"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,

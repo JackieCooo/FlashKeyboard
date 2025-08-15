@@ -55,31 +55,6 @@ void ble_hiddev_keyboard_server_init(void);
  * @brief  Notify remote device the press button value.
  * @par Description:Notify remote device the press button value..
  * @attention  NULL
- * @param  [in]  value  Press button value.
- * @param  [in]  len    Length of press button value。
- * @retval ERRCODE_BT_SUCCESS    Excute successfully
- * @retval ERRCODE_BT_FAIL       Execute fail
- * @par Dependency:
- * @li ble_hid_server.h
- * @else
- * @brief  通知对端按键变化。
- * @par 说明：通知对端按键变化。
- * @attention  NULL
- * @param  [in]  data   按键值。
- * @param  [in]  len    按键值数据长度。
- * @retval ERRCODE_BT_SUCCESS    执行成功
- * @retval ERRCODE_BT_FAIL       执行失败
- * @par 依赖:
- * @li ble_hid_server.h
- * @endif
- */
-errcode_t ble_hiddev_keyboard_server_send_input_report(const uint8_t *data, uint8_t len);
-
-/**
- * @if Eng
- * @brief  Notify remote device the press button value.
- * @par Description:Notify remote device the press button value..
- * @attention  NULL
  * @param  [in]  data  Press button value.
  * @param  [in]  len   Length of press button value。
  * @retval ERRCODE_BT_SUCCESS    Excute successfully

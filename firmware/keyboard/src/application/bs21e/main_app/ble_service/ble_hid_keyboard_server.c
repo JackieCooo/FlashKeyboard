@@ -13,6 +13,8 @@
 #include "bts_le_gap.h"
 #include "ble_hid_keyboard_server.h"
 
+#include "hid_report_desc.h"
+
 #define LOG_TAG "ble_hid"
 #include "debug.h"
 
@@ -25,7 +27,7 @@
 /* HID spec version 1.11 */
 #define BLE_HID_VERSION  0x0101
 /* HID input report id */
-#define BLE_HID_REPORT_ID 1
+#define BLE_HID_REPORT_ID 0x00
 /* HID input report type */
 #define BLE_REPORT_REFERENCE_REPORT_TYPE_INPUT_REPORT 1
 /* HID output report type */
@@ -72,22 +74,18 @@ static uint8_t hid_information_val[] = {
 static uint8_t control_point_val[] = {0x00, 0x00};
 /* HID client characteristic configuration */
 static uint8_t ccc_val[] = {0x00, 0x00};
-/* HID input report reference [report id 1, input] */
+/* HID input report reference [report id, input] */
 static uint8_t report_reference_val_input[] = {
     BLE_HID_REPORT_ID,
     BLE_REPORT_REFERENCE_REPORT_TYPE_INPUT_REPORT
 };
-/* HID output report reference [report id 1, output] */
+/* HID output report reference [report id, output] */
 static uint8_t report_reference_val_output[] = {
     BLE_HID_REPORT_ID,
     BLE_REPORT_REFERENCE_REPORT_TYPE_OUTPUT_REPORT
 };
-/* HID input report
- * input report format:
- * data0 | data1 | data2 | data3 | data4 | data5 | data6
- * E0~E7 | key   | key   | key   | key   | key   | key
- */
-static uint8_t input_report_value[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+/* HID input report */
+static uint8_t input_report_value[8] = {0};
 /* HID output report */
 static uint8_t output_report_value[] = {0x00};
 /* HID protocol mode */
@@ -99,38 +97,6 @@ static uint16_t g_hid_input_report_att_hdl = INVALID_ATT_HDL;
 /* gatt server ID */
 static uint8_t g_server_id = INVALID_SERVER_ID;
 
-/* Hid Report Map (Descriptor) */
-static uint8_t g_srv_hid_keyboard_report_map[] = {
-    0x05, 0x01,       /* Usage Page (Generic Desktop) */
-    0x09, 0x06,       /* Usage (Keyboard) */
-    0xA1, 0x01,       /* Collection (Application) */
-    0x85, 0x01,       /* Report Id (1) */
-    0x05, 0x07,       /* Usage Page (Keyboard) */
-    0x19, 0xE0,       /* Usage Minimum (Keyboard Left Control) */
-    0x29, 0xE7,       /* Usage Maximum (Keyboard Right GUI) */
-    0x15, 0x00,       /* Logical minimum (0) */
-    0x25, 0x01,       /* Logical maximum (1) */
-    0x75, 0x01,       /* Report Size (1) */
-    0x95, 0x08,       /* Report Count (8) */
-    0x81, 0x02,       /* Input (data,Value,Absolute,Bit Field) */
-    0x95, 0x05,       /* Report Count (5) */
-    0x05, 0x08,       /* Usage Page (LEDs) */
-    0x19, 0x01,       /* Usage Minimum (Num Lock) */
-    0x29, 0x05,       /* Usage Maximum (Kana) */
-    0x91, 0x02,       /* Output (data,Value,Absolute,Non-volatile,Bit Field) */
-    0x95, 0x01,       /* Report Count (1) */
-    0x75, 0x03,       /* Report Size (3) */
-    0x91, 0x01,       /* Output (Constant,Array,Absolute,Non-volatile,Bit Field) */
-    0x95, 0x06,       /* Report Count (6) */
-    0x75, 0x08,       /* Report Size (8) */
-    0x15, 0x00,       /* Logical minimum (0) */
-    0x26, 0xA4, 0x00, /* Logical maximum (164) */
-    0x05, 0x07,       /* Usage Page (Keyboard) */
-    0x19, 0x00,       /* Usage Minimum (No event indicated) */
-    0x2A, 0xA4, 0x00, /* Usage Maximum (Keyboard ExSel) */
-    0x81, 0x00,       /* Input (data,Array,Absolute,Bit Field) */
-    0xC0,             /* End Collection */
-};
 
 /* 将uint16的uuid数字转化为bt_uuid_t */
 static void bts_data_to_uuid_len2(uint16_t uuid_data, bt_uuid_t *out_uuid)
@@ -175,8 +141,8 @@ static void ble_hid_add_character_report_map(uint8_t server_id, uint16_t srvc_ha
     character.chara_uuid = hid_report_map_uuid;
     character.permissions = GATT_ATTRIBUTE_PERMISSION_READ | GATT_ATTRIBUTE_PERMISSION_AUTHENTICATION_NEED;
     character.properties = HID_REPORT_MAP_PROPERTIES;
-    character.value_len = sizeof(g_srv_hid_keyboard_report_map);
-    character.value = g_srv_hid_keyboard_report_map;
+    character.value_len = g_hid_report_desc_size;
+    character.value = g_hid_report_desc;
 
     gatts_add_characteristic(server_id, srvc_handle, &character);
 }
@@ -319,7 +285,7 @@ static void ble_hid_server_service_add_cbk(
     ble_hid_add_characters_and_descriptors(server_id, handle);
     gatts_start_service(server_id, handle);
 
-    LOG("ServiceAdded - server: %d, srv_handle: %d, status:%d",
+    LOG("ServiceAdded - server: %d, srv_handle: %d, status: %d",
         server_id, handle, status);
     LOG_BUF("uuid", uuid->uuid, uuid->uuid_len);
 }
@@ -337,8 +303,8 @@ static void ble_hid_server_characteristic_add_cbk(
         g_hid_input_report_att_hdl = result->value_handle;
     }
 
-    LOG("CharacteristicAdded - server: %d srvc_hdl: %d status:%d char_hdl: %d char_val_hdl: %d uuid_len: %d ",
-        server_id, service_handle, status, result->handle, result->value_handle, uuid->uuid_len);
+    LOG("CharacteristicAdded - server: %d, srvc_hdl: %d, status: %d, char_hdl: %d, char_val_hdl: %d",
+        server_id, service_handle, status, result->handle, result->value_handle);
     LOG_BUF("uuid", uuid->uuid, uuid->uuid_len);
 }
 
@@ -348,8 +314,8 @@ static void ble_hid_server_descriptor_add_cbk(
     uint16_t handle, errcode_t status
 )
 {
-    LOG("DescriptorAdded - server: %d srv_hdl: %d desc_hdl: %d uuid_len:%d status:%d",
-        server_id, service_handle, handle, uuid->uuid_len, status);
+    LOG("DescriptorAdded - server: %d, srv_hdl: %d, desc_hdl: %d, status: %d",
+        server_id, service_handle, handle, status);
     LOG_BUF("uuid", uuid->uuid, uuid->uuid_len);
 }
 
@@ -365,8 +331,8 @@ static void ble_hid_receive_write_req_cbk(
     errcode_t status
 )
 {
-    LOG("ReceiveWriteReq - server_id: %d, conn_id: %d, status: %d", server_id, conn_id, status);
-    LOG("request_id:%d att_handle:%d offset:%d need_rsp:%d need_authorize:%d is_prep:%d",
+    LOG("ReceiveWriteReq - server_id: %d, conn_id: %d, status: %d, request_id: %d, att_handle: %d, offset: %d, need_rsp: %d, need_auth: %d, is_prep: %d",
+        server_id, conn_id, status,
         write_cb_para->request_id, write_cb_para->handle, write_cb_para->offset, write_cb_para->need_rsp,
         write_cb_para->need_authorize, write_cb_para->is_prep);
     LOG_BUF("data", write_cb_para->value, write_cb_para->length);
@@ -377,8 +343,8 @@ static void ble_hid_receive_read_req_cbk(
     errcode_t status
 )
 {
-    LOG("ReceiveReadReq - server_id: %d, conn_id: %d, status: %d", server_id, conn_id, status);
-    LOG("request_id: %d, att_handle: %d, offset: %d, need_rsp: %d, need_authorize: %d, is_long: %d",
+    LOG("ReceiveReadReq - server_id: %d, conn_id: %d, status: %d, request_id: %d, att_handle: %d, offset: %d, need_rsp: %d, need_auth: %d, is_long: %d",
+        server_id, conn_id, status,
         read_cb_para->request_id, read_cb_para->handle, read_cb_para->offset, read_cb_para->need_rsp,
         read_cb_para->need_authorize, read_cb_para->is_long);
 }
@@ -432,46 +398,35 @@ void ble_hiddev_keyboard_server_init(void)
     ble_hid_add_service();
 }
 
-/* device向host发送数据：input report */
-errcode_t ble_hiddev_keyboard_server_send_input_report(const uint8_t *data, uint8_t len)
-{
-    gatts_ntf_ind_t param = {0};
-    param.attr_handle = g_hid_input_report_att_hdl;
-    param.value_len = len;
-    param.value = osal_vmalloc(len);
-    if (param.value == NULL) {
-        LOG("[ERROR]send input report new fail");
-        return ERRCODE_BT_MALLOC_FAIL;
-    }
-    if (memcpy_s(param.value, param.value_len, data, len) != EOK) {
-        LOG("[ERROR]send input report memcpy fail");
-        osal_vfree(param.value);
-        return ERRCODE_BT_FAIL;
-    }
-    gatts_notify_indicate(BLE_HID_SERVER_ID, BLE_SINGLE_LINK_CONNECT_ID, &param);
-    osal_vfree(param.value);
-    return ERRCODE_BT_SUCCESS;
-}
-
 /* device向host发送数据by uuid：input report */
 errcode_t ble_hiddev_keyboard_server_send_input_report_by_uuid(const uint8_t *data, uint8_t len)
 {
+    errcode_t ret = ERRCODE_SUCC;
     gatts_ntf_ind_by_uuid_t param = {0};
+
     param.start_handle = g_hid_input_report_att_hdl;
     param.end_handle = g_hid_input_report_att_hdl;
     bts_data_to_uuid_len2(BLE_UUID_REPORT, &param.chara_uuid);
     param.value_len = len;
     param.value = osal_vmalloc(len);
     if (param.value == NULL) {
-        LOG("[ERROR]send input report new fail");
+        LOG("send input report malloc fail");
         return ERRCODE_BT_MALLOC_FAIL;
     }
+
     if (memcpy_s(param.value, param.value_len, data, len) != EOK) {
-        LOG("[ERROR]send input report memcpy fail");
+        LOG("send input report memcpy fail");
         osal_vfree(param.value);
         return ERRCODE_BT_FAIL;
     }
-    gatts_notify_indicate_by_uuid(BLE_HID_SERVER_ID, BLE_SINGLE_LINK_CONNECT_ID, &param);
+
+    ret = gatts_notify_indicate_by_uuid(BLE_HID_SERVER_ID, BLE_SINGLE_LINK_CONNECT_ID, &param);
+    if (ret != ERRCODE_SUCC) {
+        LOG("send input notify indicate fail");
+        return ret;
+    }
+
     osal_vfree(param.value);
+
     return ERRCODE_BT_SUCCESS;
 }

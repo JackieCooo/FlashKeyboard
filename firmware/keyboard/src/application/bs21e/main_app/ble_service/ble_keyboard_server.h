@@ -1,7 +1,13 @@
 #ifndef BLE_UUID_SERVER_H
 #define BLE_UUID_SERVER_H
 
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "bts_def.h"
+
+#include "service_ctrl_defs.h"
+
 
 /* Service UUID */
 #define BLE_UUID_UUID_SERVER_SERVICE                 0xABCD
@@ -32,7 +38,10 @@
  * @li bts_def.h
  * @endif
  */
-void ble_keyboard_server_init(void);
+int ble_keyboard_server_init(void);
+int ble_keyboard_server_deinit(void);
 bool ble_connected(void);
+int ble_keyboard_send_key(const void* data, uint32_t len);
+service_ctrl_func_t* ble_keyboard_get_func(void);
 
 #endif
