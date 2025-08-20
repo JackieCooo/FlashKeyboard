@@ -7,6 +7,6 @@
 void service_ctrl_init(void);
 void service_ctrl_deinit(void);
 void service_ctrl_detect(void);
-int service_ctrl_send_key(uint32_t key);
+int service_ctrl_send_key(uint8_t key);
 
 #endif

@@ -88,7 +88,7 @@ void service_ctrl_detect(void)
     }
 }
 
-int service_ctrl_send_key(uint32_t key)
+int service_ctrl_send_key(uint8_t key)
 {
     if (g_service_type <= SERVICE_NULL ||
         g_service_type >= SERVICE_NUM ||
@@ -102,7 +102,7 @@ int service_ctrl_send_key(uint32_t key)
     uint8_t keycode[8] = {0};
 
     /* 发送键值 */
-    keycode[2] = 0x04;
+    keycode[2] = 0x04 + key;
     ret = g_funcs[g_service_type]->send(keycode, 8);
     if (ret < 0) {
         LOG("send key failed, err: %d", ret);
@@ -110,7 +110,7 @@ int service_ctrl_send_key(uint32_t key)
         LOG("send key %d", key);
         LOG_BUF("keycode", keycode, 8);
     }
-    osal_msleep(10);
+
     keycode[2] = 0x00;
     ret = g_funcs[g_service_type]->send(keycode, 8);
 

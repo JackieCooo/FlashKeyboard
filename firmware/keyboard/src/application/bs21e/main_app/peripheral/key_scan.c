@@ -1,9 +1,9 @@
 #include "key_scan.h"
 
 #include <stdint.h>
+#include <string.h>
 
-#include "gpio.h"
-#include "pinctrl.h"
+#include "keyscan.h"
 #include "soc_osal.h"
 #include "service_controller.h"
 
@@ -11,23 +11,60 @@
 #include "debug.h"
 
 
-#define BUTTON_PIN 15
+/* 键位映射（先行再列） */
+static uint8_t g_key_gpio_map[CONFIG_KEYSCAN_ENABLE_ROW + CONFIG_KEYSCAN_ENABLE_COL] = {
+    11, 12, 13, 14
+};
+static uint8_t g_key_map[CONFIG_KEYSCAN_ENABLE_ROW][CONFIG_KEYSCAN_ENABLE_COL] = {
+    { 0x00, 0x01 },
+    { 0x02, 0x03 }
+};
 
-
-void key_scan(void)
+static int key_scan_report_callback(int key_nums, uint8_t key_values[])
 {
-    if (uapi_gpio_get_val(BUTTON_PIN) == GPIO_LEVEL_LOW) {
-        while (uapi_gpio_get_val(BUTTON_PIN) == GPIO_LEVEL_LOW) {
-            osal_msleep(10);
-        }
+    static uint32_t pre = 0;
+    static uint32_t cur = 0;
 
-        service_ctrl_send_key(0);
+    for (int i = 0; i < key_nums; i++) {
+        cur |= (1 << key_values[i]);
     }
+
+    for (uint32_t p = 1, i = 0; i < CONFIG_KEY_NUM; i++, p <<= 1) {
+        if (!(cur & p) && (pre & p)) {
+            service_ctrl_send_key((uint8_t) i);
+        }
+    }
+
+    pre = cur;
+    cur = 0;
+
+    return 0;
 }
 
-void key_scan_init(void)
+int key_scan_init(void)
 {
-    uapi_pin_set_mode(BUTTON_PIN, HAL_PIO_FUNC_GPIO);
-    uapi_pin_set_pull(BUTTON_PIN, PIN_PULL_UP);
-    uapi_gpio_set_dir(BUTTON_PIN, GPIO_DIRECTION_INPUT);
+    int ret = ERRCODE_SUCC;
+
+    ret = keyscan_porting_set_gpio(g_key_gpio_map);
+    if (ret) {
+        LOG("set key gpio failed");
+        return ret;
+    }
+    ret = uapi_set_keyscan_value_map((uint8_t **) g_key_map, CONFIG_KEYSCAN_ENABLE_ROW, CONFIG_KEYSCAN_ENABLE_COL);
+    if (ret != ERRCODE_SUCC) {
+        LOG("set key map failed");
+        return ret;
+    }
+    uapi_keyscan_init(EVERY_ROW_PULSE_40_US, HAL_KEYSCAN_MODE_0, KEYSCAN_INT_VALUE_RDY);
+    ret = uapi_keyscan_register_callback(key_scan_report_callback);
+    if (ret != ERRCODE_SUCC) {
+        LOG("set irq callback failed");
+        return ret;
+    }
+    if (uapi_keyscan_enable() != ERRCODE_KEYSCAN_POWER_ON) {
+        LOG("key scan enable start failed");
+        return -1;
+    }
+
+    return ret;
 }

@@ -14,13 +14,12 @@ void app_main(void *unused)
     (void)(unused);
 
     /* 初始化按键扫描 */
-    key_scan_init();
+    (void) key_scan_init();
     /* 初始化服务控制器 */
     service_ctrl_init();
 
     while (1) {
         service_ctrl_detect();
-        key_scan();
         osal_msleep(10);
     }
 }
