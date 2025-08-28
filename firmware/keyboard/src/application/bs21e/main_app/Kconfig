@@ -32,3 +32,17 @@ config SLE_DETECT_PIN
     default 12
     help
         Detect Pin of SLE
+
+config SCREEN_WIDTH
+    int
+    prompt "Screen Width"
+    default 128
+    help
+        Screen Width
+
+config SCREEN_HEIGHT
+    int
+    prompt "Screen Height"
+    default 64
+    help
+        Screen Height

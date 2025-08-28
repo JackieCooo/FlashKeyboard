@@ -14,6 +14,9 @@ target = {
             'SUPPORT_SET_KEYS', 'SUPPORT_SFC_IRQ_LOCK', 'CONFIG_OTA_UPDATE_SUPPORT',
             'CONFIG_DRIVERS_USB_HID_FUNC_INTERFACE', 'CONFIG_DRIVERS_USB_HID_OUTPUT_REPORT'
         ],
+        'ccflags': [
+            '-:-Werror'
+        ],
         'ram_component': [
             # Application Region
             'main_app', 'standard_porting',
@@ -43,7 +46,7 @@ target = {
         'rom_component': ['bgtp_rom', 'libboundscheck', 'bt_host_rom', 'bg_common_rom'],
         'ram_component_set' : [
             'efuse_v151', 'spi', 'qdec', 'dmav151', 'keyscan', 'std_common_lib',
-            '-:connectivity', '-:time_set', 'pm_set', 'dfx_set', 'sfc_flash', 'adc', 'flash', 'pm_clock_set', 'pwm'
+            '-:connectivity', '-:time_set', 'pm_set', 'dfx_set', 'sfc_flash', 'adc', 'flash', 'pm_clock_set',
         ],
         'liteos_kconfig': 'bs21e',
         'loaderboot_cfg': 'loaderboot-bs21e-1100e',
