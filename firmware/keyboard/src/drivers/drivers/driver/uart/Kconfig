@@ -14,6 +14,12 @@ config UART_SUPPORT_TX
     default y
     depends on DRIVER_SUPPORT_UART
 
+config SUPPORT_UART_TX_POLL_TIMEOUT
+    bool
+    prompt "support timeout in uart TX poll mode."
+    default n
+    depends on UART_SUPPORT_TX
+
 config UART_SUPPORT_TX_INT
     bool
     prompt "UART Support TX interriupt mode"
@@ -26,9 +32,9 @@ config UART_SUPPORT_RX
     default y
     depends on DRIVER_SUPPORT_UART
 
-config SUPPORT_UART_POLL_TIMEOUT
+config SUPPORT_UART_RX_POLL_TIMEOUT
     bool
-    prompt "add timeout in uart poll mode."
+    prompt "support timeout in uart RX poll mode."
     default n
     depends on UART_SUPPORT_RX
 

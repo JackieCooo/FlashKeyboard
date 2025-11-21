@@ -384,7 +384,7 @@ void uart_rx_callback(const void *buf, uint16_t buf_len, bool remaining)
     if (!g_sw_debug_uart_enabled) {
         return;
     }
-    uapi_uart_write(g_sw_debug_uart, (const void *)buf, buf_len, 0);
+    uapi_uart_write(g_sw_debug_uart, (const void *)buf, buf_len, 0xFFFFFFFF);
 }
 
 void sw_debug_uart_init(uint32_t baud_rate)
@@ -424,6 +424,7 @@ void uart_porting_switch_serial_mode(uart_mode_t mode)
 
 void print_str(const char *str, ...)
 {
+    uint32_t wait_forever = 0xFFFFFFFF;
 #ifdef CONFIG_DRIVERS_USB_SERIAL_GADGET
     if (g_uart_mode == USB_SERIAL) {
         usb_serial_write(0, str, strlen(str));
@@ -432,9 +433,9 @@ void print_str(const char *str, ...)
 #endif
 #ifdef USE_CMSIS_OS
 #ifdef CONFIG_UART_LOG_WRITE_WITH_NOLOCK
-    uapi_uart_write_nolock(g_sw_debug_uart, (const void *)str, strlen(str), 0);
+    uapi_uart_write_nolock(g_sw_debug_uart, (const void *)str, strlen(str), wait_forever);
 #else
-    uapi_uart_write(g_sw_debug_uart, (const void *)str, strlen(str), 0);
+    uapi_uart_write(g_sw_debug_uart, (const void *)str, strlen(str), wait_forever);
 #endif
 #else
     static uint8_t s[UART_TRANS_LEN_MAX];  // This needs to be large enough to store the string TODO Change magic number
@@ -453,7 +454,7 @@ void print_str(const char *str, ...)
     if (str_len < 0) {
         return;  //lint !e527  unreachable code
     }
-    uapi_uart_write(g_sw_debug_uart, (const void *)s, str_len, 0);
+    uapi_uart_write(g_sw_debug_uart, (const void *)s, str_len, wait_forever);
 #endif
 }
 #endif

@@ -20,6 +20,8 @@
 #define AT_RF_SINGLE_TONE_PARAM_NUM 2
 #define AT_WRITE_CUSTOMIZE_NV_PARAM_NUM 32
 #define AT_WRITE_FEM_FLAG_PARAM_NUM 2
+#define AT_NV_READ_PARAM_NUM 1
+#define AT_SET_NV_MAC_PARAM_NUM 2
 
 typedef struct {
     uint32_t para_map;
@@ -115,6 +117,17 @@ typedef struct {
     int8_t fem_switch; // 控制fem开关
 } fem_switch_param_args_t;
 
+typedef struct {
+    uint32_t                para_map;
+    uint16_t                key_id; /* Range: 0..65535 */
+} nv_read_param_args_t;
+
+typedef struct {
+    uint32_t                para_map;
+    const uint8_t           *mac_addr; /* Optional.   Length: 17 */
+    int32_t                 mac_type;
+} nv_mac_param_args_t;
+
 extern const at_para_parse_syntax_t xo_ctrim_cali_param_syntax[AT_XO_CTRIM_PARAM_NUM];
 extern const at_para_parse_syntax_t ble_rf_tx_write_param_syntax[AT_BLE_RF_TX_PARAM_NUM];
 extern const at_para_parse_syntax_t ble_rf_rx_write_param_syntax[AT_BLE_RF_RX_PARAM_NUM];
@@ -124,5 +137,7 @@ extern const at_para_parse_syntax_t sle_cfo_rpt_rssi_limit_param_syntax[AT_SLE_C
 extern const at_para_parse_syntax_t rf_single_tone_param_syntax[AT_RF_SINGLE_TONE_PARAM_NUM];
 extern const at_para_parse_syntax_t bt_write_customize_nv_param_syntax[AT_WRITE_CUSTOMIZE_NV_PARAM_NUM];
 extern const at_para_parse_syntax_t write_fem_flag_param_syntax[AT_WRITE_FEM_FLAG_PARAM_NUM];
+extern const at_para_parse_syntax_t read_nv_param_syntax[AT_NV_READ_PARAM_NUM];
+extern const at_para_parse_syntax_t set_nv_mac_param_syntax[AT_SET_NV_MAC_PARAM_NUM];
 
 #endif /* AT_BT_CMD_TALBE_H */

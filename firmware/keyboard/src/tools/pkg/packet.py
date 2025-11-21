@@ -11,7 +11,7 @@ import importlib
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 sys.dont_write_bytecode = True
 
-g_bs2x_chip_list = ["bs20", "bs21", "bs21a", "bs21e", "bs22", "bs26"]
+g_bs2x_chip_list = ["bs20", "bs20h", "bs21", "bs21a", "bs21e", "bs22", "bs26"]
 
 def main():
     arg_ls = sys.argv

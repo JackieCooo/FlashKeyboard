@@ -219,9 +219,9 @@ typedef struct sle_announce_param {
                                                  @else   发现等级，
                                                          { @ref sle_announce_level_t } @endif */
     uint32_t announce_interval_min;         /*!< @if Eng minimum of announce interval
-                                                 @else   最小设备公开周期, 0x000020~0xffffff, 单位125us @endif */
+                                                 @else   最小设备公开周期, 0x000050~0xffffff, 单位125us @endif */
     uint32_t announce_interval_max;         /*!< @if Eng maximum of announce interval
-                                                 @else   最大设备公开周期, 0x000020~0xffffff, 单位125us @endif */
+                                                 @else   最大设备公开周期, 0x000050~0xffffff, 单位125us @endif */
     uint8_t  announce_channel_map;          /*!< @if Eng announce channel map
                                                  @else   设备公开信道, 0:76, 1:77, 2:78 @endif */
     int8_t   announce_tx_power;             /*!< @if Eng adv transmit power

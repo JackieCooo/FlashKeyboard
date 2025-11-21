@@ -1,8 +1,7 @@
+.vscode/
 analyzerJson/
 output/
-**/.vscode/
-!.vscode\c_cpp_properties.json
 
-*.log
-*.fwpkg
 *.config.old
+*.fwpkg
+*.log

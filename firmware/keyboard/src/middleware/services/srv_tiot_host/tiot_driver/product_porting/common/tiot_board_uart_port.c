@@ -16,7 +16,7 @@
 #include "tiot_board_misc_port.h"
 #include "gpio.h"
 
-#define UART_RW_TIMEOUT    0xFFFFFFFF
+#define UART_RW_TIMEOUT    0x5000
 #define UART_RX_BUFF_MAX   1024
 #define UART_WAIT_PENDING_MAX_TIMES 2000
 

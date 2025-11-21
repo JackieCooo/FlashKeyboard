@@ -19,10 +19,22 @@
 #include "sle_factory_manager.h"
 #include "sle_device_discovery.h"
 #include "bts_device_manager.h"
+#if BT_TSENSOR_ENABLE
+#include "bt_tsensor.h"
+#endif
+#include "application_version.h"
 
 #define BT_CUSTOMIZE_NV_VALID 11
 #define BT_NV_START_OFFSET 2
 #define BT_NV_CUSTOMIZE_PARAM 2
+#define BT_NV_WRITE_MAX_LENGTH 1024
+
+#define SET_NV_MAC_PARAM_CNT 2
+#define NV_ID_BTH_PRODUCT_INFORMATION_CONFIG 0x9
+#define NV_ID_SLE_PRODUCT_DATA_CONFIG 0xA
+#define BLE_MAC_ADDR_NV 0
+#define SLE_MAC_ADDR_NV 1
+#define MAC_LEN 6
 
 #ifndef CONFIG_BT_SLE_ONLY
 extern int ble_at_cmd_factory_register_callbacks(void);
@@ -476,6 +488,35 @@ const at_para_parse_syntax_t bt_write_customize_nv_param_syntax[] = {
     },
 };
 
+const at_para_parse_syntax_t read_nv_param_syntax[] = {
+    {
+        .type = AT_SYNTAX_TYPE_INT,
+        .last = true,
+        .attribute = AT_SYNTAX_ATTR_AT_MIN_VALUE | AT_SYNTAX_ATTR_AT_MAX_VALUE,
+        .entry.int_range.min_val = 0,
+        .entry.int_range.max_val = 65535,
+        .offset = offsetof(nv_read_param_args_t, key_id)
+    },
+};
+const int32_t set_nv_mac_type_values[] = {
+    0, 1
+};
+const at_para_parse_syntax_t set_nv_mac_param_syntax[] = {
+    {
+        .type = AT_SYNTAX_TYPE_STRING,
+        .attribute = AT_SYNTAX_ATTR_OPTIONAL | AT_SYNTAX_ATTR_MAX_LENGTH,
+        .entry.string.max_length = 17,
+        .offset = offsetof(nv_mac_param_args_t, mac_addr)
+    },
+    {
+        .type = AT_SYNTAX_TYPE_INT,
+        .last = true,
+        .attribute = AT_SYNTAX_ATTR_LIST_VALUE,
+        .entry.int_list = {(sizeof(set_nv_mac_type_values) / sizeof(int32_t)), set_nv_mac_type_values},
+        .offset = offsetof(nv_mac_param_args_t, mac_type)
+    },
+};
+
 const int32_t write_fem_flag[] = {
     0, 1
 };
@@ -860,5 +901,240 @@ at_ret_t bt_at_read_dieid_cmd(void)
         osal_printk("%04x ", readw(0x57028800 + index));
     }
     osal_printk("\r\n");
+    return AT_RET_OK;
+}
+
+#if BT_TSENSOR_ENABLE
+/* 获取温度 */
+at_ret_t bt_at_get_temp_cmd(void)
+{
+    int16_t temp = bt_tsensor_temperature_get();
+    osal_printk("[AT]chip_temp:%x\r\n", temp);
+    return AT_RET_OK;
+}
+#endif
+
+/* 读取NV */
+at_ret_t bt_at_nv_read_cmd(const nv_read_param_args_t *args)
+{
+    uint16_t nv_value_length = 0;
+    uint8_t nv_value[BT_NV_WRITE_MAX_LENGTH] = {0};
+    nv_key_attr_t nv_attr = {0};
+    errcode_t ret = uapi_nv_read_with_attr((uint16_t)args->key_id, BT_NV_WRITE_MAX_LENGTH, &nv_value_length,
+        nv_value, &nv_attr);
+    if (ret != ERRCODE_SUCC) {
+        osal_printk("[AT]nv_read failed, ret = [0x%x]\r\n", ret);
+        return ret;
+    }
+    if (nv_attr.permanent == true) {
+        osal_printk("NV[0x%x] is permanent\r\n", args->key_id);
+    }
+    if (nv_attr.encrypted == true) {
+        osal_printk("NV[0x%x] is encrypted\r\n", args->key_id);
+    }
+    if (nv_attr.non_upgrade == true) {
+        osal_printk("NV[0x%x] is non_upgrade\r\n", args->key_id);
+    }
+    for (int i = 0; i < nv_value_length; i++) {
+        osal_printk("nv_value[%d] = [0x%x]\r\n", i, nv_value[i]);
+    }
+    return AT_RET_OK;
+}
+
+static uint32_t nv_read_mac(uint16_t key, uint8_t *mac_addr, uint16_t key_len, uint16_t addr_len)
+{
+    uint16_t real_len = 0;
+    uint8_t *read_value = osal_vmalloc(key_len);
+    errcode_t ret = uapi_nv_read(key, key_len, &real_len, read_value);
+    if ((ret != ERRCODE_SUCC) || (real_len < addr_len)) {
+        /* ERROR PROCESS */
+        osal_vfree(read_value);
+        read_value = NULL;
+        osal_printk("[ERROR]nv_read_mac: read nv fail. ret:%x \r\n", ret);
+        return ERRCODE_FAIL;
+    }
+    for (uint8_t i = 0; i < addr_len; i++) {
+        mac_addr[i] = read_value[i];
+    }
+    if (read_value != NULL) {
+        osal_vfree(read_value);
+        read_value = NULL;
+    }
+    return ERRCODE_SUCC;
+}
+
+static uint32_t nv_write_mac(uint16_t key, uint8_t *mac_addr, uint16_t key_len, uint16_t addr_len)
+{
+    uint16_t real_len = 0;
+    uint8_t *read_value = osal_vmalloc(key_len);
+    errcode_t ret = uapi_nv_read(key, key_len, &real_len, read_value);
+    if ((ret != ERRCODE_SUCC) || (real_len < addr_len)) {
+        /* ERROR PROCESS */
+        osal_vfree(read_value);
+        read_value = NULL;
+        osal_printk("[ERROR]nv_write_mac: read nv fail. ret:%x \r\n", ret);
+        return ERRCODE_FAIL;
+    }
+    for (uint8_t i = 0; i < addr_len; i++) {
+        read_value[i] = mac_addr[i];
+    }
+    ret = uapi_nv_write(key, read_value, key_len);
+    if (ret != ERRCODE_SUCC) {
+        /* ERROR PROCESS */
+        osal_printk("[ERROR]write nv fail. ret:%x \r\n", ret);
+        osal_vfree(read_value);
+        read_value = NULL;
+        return ERRCODE_FAIL;
+    }
+    if (read_value != NULL) {
+        osal_vfree(read_value);
+        read_value = NULL;
+    }
+    return ERRCODE_SUCC;
+}
+
+static uint32_t bt_at_check_mac_elem(const char elem)
+{
+    if (elem >= '0' && elem <= '9') {
+        return ERRCODE_SUCC;
+    } else if (elem >= 'A' && elem <= 'F') {
+        return ERRCODE_SUCC;
+    } else if (elem >= 'a' && elem <= 'f') {
+        return ERRCODE_SUCC;
+    } else if (elem == ':') {
+        return ERRCODE_SUCC;
+    }
+
+    return ERRCODE_FAIL;
+}
+
+static uint32_t bt_at_cmd_strtoaddr(const char *param, unsigned char *mac_addr, uint32_t addr_len)
+{
+    uint32_t cnt;
+    char *tmp1 = (char *)param;
+    char *tmp2 = NULL;
+    char *tmp3 = NULL;
+
+    for (cnt = 0; cnt < 17; cnt++) {    /* 17 */
+        if (bt_at_check_mac_elem(param[cnt]) != ERRCODE_SUCC) {
+            return ERRCODE_FAIL;
+        }
+    }
+
+    for (cnt = 0; cnt < (addr_len - 1); cnt++) {
+        tmp2 = (char*)strsep(&tmp1, ":");
+        if (tmp2 == NULL) {
+            return ERRCODE_FAIL;
+        }
+        mac_addr[cnt] = (unsigned char)strtoul(tmp2, &tmp3, 16); /* 16 */
+    }
+
+    if (tmp1 == NULL) {
+        return ERRCODE_FAIL;
+    }
+    mac_addr[cnt] = (unsigned char)strtoul(tmp1, &tmp3, 16); /* 16 */
+    return ERRCODE_SUCC;
+}
+
+static void bt_at_print_mac_addr(unsigned char *mac_addr, uint32_t addr_len)
+{
+    for (unsigned int i = 0; i < addr_len - 1; i++) {
+        osal_printk("%02x:", mac_addr[i]);
+    }
+    osal_printk("%02x\r\n", mac_addr[addr_len - 1]);
+}
+
+static uint32_t set_mac_addr_with_type(uint32_t mac_type, uint8_t *mac_addr, uint16_t addr_len)
+{
+    uint32_t ret;
+    uint16_t key_len;
+    switch (mac_type) {
+        case BLE_MAC_ADDR_NV:
+            key_len = (uint16_t)sizeof(bth_product_information_config_t);
+            ret = nv_write_mac(NV_ID_BTH_PRODUCT_INFORMATION_CONFIG, mac_addr, key_len, addr_len);
+            if (ret != ERRCODE_SUCC) {
+                osal_printk("[AT]SET NV MAC ERROR, ret : 0x%x\r\n", ret);
+                return ret;
+            }
+            break;
+        case SLE_MAC_ADDR_NV:
+            key_len = (uint16_t)sizeof(sle_product_data_config_stru_t);
+            ret = nv_write_mac(NV_ID_SLE_PRODUCT_DATA_CONFIG, mac_addr, key_len, addr_len);
+            if (ret != ERRCODE_SUCC) {
+                osal_printk("[AT]SET NV SLE MAC ERROR, ret : 0x%x\r\n", ret);
+                return ret;
+            }
+            break;
+        default:
+            return ERRCODE_FAIL;
+            break;
+    }
+    return ERRCODE_SUCC;
+}
+
+/* 设置mac地址 */
+at_ret_t bt_at_set_nv_mac_addr(const nv_mac_param_args_t *args)
+{
+    uint32_t argc = map_count_bit(args->para_map);
+    uint8_t mac_addr[MAC_LEN] = {0};
+
+    if (argc != SET_NV_MAC_PARAM_CNT || strlen((const char *)args->mac_addr) != 17) { /* 17 mac string len */
+        return AT_RET_SYNTAX_ERROR;
+    }
+
+    if (bt_at_cmd_strtoaddr((const char *)args->mac_addr, mac_addr, MAC_LEN) != ERRCODE_SUCC) {
+        osal_printk("[AT]set_device_addr FAIL\r\n");
+        return AT_RET_PARSE_PARA_ERROR;
+    }
+
+    if (set_mac_addr_with_type(args->mac_type, mac_addr, MAC_LEN) != ERRCODE_SUCC) {
+        return AT_RET_CMD_PARA_ERROR;
+    }
+
+    return AT_RET_OK;
+}
+
+/* 获取mac地址 */
+at_ret_t bt_at_get_nv_mac_addr(void)
+{
+    uint8_t mac_addr[MAC_LEN] = {0};
+    uint16_t key_len = (uint16_t)sizeof(bth_product_information_config_t);
+    errcode_t ret;
+
+    ret = nv_read_mac(NV_ID_BTH_PRODUCT_INFORMATION_CONFIG, mac_addr, key_len, MAC_LEN);
+    if (ret != ERRCODE_SUCC) {
+        osal_printk("GET NV MAC ERROR, ret : 0x%x\r\n", ret);
+    } else {
+        osal_printk("NV BLE MAC: ");
+        bt_at_print_mac_addr(mac_addr, MAC_LEN);
+    }
+
+    key_len = (uint16_t)sizeof(sle_product_data_config_stru_t);
+    ret = nv_read_mac(NV_ID_SLE_PRODUCT_DATA_CONFIG, mac_addr, key_len, MAC_LEN);
+    if (ret != ERRCODE_SUCC) {
+        osal_printk("GET NV SLE MAC ERROR, ret : 0x%x\r\n", ret);
+    } else {
+        osal_printk("NV SLE MAC: ");
+        bt_at_print_mac_addr(mac_addr, MAC_LEN);
+    }
+
+    return AT_RET_OK;
+}
+
+/* 获取版本号 */
+at_ret_t bt_at_get_version_cmd(void)
+{
+    osal_printk("[AT]chip version:%s\r\n", APPLICATION_VERSION_STRING);
+    return AT_RET_OK;
+}
+
+/* 获取电源模式 */
+at_ret_t bt_at_get_power_mode_cmd(void)
+{
+#ifdef CONFIG_POWER_SUPPLY_BY_LDO
+    osal_printk("[AT]Power supply by ldo.\r\n");
+#else
+    osal_printk("[AT]Power supply by buck.\r\n");
+#endif
     return AT_RET_OK;
 }

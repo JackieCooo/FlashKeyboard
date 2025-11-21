@@ -1,0 +1,91 @@
+# Basic
+
+config KEYBOARD_NAME
+    string
+    prompt "Keyboard Name"
+    default "Flash Keyboard"
+    help
+        This is the device's name that will be display.
+
+config KEY_NUM
+    int
+    prompt "Number of Keys"
+    default 12
+    help
+        How many keys on the keyboard
+
+# Mode Select Pin
+
+config BLE_DETECT_PIN
+    int
+    prompt "Detect Pin of BLE"
+    default 13
+    help
+        Detect Pin of BLE
+
+config SLE_DETECT_PIN
+    int
+    prompt "Detect Pin of SLE"
+    default 15
+    help
+        Detect Pin of SLE
+
+config USB_DETECT_PIN
+    int
+    prompt "Detect Pin of USB"
+    default 14
+    help
+        Detect Pin of USB
+
+# Screen
+
+config SCREEN_WIDTH
+    int
+    prompt "Screen Width"
+    default 128
+    help
+        Screen Width
+
+config SCREEN_HEIGHT
+    int
+    prompt "Screen Height"
+    default 64
+    help
+        Screen Height
+
+# OLED
+
+config OLED_SCLK_PIN
+    int
+    prompt "OLED SCLK Pin"
+    default 21
+    help
+        OLED SCLK Pin
+
+config OLED_MOSI_PIN
+    int
+    prompt "OLED MOSI Pin"
+    default 18
+    help
+        OLED MOSI Pin
+
+config OLED_RES_PIN
+    int
+    prompt "OLED RES Pin"
+    default -1
+    help
+        OLED RES Pin
+
+config OLED_DC_PIN
+    int
+    prompt "OLED DC Pin"
+    default 17
+    help
+        OLED DC Pin
+
+config OLED_CS_PIN
+    int
+    prompt "OLED CS Pin"
+    default 16
+    help
+        OLED CS Pin

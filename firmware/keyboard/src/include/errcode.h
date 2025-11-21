@@ -122,6 +122,7 @@ typedef void (*errcode_report_callback_t)(uint8_t module, errcode_t err);
 #define ERRCODE_UART_DMA_TRANSFER_BUSY                      0x8000104F
 #define ERRCODE_UART_DMA_HEAD_WRONG                         0x80001050
 #define ERRCODE_UART_DMA_BUFF_OVERSIZE                      0x80001051
+#define ERROCDE_UART_TRANSFER_TIMEOUT                       0x80001052
 
 /* PWM Error */
 #define ERRCODE_PWM_NOT_INIT                                0x80001080

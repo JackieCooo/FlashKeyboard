@@ -38,7 +38,7 @@ endif()
 if(${CHIP_FAMILY} MATCHES "bs2x")
     set(PUBLIC_DEFINES
         CHIP_BS2X=1
-        CHIP_BS2X_VERSION="${CHIP} 1.0.16"
+        CHIP_BS2X_VERSION="${CHIP} 1.0.17"
     )
 else()
     set(PUBLIC_DEFINES

@@ -231,6 +231,12 @@ bool spi_porting_is_sspi_mode(spi_bus_t bus);
 #endif
 
 /**
+ * @brief  Get SPI Initial State.
+ * @param  [in]  bus The SPI bus. see @ref spi_bus_t
+ */
+bool uapi_get_spi_initialised_state(spi_bus_t bus);
+
+/**
  * @}
  */
 

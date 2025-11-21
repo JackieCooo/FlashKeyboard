@@ -200,9 +200,9 @@ void log_uart_send_buffer(const uint8_t *buffer, uint16_t length)
     return;
 #endif
 #ifdef CONFIG_UART_LOG_WRITE_WITH_NOLOCK
-    uapi_uart_write_nolock(g_log_uart, (const void *)buffer, length, 0);
+    uapi_uart_write_nolock(g_log_uart, (const void *)buffer, length, 0xFFFFFFFF);
 #else
-    uapi_uart_write(g_log_uart, (const void *)buffer, length, 0);
+    uapi_uart_write(g_log_uart, (const void *)buffer, length, 0xFFFFFFFF);
 #endif
 }
 

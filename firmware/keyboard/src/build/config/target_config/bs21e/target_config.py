@@ -35,7 +35,7 @@ target_template = {
                           'dfx_exception', 'lpm', 'chip_porting', 'cmn_header', 'driver_header',
                           'hal_uart', 'uart', 'uart_port', '-:connectivity', 'app_info',
                           'gmssl_hmac_sm3', 'gmssl_aes128', 'systick', 'tcxo', 'hal_systick', 'hal_tcxo', '-:lib_utils', 'porting_inc',
-                          'usb_class', 'usb_class_open', 'usb_class_header', 'test_usb_unified',
+                          'fast_basic_libs', 'usb_class', 'usb_class_open', 'usb_class_header', 'test_usb_unified',
                            'trng_port', 'trng', 'hal_trng', 'nv', 'nv_porting', 'partition', 'partition_porting',
                           'at', 'at_cmd_port', 'at_plt_cmd', 'at_btc_cmd'],
         'ram_component_set': ['cpu', 'i2c', 'lpc', 'cpu_trace', 'gpio_v150', 'time_set', 'mem',

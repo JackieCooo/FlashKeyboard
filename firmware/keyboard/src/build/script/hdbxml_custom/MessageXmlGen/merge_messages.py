@@ -4,6 +4,7 @@
 #===============================================================================
 # @brief    Merge per-core messages xml files.
 # Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd.
+# Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd.
 #===============================================================================
 
 # Note: The merged messages file must be written in a separate process to

@@ -4,6 +4,7 @@
 #===============================================================================
 # @brief    XML tools
 # Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd.
+# Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd.
 #===============================================================================
 import ctypes
 import sys

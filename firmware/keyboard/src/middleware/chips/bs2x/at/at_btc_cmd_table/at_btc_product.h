@@ -47,6 +47,14 @@ at_ret_t bt_at_sle_register_callback_cmd(void);
 at_ret_t bt_at_read_dieid_cmd(void);
 at_ret_t bt_at_enable_ble_cmd(void);
 at_ret_t bt_at_set_fem_enable_flag(const fem_switch_param_args_t *args);
+#if BT_TSENSOR_ENABLE
+at_ret_t bt_at_get_temp_cmd(void);
+#endif
+at_ret_t bt_at_nv_read_cmd(const nv_read_param_args_t *args);
+at_ret_t bt_at_set_nv_mac_addr(const nv_mac_param_args_t *args);
+at_ret_t bt_at_get_nv_mac_addr(void);
+at_ret_t bt_at_get_version_cmd(void);
+at_ret_t bt_at_get_power_mode_cmd(void);
 #ifdef __cplusplus
 #if __cplusplus
 }

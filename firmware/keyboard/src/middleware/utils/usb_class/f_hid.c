@@ -156,7 +156,7 @@ static struct usb_ifdesc_s g_fhid_intf_desc =
   .type     = USB_DESC_TYPE_INTERFACE,
   .ifno     = 0,    /* Index number of this interface */
   .alt      = 0,    /* Index of this settings */
-  .neps     = 1,    /* Number of endpoint */
+  .neps     = 2,    /* Number of endpoint */
   .classid  = 0x03, /* bInterfaceClass: HID */
   .subclass = 1,    /* bInterfaceSubClass : 1=BOOT, 0=no boot */
   .protocol = 0,    /* bInterfaceProtocol : 0=none, 1=keyboard, 2=mouse */
@@ -187,6 +187,16 @@ static struct usb_epdesc_s g_fhid_in_ep_desc =
   .interval = 1                           /* bInterval = 125us */
 };
 
+static struct usb_epdesc_s g_fhid_out_ep_desc =
+{
+  .len      = sizeof(struct usb_epdesc_s),
+  .type     = USB_DESC_TYPE_ENDPOINT,
+  .addr     = USB_DIR_OUT | 0x01,
+  .attr     = 0x03,                        /* bmAttributes = 00000011b */
+  HSETW(.mxpacketsize, HID_IN_DATA_SIZE), /* wMaxPacketSize */
+  .interval = 1                            /* bInterval = 125us */
+};
+
 /* fhid desc array includes:
  * 1. config_desc (for all report map)
  * 2. iface_desc、hid_desc、in ep_desc (report map 0)
@@ -204,7 +214,7 @@ static struct usb_epdesc_s g_fhid_in_ep_desc =
  */
 
 #define HID_SINGLE_PROTOCOL_DESC_NUM 4
-#define HID_DESC_ARRAY_MAX_NUM (2 + (HID_SINGLE_PROTOCOL_DESC_NUM - 1) * HID_REPORT_MAP_NUM)
+#define HID_DESC_ARRAY_MAX_NUM (2 + (HID_SINGLE_PROTOCOL_DESC_NUM) * HID_REPORT_MAP_NUM)
 #define HID_DESCRIPTOC_OFFSET 2
 static const uint8_t *g_fhid_desc_array[HID_DESC_ARRAY_MAX_NUM] =
 {
@@ -212,6 +222,7 @@ static const uint8_t *g_fhid_desc_array[HID_DESC_ARRAY_MAX_NUM] =
   (const uint8_t *)&g_fhid_intf_desc,
   (const uint8_t *)&g_fhid_desc,
   (const uint8_t *)&g_fhid_in_ep_desc,
+  (const uint8_t *)&g_fhid_out_ep_desc,
   NULL,
 };
 

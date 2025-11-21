@@ -54,7 +54,11 @@ else()
     )
 endif()
 
-set(GMSSL_PATH ${PROJECT_SOURCE_DIR}/open_source/GmSSL3.0)
+if (EXISTS ${PROJECT_SOURCE_DIR}/open_source/GmSSL3.1.1)
+    set(GMSSL_PATH ${PROJECT_SOURCE_DIR}/open_source/GmSSL3.1.1)
+else()
+    set(GMSSL_PATH ${PROJECT_SOURCE_DIR}/open_source/GmSSL3.0)
+endif()
 
 set(GMSSL_HEADER_LIST
     ${GMSSL_PATH}/include/

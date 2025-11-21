@@ -418,7 +418,8 @@ errcode_t uapi_sfc_reg_other_flash_opt(sfc_flash_op_t cmd_type, uint8_t cmd, uin
     if (unlikely(!g_sfc_inited)) {
         return ERRCODE_SFC_NOT_INIT;
     }
-    if (unlikely(length > BYTES_18) || unlikely(buffer == NULL)) {
+    /* 有不带数据的cmd指令，这种情况buffer为NULL也是正常的，所以要将length一起判断。 */
+    if (unlikely(length > BYTES_18) || unlikely(length !=0 && buffer == NULL)) {
         return ERRCODE_INVALID_PARAM;
     }
     uint32_t lock_sts = sfc_port_lock();

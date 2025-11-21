@@ -1,0 +1,360 @@
+{
+    "chipName": "bs20",
+    "seriesName": "cfbb",
+    "board": "bs20",
+    "compile": {
+        "custom_build_command": "standard-bs20-n1200",
+        "tool_chain": [
+            "cc_riscv32_musl_fp_win"
+        ],
+        "map_path": "./output/bs20/acore/standard-bs20-n1200/application.map"
+    },
+    "debug": {
+        "elf_path": "./output/bs20/acore/standard-bs20-n1200/application.elf",
+        "breakpoints_limitation": "7",
+        "stop_debug_state": "restart",
+        "client": [
+            "gdb"
+        ],
+        "tool": [
+            "jlink"
+        ],
+        "params": [
+            {
+                "name": "jlink",
+                "param": {
+                    "interface": [
+                        "swd",
+                        "jtag"
+                    ],
+                    "speed": "5000",
+                    "port": "3333"
+                }
+            }
+        ],
+        "timeout_list": [
+            "15000",
+            "30000",
+            "60000",
+            "120000",
+            "-1"
+        ],
+        "timeout_default": "60000"
+    },
+    "upload": {
+        "bin_path": "./tools/pkg/fwpkg/bs20/bs20_all.fwpkg",
+        "reset": 1,
+        "burn_verification": 0,
+        "protocol": [
+            "serial",
+            "usb"
+        ],
+        "baudList": [
+            "2400",
+            "4800",
+            "9600",
+            "19200",
+            "38400",
+            "57600",
+            "115200",
+            "230400",
+            "460800",
+            "500000",
+            "750000",
+            "921600",
+            "2000000"
+        ],
+        "params": [
+            {
+                "name": "serial",
+                "param": {
+                    "port": "",
+                    "baud": "750000",
+                    "stop_bit": "0",
+                    "parity": "N",
+                    "inside_protocol": ""
+                }
+            },
+            {
+                "name": "usb",
+                "param": {
+                    "usbValueList": "",
+                    "stop_bit": "0",
+                    "parity": "N",
+                    "inside_protocol": ""
+                }
+            }
+        ]
+    },
+    "console": {
+        "serial_port": "",
+        "baud": "115200",
+        "stop_bit": "0",
+        "parity": "N"
+    },
+    "need_sdk": true,
+    "need_project_path": true,
+    "chip_config": false,
+    "gui": false,
+    "platform": "cfbb",
+    "project_type": [
+        {
+            "name": "cfbb",
+            "base_on_sdk": true
+        }
+    ],
+    "analysis": {
+        "elf_path": "./output/bs20/acore/standard-bs20-n1200/application.elf",
+        "map_path": "./output/bs20/acore/standard-bs20-n1200/application.map",
+        "tool_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin"
+    },
+    "kConfig": {
+        "menu_config_file_path": "config.in",
+        "menu_config_build_target": "standard-bs20-n1200",
+        "menu_config_core": "acore",
+        "menu_config_target_path": "./build/config/target_config/bs20/menuconfig/acore"
+    },
+    "variabletrace": "false",
+    "config_script": "build/config/target_config/bs20/config.py",
+    "menuconfig": "build/config/target_config/bs20/menuconfig/acore/standard_bs20_n1200.config",
+    "sign_config": "build/config/target_config/bs20/sign_config/standard_bs20_n1200.cfg",
+    "partition": "build/config/target_config/bs20/flash_sector_config",
+    "nv": "middleware/chips/bs20/nv/nv_config",
+    "flash_boot": "interim_binary/bs20/bin/boot_bin",
+    "loader_boot": "interim_binary/bs20/bin/boot_bin",
+    "liteos_kconfig": "kernel/liteos/liteos_v208.6.0_b017/Huawei_LiteOS/tools/build/config",
+    "liteos_script": "kernel/liteos/liteos_v208.6.0_b017/show_menuconfig.py",
+    "target_default": "STANDARD-BS20-N1200",
+    "target_preset": [
+       "standard-bs20-n1200",
+       "bs20-n1200-rcu"
+    ],
+    "target": {
+        "BS20-N1200": {
+            "STANDARD-BS20-N1200": {
+                "cmake": {
+                    "support_task": [
+                        "build",
+                        "clean",
+                        "rebuild",
+                        "upload",
+                        "stack analysis",
+                        "image analysis",
+                        "kconfig"
+                    ],
+                    "build": {
+                        "build_command": "./build.py",
+                        "build_argv": "standard-bs20-n1200",
+                        "custom_build_command": {
+                            "standard-bs20-n1200": {
+                                "build_command": "./build.py",
+                                "build_argv": "standard-bs20-n1200"
+                            }
+                        }
+                    },
+                    "stack analysis": {
+                        "analysis_elf_path": "./output/bs20/acore/standard-bs20-n1200/application.elf",
+                        "analysis_compiler_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin",
+                        "build_config_path": ""
+                    },
+                    "image analysis": {
+                        "analysis_elf_path": "./output/bs20/acore/standard-bs20-n1200/application.elf",
+                        "analysis_map_path": "./output/bs20/acore/standard-bs20-n1200/application.map",
+                        "analysis_compiler_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin",
+                        "build_config_path": ""
+                    },
+                    "upload": {
+                        "upload_speed": "750000",
+                        "upload_partitions": "./tools/pkg/fwpkg/bs20/bs20_all.fwpkg",
+                        "upload_protocol": ""
+                    },
+                    "debug": {
+                        "debug_client": "gdb",
+                        "debug_tool": "jlink",
+                        "debug_interface": "swd",
+                        "debug_device": "CPU CORE|RISC-V|RISC-V",
+                        "debug_elf": "./output/bs20/acore/standard-bs20-n1200/application.elf"
+                    },
+                    "kconfig": {
+                        "menu_config_file_path": "./config.in",
+                        "menu_config_build_target": "standard-bs20-n1200",
+                        "menu_config_core": "acore",
+                        "menu_config_target_path": "./build/config/target_config/bs20/menuconfig/acore"
+                    },
+                    "chip config": {
+                        "series_name": "bs20",
+                        "board_build.mcu": "bs20"
+                    }
+                }
+            },
+            "BS20-N1200-RCU": {
+                "cmake": {
+                    "support_task": [
+                        "build",
+                        "clean",
+                        "rebuild",
+                        "upload",
+                        "stack analysis",
+                        "image analysis",
+                        "kconfig"
+                    ],
+                    "build": {
+                        "build_command": "./build.py",
+                        "build_argv": "bs20-n1200-rcu",
+                        "custom_build_command": {
+                            "bs20-n1200-rcu": {
+                                "build_command": "./build.py",
+                                "build_argv": "bs20-n1200-rcu"
+                            }
+                        }
+                    },
+                    "stack analysis": {
+                        "analysis_elf_path": "./output/bs20/acore/bs20-n1200-rcu/application.elf",
+                        "analysis_compiler_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin",
+                        "build_config_path": ""
+                    },
+                    "image analysis": {
+                        "analysis_elf_path": "./output/bs20/acore/bs20-n1200-rcu/application.elf",
+                        "analysis_map_path": "./output/bs20/acore/bs20-n1200-rcu/application.map",
+                        "analysis_compiler_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin",
+                        "build_config_path": ""
+                    },
+                    "upload": {
+                        "upload_speed": "750000",
+                        "upload_partitions": "./tools/pkg/fwpkg/bs20/bs20_all.fwpkg",
+                        "upload_protocol": ""
+                    },
+                    "debug": {
+                        "debug_client": "gdb",
+                        "debug_tool": "jlink",
+                        "debug_interface": "swd",
+                        "debug_device": "CPU CORE|RISC-V|RISC-V",
+                        "debug_elf": "./output/bs20/acore/bs20-n1200-rcu/application.elf"
+                    },
+                    "kconfig": {
+                        "menu_config_file_path": "./config.in",
+                        "menu_config_build_target": "bs20-n1200-rcu",
+                        "menu_config_core": "acore",
+                        "menu_config_target_path": "./build/config/target_config/bs20/menuconfig/acore"
+                    },
+                    "chip config": {
+                        "series_name": "bs20",
+                        "board_build.mcu": "bs20"
+                    }
+                }
+            },
+            "BS20-TURNKEY-MOUSE": {
+                "cmake": {
+                    "support_task": [
+                        "build",
+                        "clean",
+                        "rebuild",
+                        "upload",
+                        "stack analysis",
+                        "image analysis",
+                        "kconfig"
+                    ],
+                    "build": {
+                        "build_command": "./build.py",
+                        "build_argv": "bs20-turnkey-mouse",
+                        "custom_build_command": {
+                            "bs20-turnkey-mouse": {
+                                "build_command": "./build.py",
+                                "build_argv": "bs20-turnkey-mouse"
+                            }
+                        }
+                    },
+                    "stack analysis": {
+                        "analysis_elf_path": "./output/bs20/acore/bs20-turnkey-mouse/application.elf",
+                        "analysis_compiler_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin",
+                        "build_config_path": ""
+                    },
+                    "image analysis": {
+                        "analysis_elf_path": "./output/bs20/acore/bs20-turnkey-mouse/application.elf",
+                        "analysis_map_path": "./output/bs20/acore/bs20-turnkey-mouse/application.map",
+                        "analysis_compiler_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin",
+                        "build_config_path": ""
+                    },
+                    "upload": {
+                        "upload_speed": "750000",
+                        "upload_partitions": "./tools/pkg/fwpkg/bs20/bs20_all.fwpkg",
+                        "upload_protocol": ""
+                    },
+                    "debug": {
+                        "debug_client": "gdb",
+                        "debug_tool": "jlink",
+                        "debug_interface": "swd",
+                        "debug_device": "CPU CORE|RISC-V|RISC-V",
+                        "debug_elf": "./output/bs20/acore/bs20-turnkey-mouse/application.elf"
+                    },
+                    "kconfig": {
+                        "menu_config_file_path": "./config.in",
+                        "menu_config_build_target": "bs20-turnkey-mouse",
+                        "menu_config_core": "acore",
+                        "menu_config_target_path": "./build/config/target_config/bs20/menuconfig/acore"
+                    },
+                    "chip config": {
+                        "series_name": "bs20",
+                        "board_build.mcu": "bs20"
+                    }
+                }
+            },
+            "BS20-TURNKEY-DONGLE": {
+                "cmake": {
+                    "support_task": [
+                        "build",
+                        "clean",
+                        "rebuild",
+                        "upload",
+                        "stack analysis",
+                        "image analysis",
+                        "kconfig"
+                    ],
+                    "build": {
+                        "build_command": "./build.py",
+                        "build_argv": "bs20-turnkey-dongle",
+                        "custom_build_command": {
+                            "bs20-turnkey-dongle": {
+                                "build_command": "./build.py",
+                                "build_argv": "bs20-turnkey-dongle"
+                            }
+                        }
+                    },
+                    "stack analysis": {
+                        "analysis_elf_path": "./output/bs20/acore/bs20-turnkey-dongle/application.elf",
+                        "analysis_compiler_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin",
+                        "build_config_path": ""
+                    },
+                    "image analysis": {
+                        "analysis_elf_path": "./output/bs20/acore/bs20-turnkey-dongle/application.elf",
+                        "analysis_map_path": "./output/bs20/acore/bs20-turnkey-dongle/application.map",
+                        "analysis_compiler_path": "./tools/bin/compiler/riscv/cc_riscv32_musl_b010/cc_riscv32_musl_fp_win/bin",
+                        "build_config_path": ""
+                    },
+                    "upload": {
+                        "upload_speed": "750000",
+                        "upload_partitions": "./tools/pkg/fwpkg/bs20/bs20_all.fwpkg",
+                        "upload_protocol": ""
+                    },
+                    "debug": {
+                        "debug_client": "gdb",
+                        "debug_tool": "jlink",
+                        "debug_interface": "swd",
+                        "debug_device": "CPU CORE|RISC-V|RISC-V",
+                        "debug_elf": "./output/bs20/acore/bs20-turnkey-dongle/application.elf"
+                    },
+                    "kconfig": {
+                        "menu_config_file_path": "./config.in",
+                        "menu_config_build_target": "bs20-turnkey-dongle",
+                        "menu_config_core": "acore",
+                        "menu_config_target_path": "./build/config/target_config/bs20/menuconfig/acore"
+                    },
+                    "chip config": {
+                        "series_name": "bs20",
+                        "board_build.mcu": "bs20"
+                    }
+                }
+            }
+        }
+    }
+}

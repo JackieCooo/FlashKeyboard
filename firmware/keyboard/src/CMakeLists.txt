@@ -35,7 +35,11 @@ include("${CMAKE_DIR}/build_component.cmake")
 include("${CMAKE_DIR}/build_sdk.cmake")
 
 include_directories(${ROOT_DIR}/kernel/liteos/liteos_v208.6.0_b017/Huawei_LiteOS/lib/liteos_libc/time)
-include_directories(${ROOT_DIR}/kernel/liteos/liteos_v208.6.0_b017/Huawei_LiteOS/targets/aiot/bs21/include)
+if(${CHIP} STREQUAL "bs21e")
+    include_directories(${ROOT_DIR}/kernel/liteos/liteos_v208.6.0_b017/Huawei_LiteOS/targets/aiot/bs21/include)
+else()
+    include_directories(${ROOT_DIR}/kernel/liteos/liteos_v208.6.0_b017/Huawei_LiteOS/targets/aiot/${CHIP}/include)
+endif()
 include_directories(${ROOT_DIR}/kernel/liteos/liteos_v208.6.0_b017/Huawei_LiteOS/targets/aiot/common)
 
 if(${BUILD_TYPE} STREQUAL "UT")

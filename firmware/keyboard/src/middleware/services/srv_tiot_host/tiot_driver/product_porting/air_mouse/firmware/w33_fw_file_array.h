@@ -4,7 +4,7 @@
  * Description:  w33 firmware file arrays.
  * Author: 
  * History:
- * 2025-06-23, Create file.
+ * 2025-08-26, Create file.
  */
 
 #ifndef W33_FW_FILE_ARRAY_H

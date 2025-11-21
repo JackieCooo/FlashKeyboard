@@ -254,6 +254,58 @@ const at_cmd_entry_t at_bt_cmd_parse_table[] = {
         NULL,
         NULL,
     },
+#if BT_TSENSOR_ENABLE
+    {
+        "READTEMP",
+        24, // ID
+        0,  // Attribute
+        NULL, // 无参数
+        (at_cmd_func_t)bt_at_get_temp_cmd,
+        NULL,
+        NULL,
+        NULL,
+    },
+#endif
+    {
+        "NVREAD",
+        25, // ID
+        0,  // Attribute
+        read_nv_param_syntax, // key_id
+        NULL,
+        (at_set_func_t)bt_at_nv_read_cmd,
+        NULL,
+        NULL,
+    },
+    {
+        "NVMAC",
+        26, // ID
+        0,  // Attribute
+        set_nv_mac_param_syntax,
+        NULL,
+        (at_set_func_t)bt_at_set_nv_mac_addr,
+        (at_read_func_t)bt_at_get_nv_mac_addr,
+        NULL,
+    },
+    {
+        "VERSION",
+        27, // ID
+        0,  // Attribute
+        NULL, // 无参数
+        (at_cmd_func_t)bt_at_get_version_cmd,
+        NULL,
+        NULL,
+        NULL,
+    },
+    {
+        "POWERMODE",
+        28, // ID
+        0,  // Attribute
+        NULL,
+        (at_cmd_func_t)bt_at_get_power_mode_cmd,
+        NULL,
+        NULL,
+        NULL,
+    },
 };
 
 uint32_t uapi_get_bt_table_size(void)

@@ -12,6 +12,7 @@
 #include "soc_osal.h"
 #include "platform_types.h"
 #include "platform_core.h"
+#include "arch_port.h"
 #include "gpio_porting.h"
 
 /**
@@ -85,4 +86,10 @@ void gpio_select_core(pin_t pin, cores_t core)
 {
     unused(pin);
     unused(core);
+}
+
+void hal_gpio_register_irq(uint32_t int_id)
+{
+    osal_irq_request(int_id, (osal_irq_handler)hal_gpio_irq_handler, NULL, NULL, NULL);
+    osal_irq_set_priority(int_id, irq_prio(int_id));
 }

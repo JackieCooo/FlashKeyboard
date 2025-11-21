@@ -63,11 +63,13 @@ void dma_port_set_handshaking_channel_status(hal_dma_handshaking_source_t channe
     if (channel >= HAL_DMA_HANDSHAKING_MAX_NUM) {
         return;
     }
+    uint32_t irq_sts = osal_irq_lock();
     if (on) {
         g_dma_handshaking_channel_status |= (1UL << channel);
     } else {
         g_dma_handshaking_channel_status &= (uint32_t)(~(1UL << channel));
     }
+    osal_irq_restore(irq_sts);
 }
 
 void dma_port_set_handshaking_source(dma_channel_t ch, hal_dma_handshaking_source_t source,
@@ -85,7 +87,7 @@ void dma_port_release_handshaking_source(dma_channel_t ch)
     dma_port_set_handshaking_channel_status(chn_sreq_info[ch], false);
     dma_port_set_handshaking_channel_status(chn_dreq_info[ch], false);
     chn_sreq_info[ch] = 0;
-    chn_sreq_info[ch] = 0;
+    chn_dreq_info[ch] = 0;
 }
 
 errcode_t dma_port_set_mux_channel(dma_channel_t ch, hal_dma_transfer_peri_config_t *per_cfg)

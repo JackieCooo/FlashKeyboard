@@ -2,7 +2,7 @@
  * Copyright (c) HiSilicon (Shanghai) Technologies Co., Ltd. 2022-2022. All rights reserved. \n
  *
  * Description: Provides V151 PWM register operation api \n
- * Author:
+ * Author: HiSilicon (Shanghai) Technologies Co., Ltd. \n
  * History: \n
  * 2022-12-9， Create file. \n
  */

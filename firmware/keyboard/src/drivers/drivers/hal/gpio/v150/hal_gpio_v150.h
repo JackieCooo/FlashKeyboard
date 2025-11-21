@@ -299,6 +299,23 @@ errcode_t hal_gpio_v150_register(pin_t pin, uint32_t trigger, gpio_callback_t ca
 errcode_t hal_gpio_v150_unregister(pin_t pin);
 
 /**
+ * @if Eng
+ * @brief  Handler of the gpio interrupt request.
+ * @param  [in]  irq_num Interrupt Number.
+ * @param  [in]  tmp Reserved.
+ * @retval Zero  Success.
+ * @retval Other Failure.
+ * @else
+ * @brief  HAL层GPIO的注册中断接口。
+ * @param  [in]  irq_num 中断号。
+ * @param  [in]  tmp 预留待用。
+ * @retval Zero  成功。
+ * @retval Other 失败。
+ * @endif
+ */
+int hal_gpio_irq_handler(int irq_num, const void *tmp);
+
+/**
  * @}
  */
 

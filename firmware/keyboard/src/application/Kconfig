@@ -87,11 +87,11 @@ endif
 
 config KEYBOARD_APP_ENABLE
     bool
-    prompt "Enable Keyboard Application."
+    prompt "Enable Keyboard application."
     default y
     help
         This option means enable keyboard application.
 
 if KEYBOARD_APP_ENABLE
-osource "application/bs21e/main_app/Kconfig"
+osource "application/keyboard/Kconfig"
 endif

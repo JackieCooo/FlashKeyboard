@@ -425,6 +425,10 @@ extern UINT32 LOS_SwtmrDelete(UINT16 swtmrId);
 extern UINT32 LOS_SwtmrSyncDelete(UINT16 swtmrId);
 #endif
 
+#ifdef LOSCFG_SWTMR_SUPPORT_MOD
+LITE_OS_SEC_TEXT UINT32 LOS_SwtmrMod(UINT16 swtmrId, UINT32 interval);
+#endif
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

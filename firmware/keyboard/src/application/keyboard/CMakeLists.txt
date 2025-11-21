@@ -1,0 +1,57 @@
+set(COMPONENT_NAME "keyboard")
+
+file(GLOB APP_PERI_SRC ${CMAKE_CURRENT_SOURCE_DIR}/peripheral/*.c)
+file(GLOB APP_BLE_SRC ${CMAKE_CURRENT_SOURCE_DIR}/ble_service/*.c)
+file(GLOB APP_SLE_SRC ${CMAKE_CURRENT_SOURCE_DIR}/sle_service/*.c)
+file(GLOB APP_USB_SRC ${CMAKE_CURRENT_SOURCE_DIR}/usb_service/*.c)
+file(GLOB APP_HAL_SRC ${CMAKE_CURRENT_SOURCE_DIR}/hal/*.c)
+file(GLOB APP_UTILS_SRC ${CMAKE_CURRENT_SOURCE_DIR}/utils/*.c)
+
+set(SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/keyboard_app_entry.c
+    ${APP_PERI_SRC}
+    ${APP_BLE_SRC}
+    ${APP_SLE_SRC}
+    ${APP_USB_SRC}
+    ${APP_HAL_SRC}
+    ${APP_UTILS_SRC}
+)
+
+set(PRIVATE_HEADER
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/peripheral
+    ${CMAKE_CURRENT_SOURCE_DIR}/ble_service
+    ${CMAKE_CURRENT_SOURCE_DIR}/sle_service
+    ${CMAKE_CURRENT_SOURCE_DIR}/usb_service
+    ${CMAKE_CURRENT_SOURCE_DIR}/hal
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils
+)
+
+set(PUBLIC_HEADER
+)
+
+set(PRIVATE_DEFINES
+)
+
+set(PUBLIC_DEFINES
+)
+
+set(COMPONENT_PUBLIC_CCFLAGS
+)
+
+set(COMPONENT_CCFLAGS
+)
+
+set(WHOLE_LINK
+true
+)
+
+set(BUILD_AS_OBJ
+false
+)
+
+set(MAIN_COMPONENT
+true
+)
+
+build_component()

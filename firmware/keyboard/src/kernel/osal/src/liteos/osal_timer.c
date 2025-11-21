@@ -113,6 +113,9 @@ int osal_timer_init(osal_timer *timer)
  */
 int osal_timer_mod(osal_timer *timer, unsigned int interval)
 {
+#ifdef LOSCFG_SWTMR_SUPPORT_MOD
+    return LOS_SwtmrMod((unsigned short)(UINTPTR)(timer->timer), interval);
+#else
     unsigned int ret;
 #ifdef LOSCFG_TIMER_DEBUG
     osal_log("osal_timer_mod caller is:0x%x\r\n", (unsigned int)__builtin_return_address(0));
@@ -139,6 +142,7 @@ int osal_timer_mod(osal_timer *timer, unsigned int interval)
         osal_log("LOS_SwtmrStart failed! ret = %#x.\n", ret);
     }
     return (int)ret;
+#endif
 }
 
 /*

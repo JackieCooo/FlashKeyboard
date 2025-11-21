@@ -48,7 +48,9 @@
 #include "los_init_pri.h"
 #include "los_hw.h"
 #include "oam_trace.h"
-
+#if defined (CONFIG_NV_SUPPORT_ENCRYPT) && CONFIG_NV_SUPPORT_ENCRYPT == NV_YES
+#include "crypto_osal_lib.h"
+#endif
 #if (ENABLE_LOW_POWER == YES)
 #include "pmu_interrupt.h"
 #include "pm.h"
@@ -434,7 +436,9 @@ static void chip_sw_init(void)
     dfx_system_init();
     hal_register_exception_dump_callback(log_exception_dump);
 #endif
-
+#if defined (CONFIG_NV_SUPPORT_ENCRYPT) && CONFIG_NV_SUPPORT_ENCRYPT == NV_YES
+    crypto_drv_init();
+#endif
     app_upg_init();
     uapi_nv_init();
 #ifdef XO_32M_CALI

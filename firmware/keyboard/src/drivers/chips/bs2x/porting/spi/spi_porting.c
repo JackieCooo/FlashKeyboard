@@ -333,11 +333,17 @@ bool spi_porting_is_sspi_mode(spi_bus_t bus)
 
 void spi_porting_set_sspi_waite_cycle(spi_bus_t bus, uint32_t waite_cycle)
 {
+    if (!uapi_get_spi_initialised_state(bus)) {
+        return;
+    }
     g_spi_base_addrs[bus]->spi_rsvd = waite_cycle;
 }
 
 void spi_porting_set_rx_mode(spi_bus_t bus, uint16_t num)
 {
+    if (!uapi_get_spi_initialised_state(bus)) {
+        return;
+    }
     if (spi_porting_is_sspi_mode(bus)) {
         return;
     }
@@ -349,6 +355,9 @@ void spi_porting_set_rx_mode(spi_bus_t bus, uint16_t num)
 
 void spi_porting_set_tx_mode(spi_bus_t bus)
 {
+    if (!uapi_get_spi_initialised_state(bus)) {
+        return;
+    }
     if (spi_porting_is_sspi_mode(bus)) {
         return;
     }
@@ -359,6 +368,9 @@ void spi_porting_set_tx_mode(spi_bus_t bus)
 
 void spi_porting_set_txrx_mode(spi_bus_t bus)
 {
+    if (!uapi_get_spi_initialised_state(bus)) {
+        return;
+    }
     if (spi_porting_is_sspi_mode(bus)) {
         return;
     }

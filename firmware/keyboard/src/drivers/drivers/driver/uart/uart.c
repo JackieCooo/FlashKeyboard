@@ -432,56 +432,72 @@ STATIC int32_t uapi_uart_param_check(uart_bus_t bus, const uint8_t *buffer, uint
 }
 
 #if defined(CONFIG_UART_SUPPORT_TX)
-int32_t uapi_uart_write(uart_bus_t bus, const uint8_t *buffer, uint32_t length, uint32_t timeout)
+#if defined(CONFIG_SUPPORT_UART_TX_POLL_TIMEOUT)
+uint32_t uart_write_is_timeout(int32_t *write_count, uint32_t *cnt, uint32_t timeout)
 {
-    unused(timeout);
+    (*cnt)++;
+    if (*cnt > timeout) {
+        if (*write_count == 0) { // 超时时发送数据为0， 返回超时错误码
+            *write_count = ERROCDE_UART_TRANSFER_TIMEOUT;
+        }
+        return ERROCDE_UART_TRANSFER_TIMEOUT;
+    }
+    return ERRCODE_SUCC;
+}
+#endif
+static int32_t uapi_uart_write_common(uart_bus_t bus, const uint8_t *buffer, uint32_t length,
+                                      uint32_t timeout, bool need_lock)
+{
     bool tx_fifo_full = false;
     uint8_t *data_buffer = (uint8_t *)buffer;
     int32_t write_count = 0;
     uint32_t len = length;
+    uint32_t cnt = 0;
 
     int32_t ret = uapi_uart_param_check(bus, buffer, length);
     if (ret != ERRCODE_SUCC) {
         return ret;
     }
 
-    uint32_t irq_sts = uart_porting_lock(bus);
+    uint32_t irq_sts = 0;
+    if (need_lock) {
+        irq_sts = uart_porting_lock(bus);
+    }
+
     while (len > 0) {
         hal_uart_ctrl(bus, UART_CTRL_CHECK_TX_FIFO_FULL, (uintptr_t)&tx_fifo_full);
         if (tx_fifo_full == false) {
             hal_uart_write(bus, data_buffer++, 1);
             len--;
             write_count++;
+            cnt = 0; // 清除超时计数
+        } else {
+#if defined(CONFIG_SUPPORT_UART_TX_POLL_TIMEOUT)
+            if (uart_write_is_timeout(&write_count, &cnt, timeout) != ERRCODE_SUCC) {
+                break;
+            }
+#else
+            unused(cnt);
+            unused(timeout);
+#endif
         }
     }
-    uart_porting_unlock(bus, irq_sts);
+
+    if (need_lock) {
+        uart_porting_unlock(bus, irq_sts);
+    }
 
     return write_count;
 }
 
+int32_t uapi_uart_write(uart_bus_t bus, const uint8_t *buffer, uint32_t length, uint32_t timeout)
+{
+    return uapi_uart_write_common(bus, buffer, length, timeout, true);
+}
+
 int32_t uapi_uart_write_nolock(uart_bus_t bus, const uint8_t *buffer, uint32_t length, uint32_t timeout)
 {
-    unused(timeout);
-    bool tx_fifo_full = false;
-    uint8_t *data_buffer = (uint8_t *)buffer;
-    int32_t write_count = 0;
-    uint32_t len = length;
-
-    int32_t ret = uapi_uart_param_check(bus, buffer, length);
-    if (ret != ERRCODE_SUCC) {
-        return ret;
-    }
-
-    while (len > 0) {
-        hal_uart_ctrl(bus, UART_CTRL_CHECK_TX_FIFO_FULL, (uintptr_t)&tx_fifo_full);
-        if (tx_fifo_full == false) {
-            hal_uart_write(bus, data_buffer++, 1);
-            len--;
-            write_count++;
-        }
-    }
-
-    return write_count;
+    return uapi_uart_write_common(bus, buffer, length, timeout, false);
 }
 
 #if defined(CONFIG_UART_SUPPORT_TX_INT)
@@ -513,7 +529,7 @@ errcode_t uapi_uart_write_int(uart_bus_t bus, const uint8_t *buffer, uint32_t le
     if (ret != ERRCODE_SUCC) {
         return ret;
     }
-
+    osal_kthread_lock();
     uint32_t irq_sts = uart_porting_lock(bus);
     if (uart_helper_are_there_fragments_to_process(bus) == true) {
         uapi_uart_data_send(bus);
@@ -522,6 +538,7 @@ errcode_t uapi_uart_write_int(uart_bus_t bus, const uint8_t *buffer, uint32_t le
     bool fragment_added = uart_helper_add_fragment(bus, buffer, length, params, finished_with_buffer_func);
     if (!fragment_added) {
         uart_porting_unlock(bus, irq_sts);
+        osal_kthread_unlock();
         return ERRCODE_UART_ADD_QUEUE_FAIL;
     }
     /* If it is the first on the list process it */
@@ -534,6 +551,7 @@ errcode_t uapi_uart_write_int(uart_bus_t bus, const uint8_t *buffer, uint32_t le
         }
     }
     uart_porting_unlock(bus, irq_sts);
+    osal_kthread_unlock();
     return ERRCODE_SUCC;
 }
 #endif
@@ -860,7 +878,6 @@ int32_t uapi_uart_read(uart_bus_t bus, const uint8_t *buffer, uint32_t length, u
         return ret;
     }
 
-    unused(timeout);
     bool rx_fifo_empty = false;
     uint8_t *data_buffer = (uint8_t *)buffer;
     int32_t read_count = 0;
@@ -874,14 +891,16 @@ int32_t uapi_uart_read(uart_bus_t bus, const uint8_t *buffer, uint32_t length, u
             hal_uart_read(bus, data_buffer++, 1);
             len--;
             read_count++;
+            cnt = 0; // 清除超时计数
         } else {
-#if defined(CONFIG_SUPPORT_UART_POLL_TIMEOUT)
+#if defined(CONFIG_SUPPORT_UART_RX_POLL_TIMEOUT)
             cnt++;
-            if (cnt > CONFIG_UART_READ_MAX_TIMEOUT) {
+            if (cnt > timeout) {
                 break;
             }
 #else
             unused(cnt);
+            unused(timeout);
 #endif
         }
     }

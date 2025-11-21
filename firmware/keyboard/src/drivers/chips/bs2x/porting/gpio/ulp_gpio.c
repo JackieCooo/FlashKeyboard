@@ -177,7 +177,7 @@ void ulp_gpio_disable_interrupt(uint8_t ulp_gpio)
     if (unlikely(!g_ulp_gpio_inited)) {
         return;
     }
-    reg8_setbit(ULP_GPIO_INT_EN_REG, ulp_gpio);
+    reg8_clrbit(ULP_GPIO_INT_EN_REG, ulp_gpio);
 }
 
 void ulp_gpio_clear_interrupt(uint8_t ulp_gpio)

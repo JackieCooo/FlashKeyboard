@@ -462,6 +462,11 @@ static void spi_int_mode_init(spi_bus_t bus)
 #endif  /* CONFIG_SPI_SUPPORT_INTERRUPT */
 }
 
+bool uapi_get_spi_initialised_state(spi_bus_t bus)
+{
+    return g_spi_is_initialised[bus];
+}
+
 errcode_t uapi_spi_init(spi_bus_t bus, spi_attr_t *attr, spi_extra_attr_t *extra_attr)
 {
     errcode_t ret = ERRCODE_SUCC;
@@ -578,23 +583,15 @@ errcode_t uapi_spi_set_dma_mode(spi_bus_t bus, bool en, const spi_dma_config_t *
 
 static void spi_dma_isr(uint8_t int_type, uint8_t ch, uintptr_t arg)
 {
-    uint8_t bus = SPI_BUS_MAX_NUM;
+    unused(ch);
+    uint8_t bus = (uint8_t)((arg >> 8) & 0xFF); /* 8: offset */
+    uint8_t trans_status = (uint8_t)(arg & 0xFF);
     spi_dma_trans_inf_t *dma_trans = NULL;
 
-    if ((uint32_t)arg == 0) {
+    if (trans_status == 0) {
         dma_trans = g_dma_trans_tx;
     } else {
         dma_trans = g_dma_trans_rx;
-    }
-
-    for (uint8_t i = SPI_BUS_0; i < SPI_BUS_MAX_NUM; i++) {
-        /* channel default value is 0, means not used. channel > 0 means used.
-           So ch + 1 will not misjudgment with channel value 0. */
-        if (dma_trans[i].channel == ch + 1) {
-            g_dma_trans_tx[i].channel = 0;
-            bus = i;
-            break;
-        }
     }
 
     if (bus != SPI_BUS_MAX_NUM) {
@@ -669,6 +666,7 @@ static void spi_dma_tx_config(dma_ch_user_peripheral_config_t *transfer_config, 
 
 static errcode_t spi_write_dma(spi_bus_t bus, const spi_xfer_data_t *data, uint32_t timeout)
 {
+    uint32_t arg = 0;
     dma_ch_user_peripheral_config_t transfer_config = { 0 };
     uint8_t channel = DMA_CHANNEL_NONE;
     if (data->tx_buff == NULL || data->tx_bytes == 0) {
@@ -696,7 +694,10 @@ static errcode_t spi_write_dma(spi_bus_t bus, const spi_xfer_data_t *data, uint3
         return ERRCODE_SPI_DMA_CONFIG_ERROR;
     }
 
-    if (uapi_dma_configure_peripheral_transfer_single(&transfer_config, &channel, spi_dma_isr, 0) != ERRCODE_SUCC) {
+    arg = arg + (uint32_t)((uint32_t)bus << 8); /* 8: offset */
+
+    if (uapi_dma_configure_peripheral_transfer_single(&transfer_config, &channel, spi_dma_isr,
+        (uintptr_t)arg) != ERRCODE_SUCC) {
         return ERRCODE_SPI_DMA_CONFIG_ERROR;
     }
 
@@ -743,6 +744,7 @@ static void spi_dma_rx_config(dma_ch_user_peripheral_config_t *transfer_config, 
 
 static errcode_t spi_read_dma(spi_bus_t bus, const spi_xfer_data_t *data, uint32_t timeout)
 {
+    uint32_t arg = 1;
     dma_ch_user_peripheral_config_t transfer_config = { 0 };
     uint8_t channel = DMA_CHANNEL_NONE;
 
@@ -768,7 +770,10 @@ static errcode_t spi_read_dma(spi_bus_t bus, const spi_xfer_data_t *data, uint32
         return ERRCODE_SPI_DMA_CONFIG_ERROR;
     }
 
-    if (uapi_dma_configure_peripheral_transfer_single(&transfer_config, &channel, spi_dma_isr, 1) != ERRCODE_SUCC) {
+    arg = arg + (uint32_t)((uint32_t)bus << 8); /* 8: offset */
+
+    if (uapi_dma_configure_peripheral_transfer_single(&transfer_config, &channel, spi_dma_isr,
+        (uintptr_t)arg) != ERRCODE_SUCC) {
         return ERRCODE_SPI_DMA_CONFIG_ERROR;
     }
 
@@ -798,6 +803,7 @@ static errcode_t spi_read_dma(spi_bus_t bus, const spi_xfer_data_t *data, uint32
 
 static errcode_t spi_read_dma_config(spi_bus_t bus, uint8_t *ch, const spi_xfer_data_t *data)
 {
+    uint32_t arg = 1;
     dma_ch_user_peripheral_config_t transfer_config = { 0 };
     uint8_t channel = DMA_CHANNEL_NONE;
 
@@ -823,7 +829,10 @@ static errcode_t spi_read_dma_config(spi_bus_t bus, uint8_t *ch, const spi_xfer_
         return ERRCODE_SPI_DMA_CONFIG_ERROR;
     }
 
-    if (uapi_dma_configure_peripheral_transfer_single(&transfer_config, &channel, spi_dma_isr, 1) != ERRCODE_SUCC) {
+    arg = arg + (uint32_t)((uint32_t)bus << 8); /* 8: offset */
+
+    if (uapi_dma_configure_peripheral_transfer_single(&transfer_config, &channel, spi_dma_isr,
+        (uintptr_t)arg) != ERRCODE_SUCC) {
         return ERRCODE_SPI_DMA_CONFIG_ERROR;
     }
 
@@ -836,6 +845,7 @@ static errcode_t spi_read_dma_config(spi_bus_t bus, uint8_t *ch, const spi_xfer_
 
 static errcode_t spi_write_dma_config(spi_bus_t bus, uint8_t *ch, const spi_xfer_data_t *data)
 {
+    uint32_t arg = 0;
     dma_ch_user_peripheral_config_t transfer_config = { 0 };
     uint8_t channel = DMA_CHANNEL_NONE;
 
@@ -861,7 +871,10 @@ static errcode_t spi_write_dma_config(spi_bus_t bus, uint8_t *ch, const spi_xfer
         return ERRCODE_SPI_DMA_CONFIG_ERROR;
     }
 
-    if (uapi_dma_configure_peripheral_transfer_single(&transfer_config, &channel, spi_dma_isr, 0) != ERRCODE_SUCC) {
+    arg = arg + (uint32_t)((uint32_t)bus << 8); /* 8: offset */
+
+    if (uapi_dma_configure_peripheral_transfer_single(&transfer_config, &channel, spi_dma_isr,
+        (uintptr_t)arg) != ERRCODE_SUCC) {
         return ERRCODE_SPI_DMA_CONFIG_ERROR;
     }
 

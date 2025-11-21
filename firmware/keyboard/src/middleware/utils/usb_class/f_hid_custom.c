@@ -193,54 +193,7 @@ static struct usb_epdesc_s g_fhid_in_ep_desc =
   .interval = 1                           /* bInterval = 125us */
 };
 
-static struct usb_ifdesc_s g_fhid_intf2_desc =
-{
-  .len      = sizeof(struct usb_ifdesc_s),
-  .type     = USB_DESC_TYPE_INTERFACE,
-  .ifno     = 0,    /* Index number of this interface */
-  .alt      = 0,    /* Index of this settings */
-  .neps     = 2,    /* Number of endpoint */
-  .classid  = 0x03, /* bInterfaceClass: HID */
-  .subclass = 1,    /* bInterfaceSubClass : 1=BOOT, 0=no boot */
-  .protocol = 0,    /* bInterfaceProtocol : 0=none, 1=keyboard, 2=mouse */
-  .iif      = 0     /* Index of string descriptor */
-};
-
-static struct usb_hid_desc g_fhid2_desc =
-{
-  .bLength          = sizeof(struct usb_hid_desc),
-  .bDescriptorType  = USB_DESC_TYPE_HID, /* HID type is 0x21 */
-  HSETW(.bcdHID, 0x0110),                /* bcdHID: HID Class Spec release number HID 1.1 */
-  .bCountryCode     = 0x00,              /* bCountryCode: Hardware target country */
-  .bNumDescriptors  = 0x01,              /* bNumDescriptors: Number of HID class descriptors to follow */
-  {
-    {
-      .bDescriptorType = 0x22,           /* bDescriptorType */
-    }
-  }
-};
-
-static struct usb_epdesc_s g_fhid_in_ep2_desc =
-{
-  .len      = sizeof(struct usb_epdesc_s),
-  .type     = USB_DESC_TYPE_ENDPOINT,
-  .addr     = USB_DIR_IN | 0x02,
-  .attr     = 0x03,                       /* bmAttributes = 00000011b */
-  HSETW(.mxpacketsize, HID_IN_DATA_SIZE), /* wMaxPacketSize = 64 */
-  .interval = 1                           /* bInterval = 125us */
-};
-
 static struct usb_epdesc_s g_fhid_out_ep_desc =
-{
-  .len      = sizeof(struct usb_epdesc_s),
-  .type     = USB_DESC_TYPE_ENDPOINT,
-  .addr     = USB_DIR_OUT | 0x01,
-  .attr     = 0x03,                        /* bmAttributes = 00000011b */
-  HSETW(.mxpacketsize, HID_IN_DATA_SIZE), /* wMaxPacketSize */
-  .interval = 1                            /* bInterval = 125us */
-};
-
-static struct usb_epdesc_s g_fhid_out_ep2_desc =
 {
   .len      = sizeof(struct usb_epdesc_s),
   .type     = USB_DESC_TYPE_ENDPOINT,
@@ -267,7 +220,7 @@ static struct usb_epdesc_s g_fhid_out_ep2_desc =
  */
 #define HID_SINGLE_PROTOCOL_DESC_NUM 4
 
-#define HID_DESC_ARRAY_MAX_NUM (1 + (HID_SINGLE_PROTOCOL_DESC_NUM) * HID_REPORT_MAP_NUM)
+#define HID_DESC_ARRAY_MAX_NUM (2 + (HID_SINGLE_PROTOCOL_DESC_NUM) * HID_REPORT_MAP_NUM)
 static const uint8_t *g_fhid_desc_array[HID_DESC_ARRAY_MAX_NUM] =
 {
     (const uint8_t *)&g_fhid_config_desc,

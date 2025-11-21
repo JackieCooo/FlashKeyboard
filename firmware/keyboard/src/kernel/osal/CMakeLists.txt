@@ -162,9 +162,7 @@ set(PUBLIC_HEADER
     ${CMAKE_CURRENT_SOURCE_DIR}/include/string
     ${CMAKE_CURRENT_SOURCE_DIR}/include/time
     ${CMAKE_CURRENT_SOURCE_DIR}/adapt/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/test/alios
     ${CMAKE_CURRENT_SOURCE_DIR}/test/src
-    
 )
 
 set(PRIVATE_HEADER
@@ -176,6 +174,9 @@ if(${OS} STREQUAL "alios")
         ${ROOT_DIR}/kernel/alios/alios_v3.3.0/components/osal_aos/rhino/include
         ${ROOT_DIR}/kernel/alios/alios_v3.3.0/components/osal_aos/include/aos
         ${ROOT_DIR}/kernel/alios/alios_v3.3.0/components/osal_aos/include
+    )
+    lisT(APPEND PUBLIC_HEADER
+        ${CMAKE_CURRENT_SOURCE_DIR}/test/alios
     )
 endif()
 

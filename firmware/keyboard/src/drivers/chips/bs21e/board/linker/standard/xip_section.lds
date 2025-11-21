@@ -78,3 +78,31 @@
 	     *libriscv.a:*fault*.o* (.text.* .rodata.*)
 	    . = ALIGN(8);
 	} > FLASH_PROGRAM
+
+	.bgle_xip :
+	{
+	    . = ALIGN(8);
+		*libbgtp.a:*.o* (.text.evt_task_ble_acl_update_param_with_instant_replace .text.evt_task_ble_acl_cancel_cbk_replace \
+						.text.evt_task_ble_acl_set_interval_replace .text.evt_task_ble_adv_get_stop_status_replace \
+						.text.es_init_eeq_elt_pool \
+						.text.lm_ble_scan_set_ext_scan_en_param_replace .text.dts_gle_intc_delete \
+						.text.dts_ble_intc_init .text.dts_gle_intc_init .text.dts_interrupt_init .text.dts_ble_intc_delete \
+						.text.fsm_msg_list_free .text.fsm_reset_ram \
+						.text.evt_task_gle_acb_abnormal_cbk .text.evt_task_gle_acb_init_link_segment \
+						.text.evt_sched_delete_task \
+						)
+		*libbt_host.a:*.o* (.text.gaph_smp_cfm_cbk_replace .text.smp_key_distribute_go_replace \
+							.text.smp_tk_ask_replace .text.smp_ecdh_public_key_generate_replace \
+							.text.smp_ecdh_pairing_public_key_recv_replace .text.bth_init_replace \
+							.text.smp_rand_replace \
+							.text.smp_key_distribute_recv_replace .text.gatt_error_cfm_replace\
+							.text.smp_key_distribute_send_replace \
+							.text.smpc_ev_le_long_term_key_request_replace \
+							.text.smp_key_distribute_fill_replace \
+							.text.smp_pairing_pdu_send_replace \
+							.text.smp_require_end_key_recovery_replace \
+							.text.smp_require_end_replace \
+							.text.bt_init_stack_replace \
+							)
+	    . = ALIGN(8);
+	} > FLASH_PROGRAM

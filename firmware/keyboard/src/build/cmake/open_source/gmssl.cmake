@@ -1,4 +1,4 @@
-set(GMSSL_PATH ${CMAKE_DIR}/../../open_source/GmSSL3.0)
+set(GMSSL_PATH ${CMAKE_DIR}/../../open_source/GmSSL3.1.1)
 
 set(COMPONENT_NAME "gmssl_hmac_sm3")
 

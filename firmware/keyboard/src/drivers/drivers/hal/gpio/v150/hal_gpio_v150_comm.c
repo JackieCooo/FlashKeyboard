@@ -21,7 +21,8 @@ gpio_callback_t *hal_gpio_v150_callback_list_get(void)
     return g_hal_gpio_callback_list;
 }
 
-STATIC int hal_gpio_v150_irq_handler(int irq_num, const void *tmp)
+#pragma weak hal_gpio_irq_handler = hal_gpio_v150_irq_handler
+int hal_gpio_v150_irq_handler(int irq_num, const void *tmp)
 {
     unused(tmp);
 
@@ -73,9 +74,19 @@ STATIC int hal_gpio_v150_irq_handler(int irq_num, const void *tmp)
     return 0;
 }
 
-void hal_gpio_v150_register_irq(uint32_t int_id)
+#ifdef weak
+weak
+#else
+__attribute__((weak))
+#endif
+void hal_gpio_register_irq(uint32_t int_id)
 {
     osal_irq_request(int_id, (osal_irq_handler)hal_gpio_v150_irq_handler, NULL, NULL, NULL);
+}
+
+void hal_gpio_v150_register_irq(uint32_t int_id)
+{
+    hal_gpio_register_irq(int_id);
 }
 
 void hal_gpio_v150_unregister_irq(uint32_t int_id)

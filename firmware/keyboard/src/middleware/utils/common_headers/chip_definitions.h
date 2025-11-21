@@ -51,7 +51,7 @@
 #define MASTER_BY_ALL   APPS
 #define CORE_NUMS 2 // Total cores in chip
 #define CPU_NUM  2    // Total cpus in chip
-#elif (CHIP_BS20 == 1 || CHIP_BS21  == 1 || CHIP_BS21A  == 1 || \
+#elif (CHIP_BS20 == 1 || CHIP_BS20H == 1 || CHIP_BS21  == 1 || CHIP_BS21A  == 1 || \
        CHIP_BS21E == 1 || CHIP_BS22 == 1 || CHIP_BS26 == 1)
 #define MASTER_BY_ALL   APPS
 #define CORE_NUMS 1 // Total cores in chip
@@ -90,6 +90,7 @@
 #define MASTER_BY_SOCMN1_ONLY       (CHIP_SOCMN1 && (CORE == APPS))
 #define MASTER_BY_BS25_ONLY         (CHIP_BS25 && (CORE == APPS))
 #define MASTER_BY_BS20_ONLY         (CHIP_BS20 && (CORE == APPS))
+#define MASTER_BY_BS20H_ONLY        (CHIP_BS20H && (CORE == APPS))
 #define MASTER_BY_BS21_ONLY         (CHIP_BS21 && (CORE == APPS))
 #define MASTER_BY_BS21E_ONLY        (CHIP_BS21E && (CORE == APPS))
 #define MASTER_BY_BS21A_ONLY        (CHIP_BS21A && (CORE == APPS))
@@ -111,7 +112,7 @@
 #define MCU_ONLY                    (MASTER_BY_LIBRA_ONLY || MASTER_BY_SOCMN1_ONLY || \
                                      MASTER_BY_BS25_ONLY || MASTER_BY_BRANDY_ONLY || \
                                      MASTER_BY_WS53_ONLY || CHIP_WS63 || CHIP_BS20 || CHIP_BS21 || CHIP_BS21E || \
-                                     CHIP_BS21A || CHIP_BS22 || CHIP_BS26 || MASTER_BY_SW39_ONLY || \
+                                     CHIP_BS21A || CHIP_BS22 || CHIP_BS26 || CHIP_BS20H ||  MASTER_BY_SW39_ONLY || \
                                      MASTER_BY_SW21_ONLY)
 
 
@@ -150,6 +151,9 @@
 #define CHIP_BS20_FPGA          (CHIP_BS20 && (FPGA))
 #define CHIP_BS20_V100          (CHIP_BS20 && (ASIC))
 
+#define CHIP_BS20H_FPGA         (CHIP_BS20H && (FPGA))
+#define CHIP_BS20H_V100         (CHIP_BS20H && (ASIC))
+
 #define CHIP_BS21_FPGA          (CHIP_BS21 && (FPGA))
 #define CHIP_BS21_V100          (CHIP_BS21 && (ASIC))
 
@@ -187,6 +191,7 @@
 #define CHIP_SOCMN1_ASIC       (CHIP_SOCMN1_V100 || CHIP_SOCMN1_V200)
 #define CHIP_BS25_ASIC        (CHIP_BS25_V100)
 #define CHIP_BS20_ASIC        (CHIP_BS20_V100)
+#define CHIP_BS20H_ASIC       (CHIP_BS20H_V100)
 #define CHIP_BS21_ASIC        (CHIP_BS21_V100)
 #define CHIP_BS21E_ASIC        (CHIP_BS21E_V100)
 #define CHIP_BS21A_ASIC        (CHIP_BS21A_V100)
@@ -203,7 +208,7 @@
                                CHIP_BS21A_ASIC || CHIP_BS22_ASIC || \
                                CHIP_BS26_ASIC || CHIP_WS63_ASIC || \
                                CHIP_WS53_ASIC || CHIP_SW21_ASIC || \
-                               CHIP_BS21E_ASIC)
+                               CHIP_BS21E_ASIC || CHIP_BS20H_ASIC)
 
 /** @} end of group CHIP_ARMCORE */
 #endif
