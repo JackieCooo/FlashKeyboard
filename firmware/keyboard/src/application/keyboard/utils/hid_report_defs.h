@@ -8,10 +8,10 @@
 #define CONFIG_REPORT_ID 0x02
 
 
-typedef enum {
+enum {
     CMD_SET_KEY,
     CMD_SET_ENC,
-} config_cmd_enum;
+};
 
 #pragma pack(1)
 
